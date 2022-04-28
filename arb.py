@@ -146,7 +146,7 @@ class Tree:
 
 
 
-df = pd.read_csv("C:/Users/purpl/OneDrive/Desktop/trees.csv")
+df = pd.read_csv("trees.csv")
 trees = df.values.tolist()
 tree_instances = []
 for t in trees:
