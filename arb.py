@@ -4,213 +4,55 @@ Players have 4 options every turn:
 2) Gain nutrients: sun, water, fire, disturbance
 3) Hug a tree
 4) Draw tree cards
-
-Bonus card ideas:
-  · Michigander
-  · tree hugger
-  · tree climber
-  · pyrosilviculture enthusiast
-  · fake tree lover
-  · utility forester
-  · tree trimmer
-  · generalist
-  · food type
 """
 
-import csv
-import math
-import random
 import time
-import turtle
+from typing import List
 
-import pandas as pd
-
-"""
-########################################################################################################################
-# https://www.geeksforgeeks.org/draw-tree-using-turtle-module-in-python/
-turtle.color('deep pink')
-style = ('Courier', 20, 'italic')
-turtle.write('Welcome to Wingspan (tree edition)!', font=style, align='center')
-turtle.hideturtle()
+from _nutrient import Nutrient
+from _player import Player
+from _tree import Tree
+from _tree_deck import tree_deck
+from _welcome_message import welcome_message
 
 
-# Function to draw rectangle
-def drawRectangle(t, width, height, color):
-    t.fillcolor(color)
-    t.begin_fill()
-    t.forward(width)
-    t.left(90)
-    t.forward(height)
-    t.left(90)
-    t.forward(width)
-    t.left(90)
-    t.forward(height)
-    t.left(90)
-    t.end_fill()
-
-
-# Function to draw triangle
-def drawTriangle(t, length, color):
-    t.fillcolor(color)
-    t.begin_fill()
-    t.forward(length)
-    t.left(135)
-    t.forward(length / math.sqrt(2))
-    t.left(90)
-    t.forward(length / math.sqrt(2))
-    t.left(135)
-    t.end_fill()
-
-
-# Set the background color
-screen = turtle.Screen()
-screen.bgcolor("skyblue")
-
-# Creating turtle object
-tip = turtle.Turtle()
-tip.color("black")
-tip.shape("turtle")
-tip.speed(2)
-
-# Tree base
-tip.penup()
-tip.goto(100, -130)
-tip.pendown()
-drawRectangle(tip, 20, 40, "brown")
-
-# Tree top
-tip.penup()
-tip.goto(65, -90)
-tip.pendown()
-drawTriangle(tip, 90, "lightgreen")
-tip.penup()
-tip.goto(70, -45)
-tip.pendown()
-drawTriangle(tip, 80, "lightgreen")
-tip.penup()
-tip.goto(75, -5)
-tip.pendown()
-drawTriangle(tip, 70, "lightgreen")
-turtle.write("WELCOME TO WINGSPAN (TREE EDITION)!", font=("Verdana", 15, "normal"))
-########################################################################################################################
-"""
-
-
-class BonusCard:
-    def __init__(self, name, bonus, description):
-        self.name = name
-        self.bonus = bonus
-        self.description = description
-
-
-michigander = BonusCard('michigander', None, 'Gain 2 points for all trees found in Michigan.')
-tree_climber = BonusCard('tree climber', 10, 'Gain 10 bonus points for having the tallest combined height of trees.')
-utility_forester = BonusCard('utility forester', None, 'Gain 2 points for all trees that are commonly found under power lines. ')
-tree_trimmer = BonusCard('tree trimmer', 10, 'Gain 10 bonus points for having the most trees that are a fire hazard. ')
-# all_bonus_cards = [michigander, tree_climber, utility_forester, tree_trimmer]
-all_bonus_cards = [michigander, tree_climber]
-random.shuffle(all_bonus_cards)
-
+# Globals
 height_list = []
 
 
-class Player:
-    def __init__(self, number=None, name=None):  # make the computer another instance of Player
-        self.number = number
-        self.name = name
-        self.nutrients = []
-        self.tree_cards = []
-        self.Conifer = []
-        self.Deciduous = []
-        self.Urban = []
-        self.hugs = 0
-        self.tree_points = 0
-        self.combined_height = 0
-        self.bonus_points = 0
-        # self.scores = []
-
-    def assign_bonus_cards(self):
-        self.bonus = all_bonus_cards.pop() # player is given 1 bonus card randomly (need to implement choice of bonus cards)
-
-
-class Tree:
-    def __init__(self, habitat, scientific_name, common_name, points, height, sun, water, fire, disturbance, michigander):
-        self.habitat = habitat
-        self.scientific_name = scientific_name
-        self.common_name = common_name
-        self.points = points
-        self.height = height
-        self.nutrients = []
-        if sun == 1:
-            self.nutrients.append('sun')
-        if water == 1:
-            self.nutrients.append('water')
-        if fire == 1:
-            self.nutrients.append('fire')
-        if disturbance == 1:
-            self.nutrients.append('disturbance')
-        self.hugs = 0
-        if michigander == 1:
-            self.michigander = 1
-        else:
-            self.michigander = 0
-
-    def info(self):
-        return self.scientific_name + ' is a ' + self.habitat + '.'
-
-    # def plant_facts(self): # returns a list of everything to be added to database
-    #     return [self.family, self.genus_species, self.common_name, self.physiognomy, self.conservatism, self.wetness]
-
-
-df = pd.read_csv("data/trees.csv")
-trees = df.values.tolist()
-tree_instances = []
-for t in trees:
-    tree_instances.append(Tree(*t))
-
-
 def draw_random_card(hand):  # hand is a list of a player's tree cards
-    random.shuffle(tree_instances)
-    random_card = tree_instances.pop()
-    hand.append(random_card)
+    hand.append(tree_deck.draw_card())
 
 
 def draw_chosen_card(hand, choice):
     i = int(choice) - 1
-    chosen_card = computer.tree_cards[i]
-    computer.tree_cards.pop(i)  # remove it from display
+    chosen_card = computer.tree_cards.pop(i)  # remove it from display
     hand.append(chosen_card)  # add it to player's hand
-    draw_random_card(computer.tree_cards)  # refresh display
-    input('You drew a ' + str(chosen_card.common_name) + "!")
+    computer.draw_tree_card()  # refresh display
+    input('You drew a {}!'.format(chosen_card.common_name))
 
 
-def display_3_cards(player):
+def display_3_cards(player: Player):
     for tree in player.tree_cards:
-        print('- ' + tree.common_name + ' (' + str(tree.points) + ' pts, ' + str(
-            tree.height) + ' ft, ' + tree.habitat + ')' + ' | ' + 'requires ' + str(tree.nutrients))
+        print(tree.get_formatted_info())
 
 
-def assign_tree_cards(player):
+def assign_tree_cards(player: Player):
     for i in range(3):
-        draw_random_card(player.tree_cards)
+        player.draw_tree_card()
 
 
-def roll_dice():
-    dice = 5 * ['sun'] + 2 * ['water'] + ['fire'] + ['disturbance']
-    return random.choice(dice)
-
-
-def gain_nutrient(player, times=1):
+def gain_nutrient(player: Player, times=1):
     time.sleep(0.2)
-    print('***rolling dice***')
+    print('*** rolling dice ***')
     for i in range(times + len(player.Conifer)):  # gain 1 additional nutrient for every Conifer in arb
-        roll = roll_dice()
-        player.nutrients.append(roll)
-        print('You rolled a ' + roll + '! Adding it to your pile of nutrients...')
+        dice_roll = Nutrient.random()
+        player.nutrients.append(dice_roll)
+        print('You rolled a ' + dice_roll.value + '! Adding it to your pile of nutrients...')
         time.sleep(0.3)
 
 
-def display_rows(player):
+def display_rows(player: Player):
     c_row, d_row, u_row = [], [], []
     for card in player.Conifer:
         c_row.append(card.common_name)
@@ -223,7 +65,7 @@ def display_rows(player):
     print('Urban: ' + str(u_row))
 
 
-def game_status(player):
+def game_status(player: Player):
     time.sleep(0.5)
     print(75 * "-")
     print(player.name + '\'s Arboretum:\'')
@@ -232,11 +74,10 @@ def game_status(player):
     print(75 * "_")
     print(player.name + ' has the following cards to play:')
     for tree in player.tree_cards:
-        print('- ' + tree.common_name + ' (' + str(tree.points) + ' pts, ' + str(
-            tree.height) + ' ft, ' + tree.habitat + ')' + ' | ' + 'requires ' + str(tree.nutrients))
+        print(tree.get_formatted_info())
     print(75 * "_")
     print(player.name + ' has these nutrients:')
-    print(player.nutrients)
+    print(list(map(lambda nutrient: nutrient.value, player.nutrients)))
     print(75 * "_")
     print('Your bonus card is: ' + player.bonus.name)
     print(75 * "-")
@@ -249,7 +90,7 @@ def start_game():
     global player_2
     global num
     for i in range(3):  # give the computer display 3 cards to start
-        draw_random_card(computer.tree_cards)
+        computer.draw_tree_card()
     # num = int(input('Welcome to Wingspan (tree edition)! Enter the number of players (2, 3, or 4): '))
     # global turns
     # turns = int(input('How many turns would you like to play? '))
@@ -298,7 +139,7 @@ def start_game():
     input('Are you ready to start? Enter any key to begin. ')
 
 
-def plant_tree(player, card):
+def plant_tree(player: Player, card: Tree):
     if card.habitat == 'Conifer':
         player.Conifer.append(card)
     elif card.habitat == 'Deciduous':
@@ -312,9 +153,10 @@ def plant_tree(player, card):
     print(player.combined_height)
 
 
-def remove_nutrients(player, to_be_removed):
-    for n in to_be_removed:
-        player.nutrients.remove(n)
+def remove_nutrients(player: Player, to_be_removed: List[Nutrient]):
+    # player.remove_nutrients(to_be_removed)
+    for nutrient in to_be_removed:
+        player.nutrients.remove(nutrient)
 
 
 def play_a_card(player):
@@ -393,7 +235,7 @@ def evaluate_bonus_cards(player):
     # if player.bonus.name == 'tree climber': # get 10 point bonus if you have the tallest combined height
     # anyone can get 10 bonus points for having highest combined height, like longest roads in Catan
     global height_list
-    if max(height_list) > 0 and player.combined_height == max(height_list):
+    if 0 < max(height_list) == player.combined_height:
         player.bonus_points += 10
 
     return player.bonus_points
@@ -475,7 +317,13 @@ def take_a_turn(player):
     print("\n It's " + player.name + "'s turn!")
     game_status(player)
     print('\n' + player.name + ',')
-    move = input('Select from the following options. Enter 1, 2, 3, or 4: \n 1. Plant a tree \n 2. Gain nutrients \n 3. Hug a tree \n 4. Draw tree cards \n')
+    move = input(
+        'Select from the following options:\n' +
+        '  1. Plant a tree\n' +
+        '  2. Gain nutrients\n' +
+        '  3. Hug a tree\n' +
+        '  4. Draw tree cards\n' +
+        '  → ')
     if move == '1':  # Plant a tree
         play_a_card(player)
     if move == '2':  # Gain nutrients
@@ -490,7 +338,7 @@ def take_a_turn(player):
             while choice != '1' and choice != '2' and choice != '3' and choice != '4':
                 choice = input('Invalid input. Enter 1, 2, 3, or 4 for a random card: ')
             if choice == '4':  # random card from deck
-                draw_random_card(player.tree_cards)
+                player.draw_tree_card()
                 print('Drawing random card from deck...')
                 input('You drew a ' + str(player.tree_cards[-1].common_name) + "!")
             else:  # 1, 2, or 3 from display
@@ -503,9 +351,11 @@ def take_a_turn(player):
         end_game()
 
 
-num = int(input('Welcome to Wingspan (tree edition)! Enter the number of players (2, 3, or 4): '))
-turns = num * int(input('How many turns would you like to play? '))
+if __name__ == '__main__':
+    welcome_message()
 
-start_game()
+    num = int(input('Welcome to Wingspan (tree edition)! Enter the number of players (2, 3, or 4): '))
+    turns = num * int(input('How many turns would you like to play? '))
 
-take_a_turn(player_1)
+    start_game()
+    take_a_turn(player_1)

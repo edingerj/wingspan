@@ -1,0 +1,5 @@
+Name,BonusPoints,Description,Visible
+michigander,0,Gain 2 points for all trees found in Michigan.,true
+tree climber,10,Gain 10 bonus points for having the tallest combined height of trees.,true
+utility forester,0,Gain 2 points for all trees that are commonly found under power lines.,false
+tree trimmer,10,Gain 10 bonus points for having the most trees that are a fire hazard.,false
