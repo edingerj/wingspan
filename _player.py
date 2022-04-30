@@ -2,8 +2,7 @@ from typing import List, Optional
 
 from _bonus_card import all_bonus_cards, BonusCard
 from _nutrient import Nutrient
-from _tree import Tree
-from _tree_deck import tree_deck
+from tree import Tree, tree_deck
 
 
 class Player:

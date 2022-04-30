@@ -11,10 +11,8 @@ from typing import List
 
 from _nutrient import Nutrient
 from _player import Player
-from _tree import Tree
-from _tree_deck import tree_deck
 from _welcome_message import welcome_message
-
+from tree import Tree, tree_deck
 
 # Globals
 height_list = []
