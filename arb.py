@@ -9,29 +9,27 @@ Players have 4 options every turn:
 import time
 from typing import List
 
-from _nutrient import Nutrient
-from _player import Player
-from _welcome_message import welcome_message
-from tree import Tree, tree_deck
+from graphics import welcome_message
+from player import Player
+from tree import Nutrient, TreeCard
 
 # Globals
 height_list = []
-
-
-def draw_random_card(hand):  # hand is a list of a player's tree cards
-    hand.append(tree_deck.draw_card())
+computer: Player
+num_players: int
+turns_remaining: int
 
 
 def draw_chosen_card(hand, choice):
     i = int(choice) - 1
-    chosen_card = computer.tree_cards.pop(i)  # remove it from display
+    chosen_card = computer.hand.pop(i)  # remove it from display
     hand.append(chosen_card)  # add it to player's hand
     computer.draw_tree_card()  # refresh display
     input('You drew a {}!'.format(chosen_card.common_name))
 
 
 def display_3_cards(player: Player):
-    for tree in player.tree_cards:
+    for tree in player.hand:
         print(tree.get_formatted_info())
 
 
@@ -71,7 +69,7 @@ def game_status(player: Player):
     display_rows(player)
     print(75 * "_")
     print(player.name + ' has the following cards to play:')
-    for tree in player.tree_cards:
+    for tree in player.hand:
         print(tree.get_formatted_info())
     print(75 * "_")
     print(player.name + ' has these nutrients:')
@@ -81,12 +79,19 @@ def game_status(player: Player):
     print(75 * "-")
 
 
+def initialize_game_globals():
+    global num_players
+    global turns_remaining
+    num_players = int(input('Welcome to Wingspan (tree edition)! Enter the number of players (2, 3, or 4): '))
+    turns_remaining = num_players * int(input('How many turns would you like to play? '))
+
+
 def start_game():
     global computer
     computer = Player()
     global player_1
     global player_2
-    global num
+    global num_players
     for i in range(3):  # give the computer display 3 cards to start
         computer.draw_tree_card()
     # num = int(input('Welcome to Wingspan (tree edition)! Enter the number of players (2, 3, or 4): '))
@@ -100,13 +105,13 @@ def start_game():
     player_2.assign_bonus_cards()
     global all_players
     all_players = [player_1, player_2]
-    if num > 2:
+    if num_players > 2:
         global player_3
         name_3 = input('Player 3, enter your name: ')
         player_3 = Player(3, name_3)
         player_3.assign_bonus_cards()
         all_players.append(player_3)
-        if num > 3:
+        if num_players > 3:
             global player_4
             name_4 = input('Player 4, enter your name: ')
             player_4 = Player(4, name_4)
@@ -116,10 +121,10 @@ def start_game():
     gain_nutrient(player_1, 3)
     assign_tree_cards(player_2)
     gain_nutrient(player_2, 3)
-    if num > 2:
+    if num_players > 2:
         assign_tree_cards(player_3)
         gain_nutrient(player_3, 3)
-        if num > 3:
+        if num_players > 3:
             assign_tree_cards(player_4)
             gain_nutrient(player_4, 3)
     time.sleep(1)
@@ -128,23 +133,23 @@ def start_game():
     game_status(player_1)
     time.sleep(1)
     game_status(player_2)
-    if num > 2:
+    if num_players > 2:
         time.sleep(1)
         game_status(player_3)
-        if num > 3:
+        if num_players > 3:
             time.sleep(1)
             game_status(player_4)
     input('Are you ready to start? Enter any key to begin. ')
 
 
-def plant_tree(player: Player, card: Tree):
+def plant_tree(player: Player, card: TreeCard):
     if card.habitat == 'Conifer':
         player.Conifer.append(card)
     elif card.habitat == 'Deciduous':
         player.Deciduous.append(card)
     elif card.habitat == 'Urban':
         player.Urban.append(card)
-    player.tree_cards.remove(card)
+    player.hand.remove(card)
     print('Planting a ' + card.common_name + '...')
     player.combined_height += card.height
     print('Your combined height is:')
@@ -157,13 +162,13 @@ def remove_nutrients(player: Player, to_be_removed: List[Nutrient]):
         player.nutrients.remove(nutrient)
 
 
-def play_a_card(player):
+def play_a_card(player: Player):
     choice = input('Select a tree card to play: ')
     # check for valid input
-    if choice in [t.common_name for t in player.tree_cards]:
+    if choice.lower() in [t.common_name.lower() for t in player.hand]:
         to_be_removed = []
-        for card in player.tree_cards:
-            if card.common_name == choice:
+        for card in player.hand:
+            if card.common_name.lower() == choice.lower():
                 print('Checking if you have enough nutrients...')
                 for nutrient in card.nutrients:
                     if nutrient in player.nutrients:
@@ -174,8 +179,8 @@ def play_a_card(player):
                             option = input('Invalid input. Enter 1 or 2: ')
                         if option == '2':
                             print("Let's try this again.\n")
-                            global turns
-                            turns += 1
+                            global turns_remaining
+                            turns_remaining += 1
                             take_a_turn(player)
                         if option == '1':
                             play_a_card(player)
@@ -190,41 +195,41 @@ def play_a_card(player):
             play_a_card(player)
         if option == '2':
             print("Let's try this again.\n")
-            # global turns
-            turns += 1
+            # global turns_remaining
+            turns_remaining += 1
             take_a_turn(player)
 
 
-def hug_tree(player):
+def hug_tree(player: Player):
     player.hugs += (len(player.Deciduous) + 1)  # 1 additional hug for each Deciduous tree in arb
     print('You have hugged ' + str(player.hugs) + ' trees <3')
 
 
-def switch_players(current_player):  # changes turn between 2 players
-    if num == 2:
-        if current_player.number == 1:
+def switch_players(current_player: Player):  # changes turn between 2 players
+    if num_players == 2:
+        if current_player.player_id == 1:
             return player_2
         else:
             return player_1
-    if num == 3:
-        if current_player.number == 1:
+    if num_players == 3:
+        if current_player.player_id == 1:
             return player_2
-        if current_player.number == 2:
+        if current_player.player_id == 2:
             return player_3
         else:
             return player_1
-    if num == 4:
-        if current_player.number == 1:
+    if num_players == 4:
+        if current_player.player_id == 1:
             return player_2
-        if current_player.number == 2:
+        if current_player.player_id == 2:
             return player_3
-        if current_player.number == 3:
+        if current_player.player_id == 3:
             return player_4
         else:
             return player_1
 
 
-def evaluate_bonus_cards(player):
+def evaluate_bonus_cards(player: Player):
     all_trees = player.Conifer + player.Deciduous + player.Urban
     if player.bonus.name == 'michigander':
         for tree in all_trees:
@@ -239,7 +244,7 @@ def evaluate_bonus_cards(player):
     return player.bonus_points
 
 
-def get_total_score(player):
+def get_total_score(player: Player):
     # return a list [tree points, hugs, bonus points]
     # tree_points = 0
 
@@ -306,12 +311,12 @@ def end_game():
     return
 
 
-def take_a_turn(player):
+def take_a_turn(player: Player):
     time.sleep(1)
-    global turns
-    global num
-    print('Turns remaining: ' + str(round(turns / num)))
-    turns -= 1
+    global turns_remaining
+    global num_players
+    print('Turns remaining: ' + str(round(turns_remaining / num_players)))
+    turns_remaining -= 1
     print("\n It's " + player.name + "'s turn!")
     game_status(player)
     print('\n' + player.name + ',')
@@ -338,12 +343,12 @@ def take_a_turn(player):
             if choice == '4':  # random card from deck
                 player.draw_tree_card()
                 print('Drawing random card from deck...')
-                input('You drew a ' + str(player.tree_cards[-1].common_name) + "!")
+                input('You drew a ' + str(player.hand[-1].common_name) + "!")
             else:  # 1, 2, or 3 from display
-                draw_chosen_card(player.tree_cards, choice)
+                draw_chosen_card(player.hand, choice)
     game_status(player)
     input('Enter "z" to end your turn. ')
-    if turns > 0:
+    if turns_remaining > 0:
         take_a_turn(switch_players(player))
     else:
         end_game()
@@ -352,8 +357,6 @@ def take_a_turn(player):
 if __name__ == '__main__':
     welcome_message()
 
-    num = int(input('Welcome to Wingspan (tree edition)! Enter the number of players (2, 3, or 4): '))
-    turns = num * int(input('How many turns would you like to play? '))
-
+    initialize_game_globals()
     start_game()
     take_a_turn(player_1)
