@@ -7,8 +7,8 @@ from typing import List, Dict, Final, Union
 
 from pandas import read_csv
 
-from tree.tree_card import TreeCard
-from tree.tree_card_def import TreeCardDef
+from tree_card import TreeCard
+from tree_card_data import TreeCardData
 
 
 class TreeDeck:
@@ -19,8 +19,8 @@ class TreeDeck:
     @staticmethod
     def from_csv() -> 'TreeDeck':
         card_rows: Final[List[Union[str, int]]] = read_csv('data/trees.csv').values.tolist()
-        card_definitions: Final[List[TreeCardDef]] = list(map(lambda card_row: TreeCardDef(*card_row), card_rows))
-        cards: Final[List[TreeCard]] = list(map(lambda card_def: TreeCard.from_card_def(card_def), card_definitions))
+        card_datum: Final[List[TreeCardData]] = list(map(lambda card_row: TreeCardData(*card_row), card_rows))
+        cards: Final[List[TreeCard]] = list(map(lambda card_data: TreeCard.from_card_data(card_data), card_datum))
         return TreeDeck(cards)
 
     def draw_card(self: 'TreeDeck') -> TreeCard:

@@ -2,7 +2,7 @@ from enum import Enum
 from random import choice
 from typing import List
 
-from tree.tree_card_def import TreeCardDef
+from tree_card_data import TreeCardData
 
 
 class Nutrient(Enum):
@@ -22,12 +22,12 @@ class Nutrient(Enum):
         return choice(nutrient_pool)
 
     @staticmethod
-    def list_from_tree_card_def(tree_card_def: TreeCardDef) -> List['Nutrient']:
+    def list_from_tree_card_data(tree_card_data: TreeCardData) -> List['Nutrient']:
         return [
-            *(tree_card_def.sun * [Nutrient.SUN]),
-            *(tree_card_def.water * [Nutrient.WATER]),
-            *(tree_card_def.fire * [Nutrient.FIRE]),
-            *(tree_card_def.disturbance * [Nutrient.DISTURBANCE]),
+            *(tree_card_data.sun * [Nutrient.SUN]),
+            *(tree_card_data.water * [Nutrient.WATER]),
+            *(tree_card_data.fire * [Nutrient.FIRE]),
+            *(tree_card_data.disturbance * [Nutrient.DISTURBANCE]),
         ]
 
 

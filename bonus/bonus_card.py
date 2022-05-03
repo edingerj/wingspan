@@ -14,7 +14,7 @@ Bonus Card Ideas:
 """
 
 from random import shuffle
-from typing import List, Optional, Union, Final
+from typing import List, Optional, Final, Tuple
 
 from pandas import read_csv
 
@@ -33,7 +33,7 @@ class BonusCard:
 
     @staticmethod
     def import_all_from_csv() -> List['BonusCard']:
-        bonus_cards: Final[List[Union[str, int]]] = read_csv('data/bonus-cards.csv').values.tolist()
+        bonus_cards: Final[List[Tuple[str, int, str, bool]]] = read_csv('data/bonus-cards.csv').values.tolist()
         shuffle(bonus_cards)
         return list(map(lambda bonus_card: BonusCard(*bonus_card), bonus_cards))
 

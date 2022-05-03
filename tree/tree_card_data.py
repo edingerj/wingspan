@@ -1,7 +1,7 @@
 from typing import NamedTuple
 
 
-class TreeCardDef(NamedTuple):
+class TreeCardData(NamedTuple):
     habitat: str
     scientific_name: str
     common_name: str

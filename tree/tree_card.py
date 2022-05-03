@@ -1,7 +1,7 @@
 from typing import List
 
-from tree.nutrient import Nutrient
-from tree.tree_card_def import TreeCardDef
+from nutrient import Nutrient
+from tree_card_data import TreeCardData
 
 
 class TreeCard:
@@ -17,17 +17,17 @@ class TreeCard:
         self.michigander: bool = michigander
 
     @staticmethod
-    def from_card_def(tree_card_def: TreeCardDef) -> 'TreeCard':
-        nutrients: List[Nutrient] = Nutrient.list_from_tree_card_def(tree_card_def)
-        michigander = True if (tree_card_def.michigander == 1) else False
+    def from_card_data(tree_card_data: TreeCardData) -> 'TreeCard':
+        nutrients: List[Nutrient] = Nutrient.list_from_tree_card_data(tree_card_data)
+        michigander = True if (tree_card_data.michigander == 1) else False
 
-        return TreeCard(tree_card_def.habitat, tree_card_def.scientific_name, tree_card_def.common_name,
-                        tree_card_def.points, tree_card_def.height, nutrients, michigander)
+        return TreeCard(tree_card_data.habitat, tree_card_data.scientific_name, tree_card_data.common_name,
+                        tree_card_data.points, tree_card_data.height, nutrients, michigander)
 
-    def info(self):
+    def info(self: 'TreeCard') -> str:
         return self.scientific_name + ' is a ' + self.habitat + '.'
 
-    def get_formatted_info(self):
+    def get_formatted_info(self: 'TreeCard') -> str:
         return '- {} | ({} pts, {} ft, {}) | requires {}'.format(
             self.common_name,
             self.points,
@@ -41,6 +41,6 @@ class TreeCard:
 
 
 if __name__ == '__main__':
-    tree_def = TreeCardDef('Conifer', 'Abies balsamea', 'balsam fir', 3, 90, 1, 0, 0, 0, 1)
-    tree_card = TreeCard.from_card_def(tree_def)
+    tree_data = TreeCardData('Conifer', 'Abies balsamea', 'balsam fir', 3, 90, 1, 0, 0, 0, 1)
+    tree_card = TreeCard.from_card_data(tree_data)
     print(tree_card.get_formatted_info())
