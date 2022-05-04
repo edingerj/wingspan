@@ -10,15 +10,15 @@ from tree import Habitat, Nutrient, TreeCard, tree_deck
 class Player:
     # make the computer another instance of Player
     def __init__(self: 'Player', player_id: Optional[int] = None, name: Optional[str] = None) -> None:
-        self.player_id: Optional[int] = player_id
-        self.name: Optional[str] = name
+        self.player_id: Final[Optional[int]] = player_id
+        self.name: Final[Optional[str]] = name
         self.nutrients: List[Nutrient] = []
         self.hand: Final[Hand] = Hand.from_deck()
         self.arboretum: Final[Arboretum] = Arboretum()
+        self.bonus: Optional[BonusCard] = None
         self.hugs: int = 0
         self.tree_points: int = 0
         self.combined_height: int = 0
-        self.bonus: Optional[BonusCard] = None
         self.bonus_points: int = 0
         # self.scores = []
 
@@ -58,17 +58,17 @@ class Player:
         for nutrient in tree_card.nutrients:
             self.nutrients.remove(nutrient)
         self.arboretum.plant_tree(tree_card)
-        self.combined_height = self.arboretum.get_combined_height()
-        print('Planting a ' + tree_card.common_name + '...')
+        self.combined_height = self.arboretum.get_total_height()
+        print('Planting a {}...'.format(tree_card.common_name))
         sleep(0.5)
-        print('Your combined height is: {}'.format(self.combined_height))
+        print('Your combined tree height is: {}'.format(self.combined_height))
         sleep(0.5)
 
     # hug 1 additional tree for each Deciduous tree in arb
     def hug_trees(self: 'Player') -> None:
         total_deciduous = len(self.arboretum[Habitat.DECIDUOUS])
         self.hugs += total_deciduous + 1
-        print('You have hugged ' + str(self.hugs) + ' trees <3')
+        print('You have hugged {} trees <3'.format(self.hugs))
         sleep(0.5)
 
 

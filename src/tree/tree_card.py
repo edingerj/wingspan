@@ -38,8 +38,8 @@ class TreeCard:
             list(map(lambda nutrient: nutrient.value, self.nutrients)),
         )
 
-    def get_name(self: 'TreeCard') -> str:
-        return self.common_name
+    def to_short_string(self: 'TreeCard') -> str:
+        return '{} | ({} pts, {} ft)'.format(self.common_name, self.points, self.height)
 
     # def plant_facts(self): # returns a list of everything to be added to database
     #     return [self.family, self.genus_species, self.common_name, self.physiognomy, self.conservatism, self.wetness]
