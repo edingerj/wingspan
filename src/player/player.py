@@ -2,6 +2,7 @@ from typing import List, Optional, Final
 
 from bonus import all_bonus_cards, BonusCard
 from player.arboretum import Arboretum
+from player.hand import Hand
 from tree import Nutrient, TreeCard, tree_deck
 
 
@@ -11,7 +12,7 @@ class Player:
         self.player_id: Optional[int] = player_id
         self.name: Optional[str] = name
         self.nutrients: List[Nutrient] = []
-        self.hand: List[TreeCard] = []
+        self.hand: Final[Hand] = Hand.from_deck()
         self.arboretum: Final[Arboretum] = Arboretum()
         self.hugs: int = 0
         self.tree_points: int = 0
@@ -22,8 +23,12 @@ class Player:
 
     # player is given 1 bonus card randomly
     # Todo: implement choice of bonus cards
-    def assign_bonus_cards(self: 'Player') -> None:
+    def assign_bonus_card(self: 'Player') -> None:
         self.bonus = all_bonus_cards.pop()
+
+    def assign_tree_cards(self: 'Player') -> None:
+        for i in range(3):
+            self.draw_tree_card()
 
     def draw_tree_card(self: 'Player') -> None:
         tree_card = tree_deck.draw_card()
@@ -52,7 +57,7 @@ class Player:
 
 if __name__ == '__main__':
     player = Player(1, 'Seb')
-    player.assign_bonus_cards()
+    player.assign_bonus_card()
     player.draw_tree_card()
 
     print('Player: {}'.format(player.name))

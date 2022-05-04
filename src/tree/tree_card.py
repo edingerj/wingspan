@@ -29,8 +29,8 @@ class TreeCard:
     def info(self: 'TreeCard') -> str:
         return '{} is a {}.'.format(self.scientific_name, self.habitat.value)
 
-    def get_formatted_info(self: 'TreeCard') -> str:
-        return '- {} | ({} pts, {} ft, {}) | requires {}'.format(
+    def to_string(self: 'TreeCard') -> str:
+        return '{} | ({} pts, {} ft, {}) | requires {}'.format(
             self.common_name,
             self.points,
             self.height,
@@ -48,5 +48,5 @@ class TreeCard:
 if __name__ == '__main__':
     tree_data = TreeCardData('Conifer', 'Abies balsamea', 'balsam fir', 3, 90, 1, 0, 0, 0, 1)
     tree_card = TreeCard.from_card_data(tree_data)
-    print(tree_card.get_formatted_info())
+    print(tree_card.to_string())
     print(tree_card.info())

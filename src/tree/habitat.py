@@ -17,4 +17,5 @@ class Habitat(Enum):
 
 
 if __name__ == '__main__':
-    print(Habitat.from_string('Conifer'))
+    print(Habitat.from_string('Deciduous'))
+    print([habitat.value for habitat in Habitat])
