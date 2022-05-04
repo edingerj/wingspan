@@ -1,9 +1,10 @@
-from typing import List, Optional, Final
+from typing import Final, List, Optional
 
 from bonus import all_bonus_cards, BonusCard
+from gameplay import sleep
 from player.arboretum import Arboretum
 from player.hand import Hand
-from tree import Nutrient, TreeCard, tree_deck
+from tree import Habitat, Nutrient, TreeCard, tree_deck
 
 
 class Player:
@@ -26,13 +27,20 @@ class Player:
     def assign_bonus_card(self: 'Player') -> None:
         self.bonus = all_bonus_cards.pop()
 
-    def assign_tree_cards(self: 'Player') -> None:
-        for i in range(3):
-            self.draw_tree_card()
-
     def draw_tree_card(self: 'Player') -> None:
         tree_card = tree_deck.draw_card()
         self.hand.append(tree_card)
+
+    # gain 1 additional nutrient card for every Conifer in arb
+    def draw_nutrient_cards(self: 'Player', draw: int = 1) -> None:
+        sleep(0.2)
+        print('*** rolling dice ***')
+        total_coniferous = len(self.arboretum[Habitat.CONIFER])
+        for i in range(draw + total_coniferous):
+            nutrient = Nutrient.random()
+            self.nutrients.append(nutrient)
+            print('  {0} rolled a {1}! Adding it to {0}\'s pile of nutrients...'.format(self.name, nutrient.value))
+            sleep(0.3)
 
     def can_plant_tree(self: 'Player', tree_card: TreeCard) -> bool:
         if tree_card not in self.hand:
@@ -52,7 +60,16 @@ class Player:
         self.arboretum.plant_tree(tree_card)
         self.combined_height = self.arboretum.get_combined_height()
         print('Planting a ' + tree_card.common_name + '...')
+        sleep(0.5)
         print('Your combined height is: {}'.format(self.combined_height))
+        sleep(0.5)
+
+    # hug 1 additional tree for each Deciduous tree in arb
+    def hug_trees(self: 'Player') -> None:
+        total_deciduous = len(self.arboretum[Habitat.DECIDUOUS])
+        self.hugs += total_deciduous + 1
+        print('You have hugged ' + str(self.hugs) + ' trees <3')
+        sleep(0.5)
 
 
 if __name__ == '__main__':
