@@ -14,17 +14,19 @@ Bonus Card Ideas:
 """
 
 from random import shuffle
-from typing import List, Optional, Final, Tuple
+from typing import List, Optional, Final
 
 from pandas import read_csv
 
+from bonus.bonus_card_data import BonusCardData
+
 
 class BonusCard:
-    def __init__(self: 'BonusCard', name: str, bonus_points: int, description: str, visible: bool):
-        self.name: str = name
-        self.description: str = description
-        self.bonus_points: Optional[int] = bonus_points if (bonus_points > 0) else None
-        self.visible: bool = visible
+    def __init__(self: 'BonusCard', name: str, description: str, bonus_points: Optional[int], visible: bool):
+        self.name: Final[str] = name
+        self.description: Final[str] = description
+        self.bonus_points: Final[Optional[int]] = bonus_points
+        self.visible: Final[bool] = visible
 
     @staticmethod
     def import_visible_from_csv() -> List['BonusCard']:
@@ -33,9 +35,14 @@ class BonusCard:
 
     @staticmethod
     def import_all_from_csv() -> List['BonusCard']:
-        bonus_cards: Final[List[Tuple[str, int, str, bool]]] = read_csv('data/bonus-cards.csv').values.tolist()
-        shuffle(bonus_cards)
-        return list(map(lambda bonus_card: BonusCard(*bonus_card), bonus_cards))
+        card_data: Final[List[BonusCardData]] = list(map(BonusCardData.of, read_csv('data/bonus-cards.csv').values))
+        shuffle(card_data)
+        return list(map(BonusCard.from_card_data, card_data))
+
+    @staticmethod
+    def from_card_data(card_data: BonusCardData) -> 'BonusCard':
+        bonus_points: Final[Optional[int]] = card_data.bonus_points if (card_data.bonus_points > 0) else None
+        return BonusCard(card_data.name, card_data.description, bonus_points, card_data.visible)
 
 
 if __name__ == '__main__':

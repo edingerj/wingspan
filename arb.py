@@ -7,17 +7,24 @@ Players have 4 options every turn:
 """
 
 import time
-from typing import List
+from typing import List, Optional
 
-from graphics import welcome_message
+from gameplay import Move
 from player import Player
-from tree import Nutrient, TreeCard
+from tree import Nutrient, Habitat
 
 # Globals
-height_list = []
 computer: Player
 num_players: int
 turns_remaining: int
+
+all_players: List[Player]
+player_1: Player
+player_2: Player
+player_3: Optional[Player]
+player_4: Optional[Player]
+
+height_list: List[int] = []
 
 
 def draw_chosen_card(hand, choice):
@@ -38,45 +45,34 @@ def assign_tree_cards(player: Player):
         player.draw_tree_card()
 
 
-def gain_nutrient(player: Player, times=1):
+# gain 1 additional nutrient card for every Conifer in arb
+def gain_nutrients(player: Player, times=1):
     time.sleep(0.2)
     print('*** rolling dice ***')
-    for i in range(times + len(player.Conifer)):  # gain 1 additional nutrient for every Conifer in arb
-        dice_roll = Nutrient.random()
-        player.nutrients.append(dice_roll)
-        print('You rolled a ' + dice_roll.value + '! Adding it to your pile of nutrients...')
+    total_coniferous = len(player.arboretum[Habitat.CONIFER])
+    for i in range(times + total_coniferous):
+        random_nutrient = Nutrient.random()
+        player.nutrients.append(random_nutrient)
+        print('{0} rolled a {1}! Adding it to {0}\'s pile of nutrients...'.format(player.name, random_nutrient.value))
         time.sleep(0.3)
-
-
-def display_rows(player: Player):
-    c_row, d_row, u_row = [], [], []
-    for card in player.Conifer:
-        c_row.append(card.common_name)
-    for card in player.Deciduous:
-        d_row.append(card.common_name)
-    for card in player.Urban:
-        u_row.append(card.common_name)
-    print('Conifer: ' + str(c_row))
-    print('Deciduous: ' + str(d_row))
-    print('Urban: ' + str(u_row))
 
 
 def game_status(player: Player):
     time.sleep(0.5)
-    print(75 * "-")
-    print(player.name + '\'s Arboretum:\'')
-    print(75 * "_")
-    display_rows(player)
-    print(75 * "_")
+    print(37 * '<>' + '<')
+    if player.arboretum.has_trees():
+        print(player.name + '\'s Arboretum:')
+        print(player.arboretum.to_string())
+        print(75 * "_")
     print(player.name + ' has the following cards to play:')
     for tree in player.hand:
         print(tree.get_formatted_info())
     print(75 * "_")
-    print(player.name + ' has these nutrients:')
+    print(player.name + ' has the following nutrients:')
     print(list(map(lambda nutrient: nutrient.value, player.nutrients)))
     print(75 * "_")
-    print('Your bonus card is: ' + player.bonus.name)
-    print(75 * "-")
+    print(player.name + '\'s bonus card is: ' + player.bonus.name)
+    print(37 * '<>' + '<')
 
 
 def initialize_game_globals():
@@ -118,15 +114,15 @@ def start_game():
             player_4.assign_bonus_cards()
             all_players.append(player_4)
     assign_tree_cards(player_1)
-    gain_nutrient(player_1, 3)
+    gain_nutrients(player_1, 3)
     assign_tree_cards(player_2)
-    gain_nutrient(player_2, 3)
+    gain_nutrients(player_2, 3)
     if num_players > 2:
         assign_tree_cards(player_3)
-        gain_nutrient(player_3, 3)
+        gain_nutrients(player_3, 3)
         if num_players > 3:
             assign_tree_cards(player_4)
-            gain_nutrient(player_4, 3)
+            gain_nutrients(player_4, 3)
     time.sleep(1)
     print('\n Setting up the game board...')
     time.sleep(1)
@@ -142,51 +138,32 @@ def start_game():
     input('Are you ready to start? Enter any key to begin. ')
 
 
-def plant_tree(player: Player, card: TreeCard):
-    if card.habitat == 'Conifer':
-        player.Conifer.append(card)
-    elif card.habitat == 'Deciduous':
-        player.Deciduous.append(card)
-    elif card.habitat == 'Urban':
-        player.Urban.append(card)
-    player.hand.remove(card)
-    print('Planting a ' + card.common_name + '...')
-    player.combined_height += card.height
-    print('Your combined height is:')
-    print(player.combined_height)
-
-
-def remove_nutrients(player: Player, to_be_removed: List[Nutrient]):
-    # player.remove_nutrients(to_be_removed)
-    for nutrient in to_be_removed:
-        player.nutrients.remove(nutrient)
-
-
 def play_a_card(player: Player):
+    global turns_remaining
     choice = input('Select a tree card to play: ')
+    tree_card = next(filter(lambda _card: _card.common_name.lower() == choice.lower(), player.hand), None)
     # check for valid input
-    if choice.lower() in [t.common_name.lower() for t in player.hand]:
+    if tree_card is not None:
         to_be_removed = []
-        for card in player.hand:
-            if card.common_name.lower() == choice.lower():
-                print('Checking if you have enough nutrients...')
-                for nutrient in card.nutrients:
-                    if nutrient in player.nutrients:
-                        to_be_removed.append(nutrient)
-                    else:
-                        option = input("Sorry, you don't have enough nutrients to plant that tree. Enter '1' to select another tree card, or '2' to go back to the main menu. \n")
-                        while option != '1' and option != '2':
-                            option = input('Invalid input. Enter 1 or 2: ')
-                        if option == '2':
-                            print("Let's try this again.\n")
-                            global turns_remaining
-                            turns_remaining += 1
-                            take_a_turn(player)
-                        if option == '1':
-                            play_a_card(player)
-                            return
-                remove_nutrients(player, to_be_removed)
-                plant_tree(player, card)
+        print('Checking if you have enough nutrients...')
+        for nutrient in tree_card.nutrients:
+            if nutrient in player.nutrients:
+                to_be_removed.append(nutrient)
+            else:
+                option = input(
+                    'Sorry, you don\'t have enough nutrients to plant that tree.\n' +
+                    'Enter (1) to select another tree card, or (2) to go back to the main menu.\n' +
+                    '  → ')
+                while option != '1' and option != '2':
+                    option = input('Invalid input. Enter (1) or (2): ')
+                if option == '2':
+                    print("Let's try this again.\n")
+                    turns_remaining += 1
+                    take_a_turn(player)
+                if option == '1':
+                    play_a_card(player)
+                    return
+        player.plant_tree(tree_card)
     else:
         option = input("Invalid input. Enter '1' to try again, or '2' to go back to the main menu. \n")
         while option != '1' and option != '2':
@@ -195,14 +172,32 @@ def play_a_card(player: Player):
             play_a_card(player)
         if option == '2':
             print("Let's try this again.\n")
-            # global turns_remaining
             turns_remaining += 1
             take_a_turn(player)
 
 
-def hug_tree(player: Player):
-    player.hugs += (len(player.Deciduous) + 1)  # 1 additional hug for each Deciduous tree in arb
+# hug 1 additional tree for each Deciduous tree in arb
+def hug_trees(player: Player):
+    total_deciduous = len(player.arboretum[Habitat.DECIDUOUS])
+    player.hugs += total_deciduous + 1
     print('You have hugged ' + str(player.hugs) + ' trees <3')
+
+
+# draw 1 additional tree card for each Urban tree in arb
+def draw_tree_cards(player: Player):
+    total_urban = len(player.arboretum[Habitat.URBAN])
+    for i in range(total_urban + 1):
+        print('Select from the following cards. Enter 1, 2, 3, or 4 for a random card: ')
+        display_3_cards(computer)
+        choice = input()
+        while choice != '1' and choice != '2' and choice != '3' and choice != '4':
+            choice = input('Invalid input. Enter 1, 2, 3, or 4 for a random card: ')
+        if choice == '4':  # random card from deck
+            player.draw_tree_card()
+            print('Drawing random card from deck...')
+            input('You drew a ' + str(player.hand[-1].common_name) + "!")
+        else:  # 1, 2, or 3 from display
+            draw_chosen_card(player.hand, choice)
 
 
 def switch_players(current_player: Player):  # changes turn between 2 players
@@ -230,7 +225,7 @@ def switch_players(current_player: Player):  # changes turn between 2 players
 
 
 def evaluate_bonus_cards(player: Player):
-    all_trees = player.Conifer + player.Deciduous + player.Urban
+    all_trees = player.arboretum.get_all_trees()
     if player.bonus.name == 'michigander':
         for tree in all_trees:
             if tree.michigander == 1:
@@ -249,7 +244,7 @@ def get_total_score(player: Player):
     # tree_points = 0
 
     # Add tree points
-    all_trees = player.Conifer + player.Deciduous + player.Urban
+    all_trees = player.arboretum.get_all_trees()
     for tree in all_trees:
         player.tree_points += tree.points
     # player.combined_height += tree.height
@@ -267,8 +262,8 @@ def end_game():
     time.sleep(0.5)
     global height_list
     global all_players
-    for ind in all_players:
-        height_list.append(ind.combined_height)
+    for player in all_players:
+        height_list.append(player.combined_height)
     # print('height list:')
     # print(height_list)
 
@@ -317,35 +312,20 @@ def take_a_turn(player: Player):
     global num_players
     print('Turns remaining: ' + str(round(turns_remaining / num_players)))
     turns_remaining -= 1
-    print("\n It's " + player.name + "'s turn!")
+    print('\n It\'s {}\'s turn!'.format(player.name))
     game_status(player)
-    print('\n' + player.name + ',')
-    move = input(
-        'Select from the following options:\n' +
-        '  1. Plant a tree\n' +
-        '  2. Gain nutrients\n' +
-        '  3. Hug a tree\n' +
-        '  4. Draw tree cards\n' +
-        '  → ')
-    if move == '1':  # Plant a tree
+    print('\n{}, '.format(player.name), end='')
+
+    move = Move.input_move()
+    if move == Move.PLANT_TREE:  # Plant a tree
         play_a_card(player)
-    if move == '2':  # Gain nutrients
-        gain_nutrient(player)
-    if move == '3':  # Hug a tree
-        hug_tree(player)
-    if move == '4':  # Draw tree cards
-        for i in range((len(player.Urban) + 1)):
-            print('Select from the following cards. Enter 1, 2, 3, or 4 for a random card: ')
-            display_3_cards(computer)
-            choice = input()
-            while choice != '1' and choice != '2' and choice != '3' and choice != '4':
-                choice = input('Invalid input. Enter 1, 2, 3, or 4 for a random card: ')
-            if choice == '4':  # random card from deck
-                player.draw_tree_card()
-                print('Drawing random card from deck...')
-                input('You drew a ' + str(player.hand[-1].common_name) + "!")
-            else:  # 1, 2, or 3 from display
-                draw_chosen_card(player.hand, choice)
+    elif move == Move.HUG_TREES:  # Hug a tree
+        hug_trees(player)
+    elif move == Move.DRAW_NUTRIENTS:  # Gain nutrients
+        gain_nutrients(player)
+    elif move == Move.DRAW_TREES:  # Draw tree cards
+        draw_tree_cards(player)
+
     game_status(player)
     input('Enter "z" to end your turn. ')
     if turns_remaining > 0:
@@ -355,7 +335,7 @@ def take_a_turn(player: Player):
 
 
 if __name__ == '__main__':
-    welcome_message()
+    # welcome_message()
 
     initialize_game_globals()
     start_game()

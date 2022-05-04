@@ -1,4 +1,4 @@
-from typing import NamedTuple
+from typing import NamedTuple, Tuple
 
 
 class TreeCardData(NamedTuple):
@@ -12,3 +12,7 @@ class TreeCardData(NamedTuple):
     fire: int
     disturbance: int
     michigander: int
+
+    @staticmethod
+    def of(tree_card_data: Tuple[str, str, str, int, int, int, int, int, int, int]) -> 'TreeCardData':
+        return TreeCardData(*tree_card_data)

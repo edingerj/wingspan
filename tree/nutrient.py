@@ -2,7 +2,7 @@ from enum import Enum
 from random import choice
 from typing import List
 
-from tree_card_data import TreeCardData
+from tree.tree_card_data import TreeCardData
 
 
 class Nutrient(Enum):
