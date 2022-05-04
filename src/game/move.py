@@ -25,7 +25,7 @@ class Move(Enum):
             return None
 
     @staticmethod
-    def input_move() -> 'Move':
+    def from_console() -> 'Move':
         move_string = input(
             'Select from the following options:\n' +
             '  1. Plant a tree\n' +
@@ -40,8 +40,8 @@ class Move(Enum):
             return move
         else:
             print('Invalid Move: {}. Please try again.'.format(move_string))
-            return Move.input_move()
+            return Move.from_console()
 
 
 if __name__ == '__main__':
-    print(Move.input_move())
+    print(Move.from_console())

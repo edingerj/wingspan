@@ -1,7 +1,6 @@
 import time
 
-
-sleep_enabled = False
+sleep_enabled: bool = True
 
 
 def sleep(seconds: float) -> None:

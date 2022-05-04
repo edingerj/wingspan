@@ -8,69 +8,20 @@ Players have 4 options every turn:
 
 from typing import List
 
-from gameplay import Move, sleep
+from console import sleep, initialize_game
+from game import game_instance, Move
 from player import Player, all_players, computer
 from tree import Habitat, TreeCard
 
 # Globals
-turns_remaining: int
 height_list: List[int]
 
 
-def game_status(player: Player):
-    sleep(0.5)
-    print(37 * '<>' + '<')
-    if player.arboretum.has_trees():
-        print(player.name + '\'s Arboretum:')
-        print(player.arboretum.to_string())
-        print(75 * "_")
-    if player.hand.has_cards():
-        print(player.name + '\'s Hand:')
-        print(player.hand.to_string())
-        print(75 * "_")
-    if len(player.nutrients) > 0:
-        print(player.name + '\'s Nutrients:')
-        print('  {}'.format(list(map(lambda nutrient: nutrient.value, player.nutrients))))
-        print(75 * "_")
-    print(player.name + '\'s bonus card is: ' + player.bonus.name)
-    print(37 * '<>' + '<\n')
-
-
-def start_game():
-    global turns_remaining
+def main() -> None:
     print('Welcome to Wingspan (tree edition)!')
-
-    num_players = int(input(
-        'Enter the number of players (2, 3, or 4):\n' +
-        '  → '))
-    turns_remaining = num_players * int(input(
-        'How many turns would you like to play?\n' +
-        '  → '))
-
-    for index in range(num_players):
-        add_player(index)
-
-    for player in all_players:
-        player.assign_bonus_card()
-        player.draw_nutrient_cards(3)
-
-    sleep(0.5)
-    print('\nSetting up the game board...')
-
-    for player in all_players:
-        sleep(0.5)
-        game_status(player)
-
+    initialize_game()
     input('Are you ready to start? Enter any key to begin. ')
     take_a_turn(all_players[0])
-
-
-def add_player(index: int) -> None:
-    name = input(
-        'Player {}, enter your name:\n'.format(index + 1) +
-        '  → ')
-    player = Player(index + 1, name)
-    all_players.append(player)
 
 
 def retry_plant_tree(player: Player) -> None:
@@ -81,12 +32,12 @@ def retry_plant_tree(player: Player) -> None:
     while option != '1' and option != '2':
         option = input('Invalid input. Enter (1) or (2): ')
     if option == '1':
-        play_a_card(player)
+        plant_tree(player)
     if option == '2':
         retry_turn(player)
 
 
-def play_a_card(player: Player) -> None:
+def plant_tree(player: Player) -> None:
     choice = input(
         'Select a tree card to play:\n' +
         '  → ')
@@ -96,6 +47,10 @@ def play_a_card(player: Player) -> None:
         sleep(0.5)
         if player.can_plant_tree(tree_card):
             player.plant_tree(tree_card)
+            print('Planting a {}...'.format(tree_card.common_name))
+            sleep(0.5)
+            print('Your combined tree height is: {}'.format(player.combined_height))
+            sleep(0.5)
         else:
             print('Sorry, you don\'t have enough nutrients to plant a {}.'.format(tree_card.common_name))
             retry_plant_tree(player)
@@ -104,8 +59,27 @@ def play_a_card(player: Player) -> None:
         retry_plant_tree(player)
 
 
+# hug 1 additional tree for each Deciduous tree in arb
+def hug_trees(player: Player) -> None:
+    sleep(0.2)
+    hugs = player.hug_trees()
+    print('*** hugging {} tree{} ***'.format(hugs, 's' if (hugs != 1) else ''))
+    sleep(0.2)
+    print('  {} has hugged {} trees <3'.format(player.name, player.hugs))
+
+
+# gain 1 additional nutrient card for every Conifer in arb
+def draw_nutrient_cards(player: Player) -> None:
+    sleep(0.2)
+    print('*** rolling dice ***')
+    nutrients = player.draw_nutrient_cards()
+    for nutrient in nutrients:
+        sleep(0.2)
+        print('  {0} rolled a {1}! Adding it to {0}\'s pile of nutrients...'.format(player.name, nutrient.to_emoji()))
+
+
 # draw 1 additional tree card for each Urban tree in arb
-def draw_tree_cards(player: Player):
+def draw_tree_cards(player: Player) -> None:
     total_urban = len(player.arboretum[Habitat.URBAN])
     for i in range(total_urban + 1):
         choice = int(input(
@@ -123,7 +97,7 @@ def draw_tree_cards(player: Player):
             draw_random_card(player)
 
 
-def draw_chosen_card(player: Player, choice: int):
+def draw_chosen_card(player: Player, choice: int) -> None:
     chosen_card = computer.hand.pop(int(choice) - 1)  # remove it from display
     player.hand.append(chosen_card)  # add it to player's hand
     computer.draw_tree_card()  # refresh display
@@ -132,13 +106,12 @@ def draw_chosen_card(player: Player, choice: int):
 
 def draw_random_card(player: Player) -> None:
     print('Drawing random card from deck...')
-    player.draw_tree_card()
-    print('You drew a {}!'.format(player.hand[-1].common_name))
+    tree_card = player.draw_tree_card()
+    print('You drew a {}!'.format(tree_card))
 
 
-def switch_players(current_player: Player):  # changes turn between 2 players
+def next_player(current_player: Player) -> Player:
     player_index = all_players.index(current_player)
-
     if player_index == len(all_players) - 1:
         return all_players[0]
     else:
@@ -156,7 +129,6 @@ def evaluate_bonus_cards(player: Player):
     global height_list
     if 0 < max(height_list) == player.combined_height:
         player.bonus_points += 10
-
     return player.bonus_points
 
 
@@ -222,40 +194,38 @@ def end_game():
 
 
 def retry_turn(player: Player) -> None:
-    global turns_remaining
-    turns_remaining += 1
+    game_instance.turns_remaining += 1
     print("Let's try this again...\n")
     sleep(0.5)
     take_a_turn(player)
 
 
 def take_a_turn(player: Player):
-    global turns_remaining
     sleep(0.5)
-    print('Turns remaining: ' + str(round(turns_remaining / len(all_players))))
-    turns_remaining -= 1
+    print('Turns remaining: ' + str(round(game_instance.turns_remaining / len(all_players))))
+    game_instance.turns_remaining -= 1
     print('\nIt\'s {}\'s turn!'.format(player.name))
-    game_status(player)
+    print(player.to_string())
     print('{}, '.format(player.name), end='')
 
-    move = Move.input_move()
+    move = Move.from_console()
     if move == Move.PLANT_TREE:  # Plant a tree
-        play_a_card(player)
+        plant_tree(player)
     elif move == Move.HUG_TREES:  # Hug a tree
-        player.hug_trees()
+        hug_trees(player)
     elif move == Move.DRAW_NUTRIENTS:  # Gain nutrients
-        player.draw_nutrient_cards()
+        draw_nutrient_cards(player)
     elif move == Move.DRAW_TREES:  # Draw tree cards
         draw_tree_cards(player)
 
-    game_status(player)
+    print(player.to_string())
     input('Enter "z" to end your turn. ')
-    if turns_remaining > 0:
-        take_a_turn(switch_players(player))
+    if game_instance.turns_remaining > 0:
+        take_a_turn(next_player(player))
     else:
         end_game()
 
 
 if __name__ == '__main__':
     # welcome_message()
-    start_game()
+    main()

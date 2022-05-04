@@ -30,6 +30,34 @@ class Nutrient(Enum):
             *(tree_card_data.disturbance * [Nutrient.DISTURBANCE]),
         ]
 
+    def __lt__(self: 'Nutrient', other: 'Nutrient') -> bool:
+        return self.__get_sort_order() < other.__get_sort_order()
+
+    def __get_sort_order(self: 'Nutrient') -> int:
+        if self == Nutrient.SUN:
+            return 0
+        elif self == Nutrient.WATER:
+            return 1
+        elif self == Nutrient.FIRE:
+            return 2
+        elif self == Nutrient.DISTURBANCE:
+            return 3
+
+    def to_emoji(self: 'Nutrient') -> str:
+        if self == Nutrient.SUN:
+            return '🌞'
+        elif self == Nutrient.WATER:
+            return '🌊'
+        elif self == Nutrient.FIRE:
+            return '🔥'
+        elif self == Nutrient.DISTURBANCE:
+            return '🤘'
+
 
 if __name__ == '__main__':
-    print(Nutrient.random())
+    nutrient = Nutrient.random()
+    print('{} {}'.format(nutrient.to_emoji(), nutrient))
+
+    nutrients = [Nutrient.random().to_emoji() for i in range(10)]
+    nutrients.sort()
+    print(' '.join(nutrients))

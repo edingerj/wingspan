@@ -35,7 +35,7 @@ class TreeCard:
             self.points,
             self.height,
             self.habitat.value,
-            list(map(lambda nutrient: nutrient.value, self.nutrients)),
+            ' '.join([nutrient.to_emoji() for nutrient in self.nutrients]),
         )
 
     def to_short_string(self: 'TreeCard') -> str:

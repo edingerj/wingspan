@@ -1,7 +1,6 @@
 from typing import Final, List, Optional
 
 from bonus import all_bonus_cards, BonusCard
-from gameplay import sleep
 from player.arboretum import Arboretum
 from player.hand import Hand
 from tree import Habitat, Nutrient, TreeCard, tree_deck
@@ -27,20 +26,20 @@ class Player:
     def assign_bonus_card(self: 'Player') -> None:
         self.bonus = all_bonus_cards.pop()
 
-    def draw_tree_card(self: 'Player') -> None:
+    # return: the drawn tree card
+    def draw_tree_card(self: 'Player') -> TreeCard:
         tree_card = tree_deck.draw_card()
         self.hand.append(tree_card)
+        return tree_card
 
     # gain 1 additional nutrient card for every Conifer in arb
-    def draw_nutrient_cards(self: 'Player', draw: int = 1) -> None:
-        sleep(0.2)
-        print('*** rolling dice ***')
+    # return: the drawn nutrients
+    def draw_nutrient_cards(self: 'Player', draw: int = 1) -> List[Nutrient]:
         total_coniferous = len(self.arboretum[Habitat.CONIFER])
-        for i in range(draw + total_coniferous):
-            nutrient = Nutrient.random()
-            self.nutrients.append(nutrient)
-            print('  {0} rolled a {1}! Adding it to {0}\'s pile of nutrients...'.format(self.name, nutrient.value))
-            sleep(0.3)
+        nutrients = [Nutrient.random() for i in range(draw + total_coniferous)]
+        self.nutrients.extend(nutrients)
+        self.nutrients.sort()
+        return nutrients
 
     def can_plant_tree(self: 'Player', tree_card: TreeCard) -> bool:
         if tree_card not in self.hand:
@@ -59,17 +58,32 @@ class Player:
             self.nutrients.remove(nutrient)
         self.arboretum.plant_tree(tree_card)
         self.combined_height = self.arboretum.get_total_height()
-        print('Planting a {}...'.format(tree_card.common_name))
-        sleep(0.5)
-        print('Your combined tree height is: {}'.format(self.combined_height))
-        sleep(0.5)
 
     # hug 1 additional tree for each Deciduous tree in arb
-    def hug_trees(self: 'Player') -> None:
+    # return: the number of trees newly hugged
+    def hug_trees(self: 'Player') -> int:
         total_deciduous = len(self.arboretum[Habitat.DECIDUOUS])
         self.hugs += total_deciduous + 1
-        print('You have hugged {} trees <3'.format(self.hugs))
-        sleep(0.5)
+        return total_deciduous + 1
+
+    def to_string(self: 'Player') -> str:
+        result = '{}<\n'.format(37 * '<>')
+        if self.arboretum.has_trees():
+            result += '{}\'s Arboretum:\n'.format(self.name)
+            result += '{}\n'.format(self.arboretum.to_string())
+            result += '{}\n'.format(75 * '_')
+        if self.hand.has_cards():
+            result += '{}\'s Hand:\n'.format(self.name)
+            result += '{}\n'.format(self.hand.to_string())
+            result += '{}\n'.format(75 * '_')
+        if len(self.nutrients) > 0:
+            result += '{}\'s Nutrients:\n'.format(self.name)
+            result += '  {}\n'.format(' '.join([nutrient.to_emoji() for nutrient in self.nutrients]))
+            result += '{}\n'.format(75 * '_')
+        result += '{}\'s Bonus: {}\n'.format(self.name, self.bonus.name)
+        result += '  {}\n'.format(self.bonus.description)
+        result += '{}<\n'.format(37 * '<>')
+        return result
 
 
 if __name__ == '__main__':
@@ -78,6 +92,7 @@ if __name__ == '__main__':
     player.draw_tree_card()
 
     print('Player: {}'.format(player.name))
+    print(player.to_string())
 
     can_plant_tree = player.can_plant_tree(player.hand[0])
     print('Can plant {}? {}'.format(player.hand[0].common_name, can_plant_tree))
