@@ -47,7 +47,7 @@ class BonusCard:
 
 if __name__ == '__main__':
     visible_bonus_cards = BonusCard.import_visible_from_csv()
-    visible_card_names = list(map(lambda bonus_card: bonus_card.name, visible_bonus_cards))
+    visible_card_names = [bonus_card.name for bonus_card in visible_bonus_cards]
 
     print('Total Bonus Cards: {}'.format(len(BonusCard.import_all_from_csv())))
     print('Visible Bonus Cards: {}'.format(visible_card_names))

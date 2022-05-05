@@ -6,7 +6,7 @@ from tree.tree_card_data import TreeCardData
 
 
 class Nutrients(List[Nutrient]):
-    def __init__(self: 'Nutrients', nutrients: Iterable = ()) -> None:
+    def __init__(self: 'Nutrients', nutrients: Iterable[Nutrient] = ()) -> None:
         super(Nutrients, self).__init__(nutrients)
 
     @staticmethod
@@ -18,7 +18,7 @@ class Nutrients(List[Nutrient]):
     @staticmethod
     def random(size: int = 3) -> 'Nutrients':
         nutrient_pool = Nutrients.get_nutrient_pool()
-        return Nutrients([choice(nutrient_pool) for i in range(size)])
+        return Nutrients([choice(nutrient_pool) for _ in range(size)])
 
     @staticmethod
     def get_nutrient_pool() -> 'Nutrients':

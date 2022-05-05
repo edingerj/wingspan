@@ -3,13 +3,12 @@ from typing import Final, Optional
 from bonus import all_bonus_cards, BonusCard
 from player.arboretum import Arboretum
 from player.hand import Hand
-from tree import Habitat, Nutrients, TreeCard, tree_deck
+from tree import Habitat, Nutrients, TreeCard
 
 
 class Player:
-    # make the computer another instance of Player
-    def __init__(self: 'Player', name: Optional[str] = None) -> None:
-        self.name: Final[Optional[str]] = name
+    def __init__(self: 'Player', name: str) -> None:
+        self.name: Final[str] = name
         self.nutrients: Final[Nutrients] = Nutrients.random_sorted()
         self.hand: Final[Hand] = Hand.from_deck()
         self.arboretum: Final[Arboretum] = Arboretum()
@@ -26,15 +25,13 @@ class Player:
 
     # return: the drawn tree card
     def draw_tree_card(self: 'Player') -> TreeCard:
-        tree_card = tree_deck.draw_card()
-        self.hand.append(tree_card)
-        return tree_card
+        return self.hand.draw_from_deck()
 
     # gain 1 additional nutrient card for every Conifer in arb
     # return: the drawn nutrients
-    def draw_nutrient_cards(self: 'Player', draw: int = 1) -> Nutrients:
+    def draw_nutrient_cards(self: 'Player') -> Nutrients:
         total_coniferous = len(self.arboretum[Habitat.CONIFER])
-        nutrients = Nutrients.random(draw + total_coniferous)
+        nutrients = Nutrients.random(total_coniferous + 1)
         self.nutrients.extend(nutrients)
         return nutrients
 

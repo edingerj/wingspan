@@ -30,12 +30,14 @@ class Arboretum(Dict[Habitat, List[TreeCard]]):
         return list(filter(lambda habitat: len(self[habitat]) > 0, self.keys()))
 
     def to_string(self: 'Arboretum') -> str:
-        result: str = ''
-        for habitat in self.get_populated_habitats():
-            result += '  {} Habitat:\n'.format(habitat.value)
-            for index, tree_card in enumerate(self[habitat]):
-                result += '    {}. {}\n'.format(index + 1, tree_card.to_short_string())
-        return result.rstrip()
+        return '\n'.join(self.get_habitat_string(habitat) for habitat in self.get_populated_habitats())
+
+    def get_habitat_string(self: 'Arboretum', habitat: Habitat) -> str:
+        return '  {} Habitat:\n'.format(habitat.value) + \
+               '\n'.join(
+                   '    {}. {}'.format(index + 1, tree_card.to_short_string())
+                   for index, tree_card in enumerate(self[habitat])
+               )
 
 
 if __name__ == '__main__':

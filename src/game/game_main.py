@@ -3,14 +3,14 @@ from typing import Final, List
 
 from game.game_results import GameResults
 from game.move import Move
-from player import Player
-from tree import TreeCard
+from player import Hand, Player
+from tree import Nutrients, TreeCard
 
 
 class GameMain(metaclass=ABCMeta):
     def __init__(self: 'GameMain', all_players: List[Player], total_turns: int) -> None:
         self.all_players: Final[List[Player]] = all_players
-        self.computer: Final[Player] = Player()
+        self.displayed_tree_cards: Final[Hand] = Hand.from_deck()
         self.total_turns: Final[int] = total_turns
         self.turns_remaining: int = total_turns * len(all_players)
 
@@ -21,8 +21,20 @@ class GameMain(metaclass=ABCMeta):
     def take_turn(self: 'GameMain', player: Player) -> None:
         pass
 
+    @abstractmethod
+    def start_turn(self: 'GameMain', player: Player) -> None:
+        pass
+
+    @abstractmethod
+    def end_turn(self: 'GameMain', player: Player) -> None:
+        self.turns_remaining -= 1
+        if self.turns_remaining > 0:
+            self.take_turn(self.get_next_player(player))
+        else:
+            self.end_game()
+
+    @abstractmethod
     def retry_turn(self: 'GameMain', player: Player) -> None:
-        self.turns_remaining += 1
         self.take_turn(player)
 
     def do_move(self: 'GameMain', player: Player, move: Move) -> None:
@@ -41,25 +53,27 @@ class GameMain(metaclass=ABCMeta):
 
     @abstractmethod
     # hug 1 additional tree for each Deciduous tree in arb
-    def hug_trees(self: 'GameMain', player: Player) -> None:
-        pass
+    def hug_trees(self: 'GameMain', player: Player) -> int:
+        return player.hug_trees()
 
     @abstractmethod
     # gain 1 additional nutrient card for every Conifer tree in arb
-    def draw_nutrient_cards(self: 'GameMain', player: Player) -> None:
-        pass
+    def draw_nutrient_cards(self: 'GameMain', player: Player) -> Nutrients:
+        return player.draw_nutrient_cards()
 
     @abstractmethod
     # draw 1 additional tree card for each Urban tree in arb
     def draw_tree_cards(self: 'GameMain', player: Player) -> None:
         pass
 
-    def draw_chosen_tree_card(self: 'GameMain', player: Player, choice: int) -> TreeCard:
-        tree_card = self.computer.hand.pop(choice - 1)  # remove it from display
-        player.hand.append(tree_card)  # add it to player's hand
-        self.computer.draw_tree_card()  # refresh display
+    @abstractmethod
+    def draw_chosen_tree_card(self: 'GameMain', player: Player, choice_index: int) -> TreeCard:
+        tree_card = self.displayed_tree_cards.pop(choice_index)     # remove card from display
+        player.hand.append(tree_card)                               # add it to player's hand
+        self.displayed_tree_cards.draw_from_deck()                  # refresh display
         return tree_card
 
+    @abstractmethod
     def draw_random_tree_card(self: 'GameMain', player: Player) -> TreeCard:
         return player.draw_tree_card()
 

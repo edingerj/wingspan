@@ -1,15 +1,16 @@
 from typing import List
 
 from console.console_game_main import ConsoleGameMain
+from console.console_print import print_ellipsis
 from console.sleep import sleep
 from game import game_instance
 from player import Player
 
 
 def main() -> None:
-    print('Welcome to Wingspan (tree edition)!')
+    print('Welcome to Wingspan (tree edition)!', end='\n\n')
     game_instance.set(initialize_game())
-    input('Are you ready to start? Enter any key to begin. ')
+    print_game_setup(game_instance.get().all_players)
     game_instance.get().start_game()
 
 
@@ -54,13 +55,6 @@ def get_players(num_players: int) -> List[Player]:
     for player in all_players:
         player.assign_bonus_card()
 
-    sleep(0.5)
-    print('\nSetting up the game board...')
-
-    for player in all_players:
-        sleep(0.5)
-        print(player.to_string())
-
     return all_players
 
 
@@ -75,4 +69,19 @@ def get_player(index: int) -> Player:
 def input_player_name(index: int) -> str:
     return input(
         'Player {}, enter your name:\n'.format(index + 1) +
+        '  → ')
+
+
+def print_game_setup(all_players: List[Player]) -> None:
+    sleep(0.5)
+    print('\nSetting up the game board', end='')
+    print_ellipsis(end='\n\n')
+
+    for player in all_players:
+        sleep(0.5)
+        print(player.to_string())
+
+    input(
+        'Are you ready to start?\n'
+        'Enter any key to begin:\n' +
         '  → ')
