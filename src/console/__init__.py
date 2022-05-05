@@ -1,8 +1,7 @@
-from .game_init import initialize_game
-from .sleep import sleep, sleep_enabled
+from .console_game_init import main
+from .sleep import sleep_enabled
 
 __all__ = [
-    initialize_game,
-    sleep,
+    main,
     sleep_enabled,
 ]

@@ -24,24 +24,6 @@ class Move(Enum):
         else:
             return None
 
-    @staticmethod
-    def from_console() -> 'Move':
-        move_string = input(
-            'Select from the following options:\n' +
-            '  1. Plant a tree\n' +
-            '  2. Hug some trees\n' +
-            '  3. Draw nutrients\n' +
-            '  4. Draw tree cards\n' +
-            '  5. Skip your turn\n'
-            '  → ')
-        move = Move.from_string(move_string)
-
-        if move is not None:
-            return move
-        else:
-            print('Invalid Move: {}. Please try again.'.format(move_string))
-            return Move.from_console()
-
 
 if __name__ == '__main__':
-    print(Move.from_console())
+    print(Move.from_string('1'))

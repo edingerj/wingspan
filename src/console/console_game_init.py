@@ -1,12 +1,23 @@
-from game import game_instance
+from typing import List
+
+from console.console_game_main import ConsoleGameMain
 from console.sleep import sleep
-from player import all_players, Player
+from game import game_instance
+from player import Player
 
 
-def initialize_game() -> None:
-    game_instance.set_num_players(get_num_players())
-    game_instance.set_total_turns(get_total_turns())
-    add_players()
+def main() -> None:
+    print('Welcome to Wingspan (tree edition)!')
+    game_instance.set(initialize_game())
+    input('Are you ready to start? Enter any key to begin. ')
+    game_instance.get().start_game()
+
+
+def initialize_game() -> ConsoleGameMain:
+    num_players = get_num_players()
+    total_turns = get_total_turns()
+    all_players = get_players(num_players)
+    return ConsoleGameMain(all_players, total_turns)
 
 
 def get_num_players() -> int:
@@ -37,9 +48,8 @@ def input_total_turns() -> int:
         '  → '))
 
 
-def add_players() -> None:
-    for index in range(game_instance.num_players):
-        add_player(index)
+def get_players(num_players: int) -> List[Player]:
+    all_players = [get_player(index) for index in range(num_players)]
 
     for player in all_players:
         player.assign_bonus_card()
@@ -52,10 +62,18 @@ def add_players() -> None:
         sleep(0.5)
         print(player.to_string())
 
+    return all_players
 
-def add_player(index: int) -> None:
-    name = input(
+
+def get_player(index: int) -> Player:
+    name = input_player_name(index)
+    while len(name) not in range(1, 50):
+        print('{} is not a valid player name'.format(name))
+        name = input_player_name(index)
+    return Player(name)
+
+
+def input_player_name(index: int) -> str:
+    return input(
         'Player {}, enter your name:\n'.format(index + 1) +
         '  → ')
-    player = Player(index + 1, name)
-    all_players.append(player)

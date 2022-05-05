@@ -1,12 +1,15 @@
 from typing import Final
 
-from .game_loop import GameLoop
+from .game_main import GameMain
+from .game_main_wrapper import GameMainWrapper
+from .game_results import GameResults
 from .move import Move
 
-game_instance: Final[GameLoop] = GameLoop()
+game_instance: Final[GameMainWrapper] = GameMainWrapper()
 
 __all__ = [
-    GameLoop,
+    GameMain,
+    GameResults,
     game_instance,
     Move,
 ]
