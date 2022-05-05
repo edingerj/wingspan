@@ -14,7 +14,7 @@ Bonus Card Ideas:
 """
 
 from random import shuffle
-from typing import List, Optional, Final
+from typing import Final, List, Optional
 
 from pandas import read_csv
 

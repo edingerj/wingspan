@@ -1,26 +1,26 @@
-from typing import List, Final
+from typing import Final
 
 from tree.habitat import Habitat
-from tree.nutrient import Nutrient
+from tree.nutrients import Nutrients
 from tree.tree_card_data import TreeCardData
 
 
 class TreeCard:
     def __init__(self: 'TreeCard', habitat: Habitat, scientific_name: str, common_name: str,
-                 points: int, height: int, nutrients: List[Nutrient], michigander: bool) -> None:
+                 points: int, height: int, nutrients: Nutrients, michigander: bool) -> None:
         self.habitat: Final[Habitat] = habitat
         self.scientific_name: Final[str] = scientific_name
         self.common_name: Final[str] = common_name
         self.points: Final[int] = points
         self.height: Final[int] = height
-        self.nutrients: Final[List[Nutrient]] = nutrients
+        self.nutrients: Final[Nutrients] = nutrients
         self.michigander: Final[bool] = michigander
         self.hugs: int = 0
 
     @staticmethod
     def from_card_data(card_data: TreeCardData) -> 'TreeCard':
         habitat = Habitat.from_string(card_data.habitat)
-        nutrients = Nutrient.list_from_tree_card_data(card_data)
+        nutrients = Nutrients.from_tree_card_data(card_data)
         michigander = True if (card_data.michigander == 1) else False
 
         return TreeCard(habitat, card_data.scientific_name, card_data.common_name,
@@ -35,7 +35,7 @@ class TreeCard:
             self.points,
             self.height,
             self.habitat.value,
-            ' '.join([nutrient.to_emoji() for nutrient in self.nutrients]),
+            self.nutrients.to_string(),
         )
 
     def to_short_string(self: 'TreeCard') -> str:

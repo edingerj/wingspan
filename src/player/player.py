@@ -1,16 +1,16 @@
-from typing import Final, List, Optional
+from typing import Final, Optional
 
 from bonus import all_bonus_cards, BonusCard
 from player.arboretum import Arboretum
 from player.hand import Hand
-from tree import Habitat, Nutrient, TreeCard, tree_deck
+from tree import Habitat, Nutrients, TreeCard, tree_deck
 
 
 class Player:
     # make the computer another instance of Player
     def __init__(self: 'Player', name: Optional[str] = None) -> None:
         self.name: Final[Optional[str]] = name
-        self.nutrients: List[Nutrient] = []
+        self.nutrients: Final[Nutrients] = Nutrients.random_sorted()
         self.hand: Final[Hand] = Hand.from_deck()
         self.arboretum: Final[Arboretum] = Arboretum()
         self.bonus: Optional[BonusCard] = None
@@ -18,7 +18,6 @@ class Player:
         self.tree_points: int = 0
         self.combined_height: int = 0
         self.bonus_points: int = 0
-        # self.scores = []
 
     # player is given 1 bonus card randomly
     # Todo: implement choice of bonus cards
@@ -33,11 +32,10 @@ class Player:
 
     # gain 1 additional nutrient card for every Conifer in arb
     # return: the drawn nutrients
-    def draw_nutrient_cards(self: 'Player', draw: int = 1) -> List[Nutrient]:
+    def draw_nutrient_cards(self: 'Player', draw: int = 1) -> Nutrients:
         total_coniferous = len(self.arboretum[Habitat.CONIFER])
-        nutrients = [Nutrient.random() for i in range(draw + total_coniferous)]
+        nutrients = Nutrients.random(draw + total_coniferous)
         self.nutrients.extend(nutrients)
-        self.nutrients.sort()
         return nutrients
 
     def can_plant_tree(self: 'Player', tree_card: TreeCard) -> bool:
@@ -77,7 +75,7 @@ class Player:
             result += '{}\n'.format(75 * '_')
         if len(self.nutrients) > 0:
             result += '{}\'s Nutrients:\n'.format(self.name)
-            result += '  {}\n'.format(' '.join([nutrient.to_emoji() for nutrient in self.nutrients]))
+            result += '  {}\n'.format(self.nutrients.to_string())
             result += '{}\n'.format(75 * '_')
         result += '{}\'s Bonus: {}\n'.format(self.name, self.bonus.name)
         result += '  {}\n'.format(self.bonus.description)

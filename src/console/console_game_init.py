@@ -53,7 +53,6 @@ def get_players(num_players: int) -> List[Player]:
 
     for player in all_players:
         player.assign_bonus_card()
-        player.draw_nutrient_cards(3)
 
     sleep(0.5)
     print('\nSetting up the game board...')

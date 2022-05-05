@@ -9,7 +9,7 @@ class Hand(List[TreeCard]):
 
     @staticmethod
     def from_deck(size: int = 3) -> 'Hand':
-        tree_cards = list(map(lambda a: tree_deck.draw_card(), range(size)))
+        tree_cards = [tree_deck.draw_card() for i in range(size)]
         return Hand(tree_cards)
 
     def has_cards(self: 'Hand') -> bool:
