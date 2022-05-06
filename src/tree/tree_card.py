@@ -25,16 +25,16 @@ class TreeCard:
         return TreeCard(habitat, card_data.scientific_name, card_data.common_name,
                         card_data.points, card_data.height, nutrients, michigander)
 
-    def to_string(self: 'TreeCard') -> str:
+    def __str__(self: 'TreeCard') -> str:
         return '{} | ({} pts, {} ft, {}) | needs {}'.format(
             self.common_name,
             self.points,
             self.height,
             self.habitat.value,
-            self.nutrients.to_string(),
+            self.nutrients,
         )
 
-    def to_short_string(self: 'TreeCard') -> str:
+    def str_short(self: 'TreeCard') -> str:
         return '{} | ({} pts, {} ft)'.format(self.common_name, self.points, self.height)
 
     # def info(self: 'TreeCard') -> str:
@@ -47,5 +47,5 @@ class TreeCard:
 if __name__ == '__main__':
     tree_data = TreeCardData('Conifer', 'Abies balsamea', 'balsam fir', 3, 90, 1, 0, 0, 0, 1)
     tree_card = TreeCard.from_card_data(tree_data)
-    print(tree_card.to_string())
-    print(tree_card.to_short_string())
+    print(tree_card)
+    print(tree_card.str_short())

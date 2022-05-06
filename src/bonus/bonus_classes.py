@@ -23,13 +23,13 @@ class BonusClasses(List[BonusClass]):
     def established() -> 'BonusClasses':
         return BonusClasses(filter(lambda bonus_class: bonus_class.experimental is False, BonusClasses.all()))
 
-    def to_string(self: 'BonusClasses') -> str:
+    def __str__(self: 'BonusClasses') -> str:
         return '\n'.join([
-            '  {}. {}'.format(index + 1, bonus_class.to_string())
+            '  {}. {}'.format(index + 1, bonus_class)
             for index, bonus_class in enumerate(self)
         ])
 
 
 if __name__ == '__main__':
     _bonus_classes = BonusClasses.all()
-    print(_bonus_classes.to_string())
+    print(_bonus_classes)

@@ -22,6 +22,7 @@ def initialize_game() -> ConsoleGameMain:
     return ConsoleGameMain(all_players, total_turns)
 
 
+# Todo: sanitise input
 def get_num_players() -> int:
     num_players: int = input_num_players()
     while num_players not in range(2, 5):
@@ -36,6 +37,7 @@ def input_num_players() -> int:
         '  → '))
 
 
+# Todo: sanitise input
 def get_total_turns() -> int:
     total_turns: int = input_total_turns()
     while total_turns not in range(1, 100):
@@ -81,7 +83,7 @@ def print_game_setup(all_players: List[Player]) -> None:
 
     for player in all_players:
         sleep(0.5)
-        print(player.to_string())
+        print(player)
 
     input(
         'Are you ready to start?\n'

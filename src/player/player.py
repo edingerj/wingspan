@@ -56,19 +56,19 @@ class Player:
         self.hugs += total_deciduous + 1
         return total_deciduous + 1
 
-    def to_string(self: 'Player') -> str:
+    def __str__(self: 'Player') -> str:
         result = '{}<\n'.format(37 * '<>')
         if self.arboretum.has_trees():
             result += '{}\'s Arboretum:\n'.format(self.name)
-            result += '{}\n'.format(self.arboretum.to_string())
+            result += '{}\n'.format(self.arboretum)
             result += '{}\n'.format(75 * '_')
         if self.hand.has_cards():
             result += '{}\'s Hand:\n'.format(self.name)
-            result += '{}\n'.format(self.hand.to_string())
+            result += '{}\n'.format(self.hand)
             result += '{}\n'.format(75 * '_')
         if len(self.nutrients) > 0:
             result += '{}\'s Nutrients:\n'.format(self.name)
-            result += '  {}\n'.format(self.nutrients.to_string())
+            result += '  {}\n'.format(self.nutrients)
             result += '{}\n'.format(75 * '_')
         result += '{}\'s Bonus: {}\n'.format(self.name, self.bonus_class.name)
         result += '  {}\n'.format(self.bonus_class.description)
@@ -91,10 +91,10 @@ class Player:
 
 if __name__ == '__main__':
     player = Player('Seb', BonusClass('Michigander', '', None, True))
-    player.draw_tree_card()
+    player.draw_tree_card_from_deck()
 
     print('Player: {}'.format(player.name))
-    print(player.to_string())
+    print(player)
 
     can_plant_tree = player.can_plant_tree(player.hand[0])
     print('Can plant {}? {}'.format(player.hand[0].common_name, can_plant_tree))

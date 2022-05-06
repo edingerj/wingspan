@@ -12,6 +12,7 @@ def get_move(player: Player) -> Move:
     return move
 
 
+# Todo: specify how many of each action you will perform
 def input_move(player: Player) -> str:
     return input(
         '{}, select from the following options:\n'.format(player.name) +
@@ -46,11 +47,11 @@ def select_plant_tree_card(hand: Hand) -> int:
 def input_plant_tree_card(hand: Hand) -> str:
     return input(
         'You may plant one of the following tree cards:\n' +
-        '{}\n'.format(hand.to_string()) +
+        '{}\n'.format(hand) +
         '  → ')
 
 
-def select_draw_tree_card(displayed_tree_cards: Hand) -> int:
+def input_draw_tree_card_index(displayed_tree_cards: Hand) -> int:
     choice = input_draw_tree_card(displayed_tree_cards)
     choice_index = displayed_tree_cards.index_of(choice, include_random=True)
     while choice_index not in range(len(displayed_tree_cards) + 2):
@@ -64,7 +65,7 @@ def select_draw_tree_card(displayed_tree_cards: Hand) -> int:
 def input_draw_tree_card(displayed_tree_cards: Hand) -> str:
     return input(
         'You may draw one of the following tree cards:\n' +
-        '{}\n'.format(displayed_tree_cards.to_string()) +
+        '{}\n'.format(displayed_tree_cards) +
         '  {}. random card from the deck\n'.format(len(displayed_tree_cards) + 1) +
         '  → ')
 
@@ -73,7 +74,7 @@ __all__ = [
     'get_move',
     'input_retry_plant_tree',
     'select_plant_tree_card',
-    'select_draw_tree_card',
+    'input_draw_tree_card_index',
 ]
 
 

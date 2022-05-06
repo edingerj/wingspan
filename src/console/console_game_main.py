@@ -41,7 +41,7 @@ class ConsoleGameMain(GameMain, ABC):
         print_draw_nutrient_cards(player, nutrients)
 
     def input_draw_tree_card_index(self: 'ConsoleGameMain', player: Player) -> int:
-        return select_draw_tree_card(self.displayed_tree_cards)
+        return input_draw_tree_card_index(self.displayed_tree_cards)
 
     def output_draw_tree_card(self: 'ConsoleGameMain', player: Player, tree_card: TreeCard, was_random=False) -> None:
         print_draw_tree_card(tree_card, was_random=was_random)

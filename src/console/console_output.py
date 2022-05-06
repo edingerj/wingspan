@@ -12,11 +12,11 @@ def print_start_turn(player: Player, turns_remaining: int) -> None:
     sleep(0.5)
     print('\nIt\'s {}\'s turn!'.format(player.name))
     sleep(0.5)
-    print(player.to_string())
+    print(player)
 
 
 def print_end_turn(player: Player) -> None:
-    print(player.to_string())
+    print(player)
     input(
         'Enter any key to end your turn:\n' +
         '  → ')

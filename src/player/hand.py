@@ -39,13 +39,13 @@ class Hand(List[TreeCard]):
         except ValueError:
             return None
 
-    def to_string(self: 'Hand') -> str:
+    def __str__(self: 'Hand') -> str:
         return '\n'.join([
-            '  {}. {}'.format(index + 1, tree_card.to_string())
+            '  {}. {}'.format(index + 1, tree_card)
             for index, tree_card in enumerate(self)
         ])
 
 
 if __name__ == '__main__':
     hand = Hand.from_deck()
-    print(hand.to_string())
+    print(hand)

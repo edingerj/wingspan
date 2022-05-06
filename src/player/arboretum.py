@@ -29,13 +29,13 @@ class Arboretum(Dict[Habitat, List[TreeCard]]):
     def get_populated_habitats(self: 'Arboretum') -> List[Habitat]:
         return list(filter(lambda habitat: len(self[habitat]) > 0, self.keys()))
 
-    def to_string(self: 'Arboretum') -> str:
+    def __str__(self: 'Arboretum') -> str:
         return '\n'.join(self.get_habitat_string(habitat) for habitat in self.get_populated_habitats())
 
     def get_habitat_string(self: 'Arboretum', habitat: Habitat) -> str:
         return '  {} Habitat:\n'.format(habitat.value) + \
                '\n'.join(
-                   '    {}. {}'.format(index + 1, tree_card.to_short_string())
+                   '    {}. {}'.format(index + 1, tree_card.str_short())
                    for index, tree_card in enumerate(self[habitat])
                )
 
@@ -46,6 +46,6 @@ if __name__ == '__main__':
     arb.plant_tree(TreeCard(Habitat.DECIDUOUS, 'Acer negundo', 'boxelder', 0, 70, [], True))
 
     print('Arboretum:')
-    print(arb.to_string())
+    print(arb)
     print('Total Points: {}'.format(arb.get_total_points()))
     print('Total Height: {}'.format(arb.get_total_height()))

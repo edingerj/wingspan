@@ -42,10 +42,10 @@ class Nutrients(List[Nutrient]):
         super(Nutrients, self).extend(__iterable)
         self.sort()
 
-    def to_string(self: 'Nutrients') -> str:
+    def __str__(self: 'Nutrients') -> str:
         return ' '.join([nutrient.to_emoji() for nutrient in self])
 
 
 if __name__ == '__main__':
-    _nutrients = Nutrients.random(10)
-    print(_nutrients.to_string())
+    print(Nutrients.random(10))
+    print(Nutrients.random_sorted(10))
