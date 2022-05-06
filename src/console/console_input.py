@@ -70,5 +70,5 @@ def input_draw_tree_card(displayed_tree_cards: Hand) -> str:
 
 
 if __name__ == '__main__':
-    _player = Player('Seb')
+    _player = Player('Seb', None)
     print(get_move(_player))

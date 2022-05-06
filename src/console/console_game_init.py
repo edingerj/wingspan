@@ -1,5 +1,6 @@
 from typing import List
 
+from bonus.bonus_classes import BonusClasses
 from console.console_game_main import ConsoleGameMain
 from console.console_print import print_ellipsis
 from console.sleep import sleep
@@ -49,21 +50,21 @@ def input_total_turns() -> int:
         '  → '))
 
 
+# player is given a bonus class randomly
+# Todo: implement choice of bonus class
 def get_players(num_players: int) -> List[Player]:
-    all_players = [get_player(index) for index in range(num_players)]
+    player_names = [get_player_name(index) for index in range(num_players)]
+    bonus_classes = BonusClasses.established()
 
-    for player in all_players:
-        player.assign_bonus_card()
-
-    return all_players
+    return [Player(player_names[index], bonus_classes[index]) for index in range(num_players)]
 
 
-def get_player(index: int) -> Player:
+def get_player_name(index: int) -> str:
     name = input_player_name(index)
     while len(name) not in range(1, 50):
         print('{} is not a valid player name'.format(name))
         name = input_player_name(index)
-    return Player(name)
+    return name
 
 
 def input_player_name(index: int) -> str:

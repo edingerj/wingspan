@@ -1,27 +1,20 @@
-from typing import Final, Optional
+from typing import Final, List
 
-from bonus import all_bonus_cards, BonusCard
+from bonus import BonusClass, Bonus
 from player.arboretum import Arboretum
 from player.hand import Hand
 from tree import Habitat, Nutrients, TreeCard
 
 
 class Player:
-    def __init__(self: 'Player', name: str) -> None:
+    def __init__(self: 'Player', name: str, bonus_class: BonusClass) -> None:
         self.name: Final[str] = name
+        self.bonus_class: Final[BonusClass] = bonus_class
         self.nutrients: Final[Nutrients] = Nutrients.random_sorted()
         self.hand: Final[Hand] = Hand.from_deck()
         self.arboretum: Final[Arboretum] = Arboretum()
-        self.bonus: Optional[BonusCard] = None
+        self.bonuses: Final[List[Bonus]] = []
         self.hugs: int = 0
-        self.tree_points: int = 0
-        self.combined_height: int = 0
-        self.bonus_points: int = 0
-
-    # player is given 1 bonus card randomly
-    # Todo: implement choice of bonus cards
-    def assign_bonus_card(self: 'Player') -> None:
-        self.bonus = all_bonus_cards.pop()
 
     # return: the drawn tree card
     def draw_tree_card(self: 'Player') -> TreeCard:
@@ -51,7 +44,6 @@ class Player:
         for nutrient in tree_card.nutrients:
             self.nutrients.remove(nutrient)
         self.arboretum.plant_tree(tree_card)
-        self.combined_height = self.arboretum.get_total_height()
 
     # hug 1 additional tree for each Deciduous tree in arb
     # return: the number of trees newly hugged
@@ -74,39 +66,27 @@ class Player:
             result += '{}\'s Nutrients:\n'.format(self.name)
             result += '  {}\n'.format(self.nutrients.to_string())
             result += '{}\n'.format(75 * '_')
-        result += '{}\'s Bonus: {}\n'.format(self.name, self.bonus.name)
-        result += '  {}\n'.format(self.bonus.description)
+        result += '{}\'s Bonus: {}\n'.format(self.name, self.bonus_class.name)
+        result += '  {}\n'.format(self.bonus_class.description)
         result += '{}<\n'.format(37 * '<>')
         return result
 
-    def get_total_score(self: 'Player', has_tallest_arboretum: bool) -> int:
-        self.evaluate_points(has_tallest_arboretum)
-        return sum([self.hugs, self.tree_points, self.bonus_points])
+    def get_total_score(self: 'Player') -> int:
+        return sum([
+            self.hugs,
+            self.get_total_tree_points(),
+            self.get_total_bonus_points(),
+        ])
 
-    def evaluate_points(self: 'Player', has_tallest_arboretum: bool) -> None:
-        self.tree_points = self.arboretum.get_total_points()
-        self.bonus_points = self.get_bonus_points(has_tallest_arboretum)
+    def get_total_tree_points(self: 'Player') -> int:
+        return self.arboretum.get_total_points()
 
-    def get_bonus_points(self: 'Player', has_tallest_arboretum: bool) -> int:
-        bonus_points: int = 0
-        # get 2 bonus points for each michigander card in arb
-        if self.bonus.name == 'michigander':
-            for tree in self.arboretum.get_all_trees():
-                if tree.michigander:
-                    bonus_points += 2
-        # get 10 bonus point if you have the tallest combined height
-        elif self.bonus.name == 'tree climber':
-            if has_tallest_arboretum:
-                bonus_points += 10
-        # anyone can get 10 bonus points for having highest combined height, like longest roads in Catan
-        if has_tallest_arboretum:
-            bonus_points += 10
-        return bonus_points
+    def get_total_bonus_points(self: 'Player') -> int:
+        return self.bonus_class.count_bonus_points(self.bonuses, self.arboretum.get_all_trees())
 
 
 if __name__ == '__main__':
-    player = Player('Seb')
-    player.assign_bonus_card()
+    player = Player('Seb', BonusClass('Michigander', '', None, True))
     player.draw_tree_card()
 
     print('Player: {}'.format(player.name))

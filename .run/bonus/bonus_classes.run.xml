@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="bonus_card" type="PythonConfigurationType" factoryName="Python" folderName="bonus" nameIsGenerated="true">
+  <configuration default="false" name="bonus_classes" type="PythonConfigurationType" factoryName="Python" folderName="bonus" nameIsGenerated="true">
     <module name="wingspan" />
     <option name="INTERPRETER_OPTIONS" value="" />
     <option name="PARENT_ENVS" value="true" />
@@ -11,7 +11,7 @@
     <option name="IS_MODULE_SDK" value="true" />
     <option name="ADD_CONTENT_ROOTS" value="true" />
     <option name="ADD_SOURCE_ROOTS" value="true" />
-    <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/bonus/bonus_card.py" />
+    <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/bonus/bonus_classes.py" />
     <option name="PARAMETERS" value="" />
     <option name="SHOW_COMMAND_LINE" value="false" />
     <option name="EMULATE_TERMINAL" value="false" />

@@ -8,6 +8,7 @@ from tree import Nutrients, TreeCard
 
 def print_start_turn(player: Player, all_players: List[Player], turns_remaining: int) -> None:
     sleep(0.5)
+    # Todo: switch Turns Remaining to only decrement after last players turn (in round)
     print('\nTurns remaining: ' + str(round(turns_remaining / len(all_players))))
     sleep(0.5)
     print('\nIt\'s {}\'s turn!'.format(player.name))
@@ -34,7 +35,7 @@ def print_plant_tree(player: Player, tree_card: TreeCard) -> None:
     if player.can_plant_tree(tree_card):
         print('*** planting a {} ***'.format(tree_card.common_name))
         sleep(0.5)
-        print('  Your combined tree height is: {}'.format(player.combined_height))
+        print('  Your combined tree height is: {}'.format(player.arboretum.get_total_height() + tree_card.height))
         sleep(0.5)
     else:
         print('Sorry, you don\'t have enough nutrients to plant a {}.'.format(tree_card.common_name))
@@ -69,7 +70,7 @@ def print_results(all_players: List[Player], results: GameResults) -> None:
 
     print('Step 1: Add up all tree points.')
     for player in all_players:
-        print('  {} has earned {} tree points.'.format(player.name, player.tree_points))
+        print('  {} has earned {} tree points.'.format(player.name, player.get_total_tree_points()))
     input_line()
 
     print('Step 2: Count the number of trees hugged.')
@@ -79,7 +80,8 @@ def print_results(all_players: List[Player], results: GameResults) -> None:
 
     print('Step 3: Add up bonus points.')
     for player in all_players:
-        print('  {}, a {}, has earned {} bonus points.'.format(player.name, player.bonus.name, player.bonus_points))
+        print('  {}, a {}, has earned {} bonus points.'
+              .format(player.name, player.bonus_class.name, player.get_total_bonus_points()))
     input_line()
 
     print('Final Step: Take the sum of all points.')

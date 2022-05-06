@@ -1,6 +1,7 @@
 from abc import ABCMeta, abstractmethod
 from typing import Final, List
 
+from game.bonus_applictor import BonusApplicator
 from game.game_results import GameResults
 from game.move import Move
 from player import Hand, Player
@@ -27,6 +28,8 @@ class GameMain(metaclass=ABCMeta):
 
     @abstractmethod
     def end_turn(self: 'GameMain', player: Player) -> None:
+        BonusApplicator(self.all_players).apply_bonuses()
+
         self.turns_remaining -= 1
         if self.turns_remaining > 0:
             self.take_turn(self.get_next_player(player))

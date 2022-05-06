@@ -1,10 +1,10 @@
-from typing import Final, List
+from .bonus import Bonus
+from .bonus_class import BonusClass
+from .bonus_classes import BonusClasses
 
-from .bonus_card import BonusCard
-
-all_bonus_cards: Final[List[BonusCard]] = BonusCard.import_visible_from_csv()
 
 __all__ = [
-    BonusCard,
-    all_bonus_cards,
+    'Bonus',
+    'BonusClass',
+    'BonusClasses',
 ]
