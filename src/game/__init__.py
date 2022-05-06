@@ -8,8 +8,8 @@ from .move import Move
 game_instance: Final[GameMainWrapper] = GameMainWrapper()
 
 __all__ = [
-    GameMain,
-    GameResults,
-    game_instance,
-    Move,
+    'GameMain',
+    'GameResults',
+    'game_instance',
+    'Move',
 ]

@@ -14,7 +14,7 @@ Bonus Class Ideas:
 from abc import ABCMeta, abstractmethod
 from typing import Final, Optional, List
 
-from bonus.bonus import Bonus
+from bonus.bonus_card import BonusCard
 from tree import TreeCard
 
 
@@ -26,19 +26,19 @@ class BonusClass(metaclass=ABCMeta):
         self.bonus_points: Final[Optional[int]] = bonus_points
         self.experimental: Final[bool] = experimental
 
-    def count_bonus_points(self: 'BonusClass', bonuses: List[Bonus], all_trees: List[TreeCard]) -> int:
+    def count_bonus_points(self: 'BonusClass', bonuses: List[BonusCard], all_trees: List[TreeCard]) -> int:
         return self.count_generic_bonus_points(bonuses) \
             + self.count_instance_bonus_points(bonuses, all_trees)
 
     @staticmethod
-    def count_generic_bonus_points(bonuses: List[Bonus]) -> int:
-        if Bonus.TALLEST_ARBORETUM in bonuses:
+    def count_generic_bonus_points(bonuses: List[BonusCard]) -> int:
+        if BonusCard.TALLEST_ARBORETUM in bonuses:
             return 10
         else:
             return 0
 
     @abstractmethod
-    def count_instance_bonus_points(self: 'BonusClass', bonuses: List[Bonus], all_trees: List[TreeCard]) -> int:
+    def count_instance_bonus_points(self: 'BonusClass', bonuses: List[BonusCard], all_trees: List[TreeCard]) -> int:
         pass
 
     def to_string(self: 'BonusClass') -> str:

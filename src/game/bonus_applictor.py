@@ -1,6 +1,6 @@
 from typing import Final, List, Optional
 
-from bonus import Bonus
+from bonus import BonusCard
 from player import Player
 
 
@@ -9,11 +9,11 @@ class BonusApplicator:
         self.all_players: Final[List[Player]] = all_players
 
     def apply_bonuses(self: 'BonusApplicator') -> None:
-        self.apply_bonus(Bonus.TALLEST_ARBORETUM, self.get_tallest_arboretum_player())
-        self.apply_bonus(Bonus.LARGEST_ARBORETUM, self.get_largest_arboretum_player())
-        self.apply_bonus(Bonus.MOST_TREES_HUGGED, self.get_most_trees_hugged_player())
+        self.apply_bonus(BonusCard.TALLEST_ARBORETUM, self.get_tallest_arboretum_player())
+        self.apply_bonus(BonusCard.LARGEST_ARBORETUM, self.get_largest_arboretum_player())
+        self.apply_bonus(BonusCard.MOST_TREES_HUGGED, self.get_most_trees_hugged_player())
 
-    def apply_bonus(self: 'BonusApplicator', bonus: Bonus, bonus_player: Optional[Player]) -> None:
+    def apply_bonus(self: 'BonusApplicator', bonus: BonusCard, bonus_player: Optional[Player]) -> None:
         if bonus_player is not None:
             for player in self.all_players:
                 if bonus in player.bonuses:

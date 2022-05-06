@@ -1,6 +1,6 @@
 from typing import Final, List
 
-from bonus import BonusClass, Bonus
+from bonus import BonusClass, BonusCard
 from player.arboretum import Arboretum
 from player.hand import Hand
 from tree import Habitat, Nutrients, TreeCard
@@ -13,12 +13,16 @@ class Player:
         self.nutrients: Final[Nutrients] = Nutrients.random_sorted()
         self.hand: Final[Hand] = Hand.from_deck()
         self.arboretum: Final[Arboretum] = Arboretum()
-        self.bonuses: Final[List[Bonus]] = []
+        self.bonuses: Final[List[BonusCard]] = []
         self.hugs: int = 0
 
     # return: the drawn tree card
-    def draw_tree_card(self: 'Player') -> TreeCard:
+    def draw_tree_card_from_deck(self: 'Player') -> TreeCard:
         return self.hand.draw_from_deck()
+
+    # return: the drawn tree card
+    def draw_tree_card_from_display(self: 'Player', tree_card: TreeCard) -> TreeCard:
+        return self.hand.draw_from_display(tree_card)
 
     # gain 1 additional nutrient card for every Conifer in arb
     # return: the drawn nutrients

@@ -18,6 +18,11 @@ class Hand(List[TreeCard]):
         self.append(tree_card)
         return tree_card
 
+    # return: the drawn tree card
+    def draw_from_display(self: 'Hand', tree_card: TreeCard) -> TreeCard:
+        self.append(tree_card)
+        return tree_card
+
     def has_cards(self: 'Hand') -> bool:
         return len(self) > 0
 

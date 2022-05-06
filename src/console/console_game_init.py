@@ -2,7 +2,7 @@ from typing import List
 
 from bonus.bonus_classes import BonusClasses
 from console.console_game_main import ConsoleGameMain
-from console.console_print import print_ellipsis
+from console.console_output import print_ellipsis
 from console.sleep import sleep
 from game import game_instance
 from player import Player
@@ -59,6 +59,7 @@ def get_players(num_players: int) -> List[Player]:
     return [Player(player_names[index], bonus_classes[index]) for index in range(num_players)]
 
 
+# Todo: require unique player names
 def get_player_name(index: int) -> str:
     name = input_player_name(index)
     while len(name) not in range(1, 50):

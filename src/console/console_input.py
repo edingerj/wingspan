@@ -69,6 +69,14 @@ def input_draw_tree_card(displayed_tree_cards: Hand) -> str:
         '  → ')
 
 
+__all__ = [
+    'get_move',
+    'input_retry_plant_tree',
+    'select_plant_tree_card',
+    'select_draw_tree_card',
+]
+
+
 if __name__ == '__main__':
     _player = Player('Seb', None)
     print(get_move(_player))

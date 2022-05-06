@@ -4,7 +4,7 @@ from .player import Player
 
 
 __all__ = [
-    Arboretum,
-    Hand,
-    Player,
+    'Arboretum',
+    'Hand',
+    'Player',
 ]

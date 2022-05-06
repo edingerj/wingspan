@@ -1,6 +1,6 @@
 from typing import List
 
-from bonus.bonus import Bonus
+from bonus.bonus_card import BonusCard
 from bonus.bonus_class import BonusClass
 from tree import TreeCard
 
@@ -14,8 +14,8 @@ class TreeClimber(BonusClass):
             experimental=False,
         )
 
-    def count_instance_bonus_points(self: 'TreeClimber', bonuses: List[Bonus], all_trees: List[TreeCard]) -> int:
-        if Bonus.TALLEST_ARBORETUM in bonuses:
+    def count_instance_bonus_points(self: 'TreeClimber', bonuses: List[BonusCard], all_trees: List[TreeCard]) -> int:
+        if BonusCard.TALLEST_ARBORETUM in bonuses:
             return 10
         else:
             return 0
