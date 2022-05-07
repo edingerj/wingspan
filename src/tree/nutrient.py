@@ -20,7 +20,7 @@ class Nutrient(Enum):
         elif self == Nutrient.DISTURBANCE:
             return 3
 
-    def to_emoji(self: 'Nutrient') -> str:
+    def emoji(self: 'Nutrient') -> str:
         if self == Nutrient.SUN:
             return '🌞'
         elif self == Nutrient.WATER:
@@ -33,9 +33,9 @@ class Nutrient(Enum):
 
 if __name__ == '__main__':
     nutrient = Nutrient.FIRE
-    print('{} {}'.format(nutrient.to_emoji(), nutrient))
+    print('{} {}'.format(nutrient.emoji(), nutrient))
 
     nutrients = [nutrient for nutrient in Nutrient]
     nutrients.sort()
-    nutrient_emojis = [nutrient.to_emoji() for nutrient in Nutrient]
+    nutrient_emojis = [nutrient.emoji() for nutrient in Nutrient]
     print(' '.join(nutrient_emojis))

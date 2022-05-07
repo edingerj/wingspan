@@ -35,7 +35,7 @@ class Arboretum(Dict[Habitat, List[TreeCard]]):
     def get_habitat_string(self: 'Arboretum', habitat: Habitat) -> str:
         return '  {} Habitat:\n'.format(habitat.value) + \
                '\n'.join(
-                   '    {}. {}'.format(index + 1, tree_card.str_short())
+                   '  {}. {}'.format(index + 1, tree_card.str_short())
                    for index, tree_card in enumerate(self[habitat])
                )
 

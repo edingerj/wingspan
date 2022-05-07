@@ -3,12 +3,13 @@ from typing import Final, List
 from bonus import BonusClass, BonusCard
 from player.arboretum import Arboretum
 from player.hand import Hand
+from player.player_name import PlayerName
 from tree import Habitat, Nutrients, TreeCard
 
 
 class Player:
-    def __init__(self: 'Player', name: str, bonus_class: BonusClass) -> None:
-        self.name: Final[str] = name
+    def __init__(self: 'Player', name: PlayerName, bonus_class: BonusClass) -> None:
+        self.name: Final[PlayerName] = name
         self.bonus_class: Final[BonusClass] = bonus_class
         self.nutrients: Final[Nutrients] = Nutrients.random_sorted()
         self.hand: Final[Hand] = Hand.from_deck()

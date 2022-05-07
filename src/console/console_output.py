@@ -7,11 +7,11 @@ from tree import Nutrients, TreeCard
 
 
 def print_start_turn(player: Player, turns_remaining: int) -> None:
-    sleep(0.5)
-    print('\nTurns remaining: {}'.format(turns_remaining))
-    sleep(0.5)
-    print('\nIt\'s {}\'s turn!'.format(player.name))
-    sleep(0.5)
+    sleep(1)
+    print('\n{} {}'.format(
+        'It\'s {}\'s turn!'.format(player.name).ljust(54),
+        'Turns Remaining: {}'.format(turns_remaining).rjust(20),
+    ))
     print(player)
 
 
@@ -33,7 +33,7 @@ def print_plant_tree(player: Player, tree_card: TreeCard) -> None:
     print_ellipsis()
     if player.can_plant_tree(tree_card):
         print('*** planting a {} ***'.format(tree_card.common_name))
-        sleep(0.5)
+        sleep(1)
         print('  Your combined tree height is: {}'.format(player.arboretum.get_total_height() + tree_card.height))
         sleep(0.5)
     else:
@@ -48,11 +48,11 @@ def print_hug_trees(player: Player, trees_hugged: int) -> None:
 
 
 def print_draw_nutrient_cards(player: Player, nutrients: Nutrients) -> None:
-    sleep(0.25)
+    sleep(0.5)
     print('*** rolling di{}e ***'.format('c' if (len(nutrients) != 1) else ''))
     for nutrient in nutrients:
         sleep(0.25)
-        print('  You rolled a {}! Adding it to your pile of nutrients.'.format(nutrient.to_emoji()))
+        print('  You rolled a {}! Adding it to your pile of nutrients.'.format(nutrient.emoji()))
 
 
 def print_draw_tree_card(tree_card: TreeCard, was_random=False) -> None:
@@ -86,10 +86,13 @@ def print_results(all_players: List[Player], results: GameResults) -> None:
     print('Final Step: Take the sum of all points.')
     print_line()
 
+    # Todo: its a tie!
     print('And the winner is', end='')
     print_ellipsis(end=' ')
     print('{}! Congratulations!'.format(results.winning_player.name))
 
+    # Todo: pretty print ranked results table
+    #  with duplicate ranks as appropriate
     print('\nTotal Points:')
     for index, player in enumerate(all_players):
         print('  {}: {} pts'.format(player.name, results.player_scores[index]))

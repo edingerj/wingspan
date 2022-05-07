@@ -120,6 +120,7 @@ class GameMain(metaclass=ABCMeta):
         pass
 
     # draw 1 additional tree card for each Urban tree in arb
+    # Todo: handle cases of empty deck & no cards to draw
     def draw_tree_cards(self: 'GameMain', player: Player) -> None:
         total_urban = len(player.arboretum[Habitat.URBAN])
         for _ in range(total_urban + 1):

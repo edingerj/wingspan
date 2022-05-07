@@ -26,16 +26,20 @@ class TreeCard:
                         card_data.points, card_data.height, nutrients, michigander)
 
     def __str__(self: 'TreeCard') -> str:
-        return '{} | ({} pts, {} ft, {}) | needs {}'.format(
-            self.common_name,
-            self.points,
-            self.height,
-            self.habitat.value,
+        return '{} | {} | {} | {} | {}'.format(
+            self.common_name.ljust(24),
+            '{} pts'.format(self.points).ljust(6),
+            '{} ft'.format(self.height).ljust(6),
+            '{}'.format(self.habitat.value).ljust(9),
             self.nutrients,
         )
 
     def str_short(self: 'TreeCard') -> str:
-        return '{} | ({} pts, {} ft)'.format(self.common_name, self.points, self.height)
+        return '{} | {} | {}'.format(
+            self.common_name.ljust(24),
+            '{} pts'.format(self.points).ljust(6),
+            '{} ft'.format(self.height),
+        )
 
     # def info(self: 'TreeCard') -> str:
     #     return '{} is a {}.'.format(self.scientific_name, self.habitat.value)

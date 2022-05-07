@@ -43,7 +43,7 @@ class Nutrients(List[Nutrient]):
         self.sort()
 
     def __str__(self: 'Nutrients') -> str:
-        return ' '.join([nutrient.to_emoji() for nutrient in self])
+        return ' '.join([nutrient.emoji() for nutrient in self])
 
 
 if __name__ == '__main__':

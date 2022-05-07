@@ -3,6 +3,8 @@ from typing import Final, List, Optional
 from bonus import BonusCard
 from player import Player
 
+# itertools.locate returns all indices of value in list
+
 
 class BonusApplicator:
     def __init__(self: 'BonusApplicator', all_players: List[Player]) -> None:

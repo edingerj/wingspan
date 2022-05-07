@@ -13,5 +13,11 @@ def main() -> None:
     console.main()
 
 
+"""
+Todo: implement cli parameters:
+  --help : run cli help method instead of main
+  --experimental : enables experimental bonuses
+  --no-sleep : disables console.sleep_enabled
+"""
 if __name__ == '__main__':
     main()
