@@ -1,8 +1,5 @@
-from typing import List
-
 from console.sleep import sleep
-from game import GameResults
-from player import Player
+from player import Player, Players
 from tree import Nutrients, TreeCard
 
 
@@ -70,23 +67,23 @@ def print_draw_tree_card(tree_card: TreeCard, was_random=False) -> None:
     print('You drew a {}!'.format(tree_card.common_name))
 
 
-def print_results(all_players: List[Player], results: GameResults) -> None:
+def print_results(players: Players) -> None:
     print('\n*** GAME OVER ***\nAdding up points', end='')
     print_ellipsis()
     print_line()
 
     print('Step 1: Add up all tree points.')
-    for player in all_players:
+    for player in players:
         print('  {} has earned {} tree points.'.format(player.name, player.get_total_tree_points()))
     input_line()
 
     print('Step 2: Count the number of trees hugged.')
-    for player in all_players:
+    for player in players:
         print('  {} has hugged {} trees.'.format(player.name, player.hugs))
     input_line()
 
     print('Step 3: Add up bonus points.')
-    for player in all_players:
+    for player in players:
         print('  {}, a {}, has earned {} bonus points.'
               .format(player.name, player.bonus_class.name, player.get_total_bonus_points()))
     input_line()
@@ -94,16 +91,16 @@ def print_results(all_players: List[Player], results: GameResults) -> None:
     print('Final Step: Take the sum of all points.')
     print_line()
 
-    # Todo: its a tie!
+    winning_players = players.get_winning_players()
     print('And the winner is', end='')
     print_ellipsis(end=' ')
-    print('{}! Congratulations!'.format(results.winning_player.name))
+    if len(winning_players) == 1:
+        print('{}! Congratulations!'.format(winning_players[0].name))
+    else:
+        print('Its a tie!')
 
-    # Todo: pretty print ranked results table
-    #  with duplicate ranks as appropriate
-    print('\nTotal Points:')
-    for index, player in enumerate(all_players):
-        print('  {}: {} pts'.format(player.name, results.player_scores[index]))
+    print('\nScore Board:')
+    print(players)
 
 
 def print_line() -> None:

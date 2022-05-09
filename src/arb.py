@@ -16,10 +16,7 @@ def main(arguments: List[str]) -> None:
 
 
 """
-Todo: implement cli parameters:
-  --help : run cli help method instead of main
-  --experimental : enables experimental bonuses
-  --no-sleep : disables console.sleep_enabled
+Todo: implement --help : run cli help method instead of main
 """
 if __name__ == '__main__':
     main(argv[1:])

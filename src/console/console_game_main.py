@@ -1,18 +1,19 @@
 from abc import ABC
-from typing import List, Optional
+from typing import Optional
 
 from console.console_input import *
 from console.console_output import *
-from game import GameMain, GameResults, Move
-from player import Player
+from game import GameMain, Move
+from player import Player, Players
 from tree import Nutrients, TreeCard
 
 
 class ConsoleGameMain(GameMain, ABC):
-    def __init__(self: 'ConsoleGameMain', all_players: List[Player], total_turns: int) -> None:
-        super(ConsoleGameMain, self).__init__(all_players, total_turns)
+    def __init__(self: 'ConsoleGameMain', players: Players, total_turns: int) -> None:
+        super(ConsoleGameMain, self).__init__(players, total_turns)
 
     def output_start_turn(self: 'ConsoleGameMain', player: Player) -> None:
+        print(self.players)
         print_start_turn(player, self.turns_remaining)
 
     def output_end_turn(self: 'ConsoleGameMain', player: Player) -> None:
@@ -46,5 +47,5 @@ class ConsoleGameMain(GameMain, ABC):
     def output_draw_tree_card(self: 'ConsoleGameMain', player: Player, tree_card: TreeCard, was_random=False) -> None:
         print_draw_tree_card(tree_card, was_random=was_random)
 
-    def output_end_game(self: 'ConsoleGameMain', game_results: GameResults) -> None:
-        print_results(self.all_players, game_results)
+    def output_end_game(self: 'ConsoleGameMain') -> None:
+        print_results(self.players)

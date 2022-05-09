@@ -1,22 +1,21 @@
 from abc import ABCMeta, abstractmethod
-from typing import Final, List, Optional
+from typing import Final, Optional
 
 from game.bonus_applictor import BonusApplicator
-from game.game_results import GameResults
 from game.move import Move
-from player import Hand, Player
+from player import Hand, Player, Players
 from tree import Habitat, Nutrients, TreeCard
 
 
 class GameMain(metaclass=ABCMeta):
-    def __init__(self: 'GameMain', all_players: List[Player], total_turns: int) -> None:
-        self.all_players: Final[List[Player]] = all_players
+    def __init__(self: 'GameMain', players: Players, total_turns: int) -> None:
+        self.players: Final[Players] = players
         self.displayed_tree_cards: Final[Hand] = Hand.from_deck()
         self.total_turns: Final[int] = total_turns
         self.turns_remaining: int = total_turns
 
     def start_game(self: 'GameMain') -> None:
-        self.take_turn(self.all_players[0])
+        self.take_turn(self.players[0])
 
     def take_turn(self: 'GameMain', player: Player) -> None:
         self.start_turn(player)
@@ -31,25 +30,18 @@ class GameMain(metaclass=ABCMeta):
         pass
 
     def end_turn(self: 'GameMain', player: Player) -> None:
-        BonusApplicator(self.all_players).apply_bonuses()
-        if player == self.all_players[-1]:
+        BonusApplicator(self.players).apply_bonuses()
+        if player == self.players[-1]:
             self.turns_remaining -= 1
         self.output_end_turn(player)
         if self.turns_remaining > 0:
-            self.take_turn(self.get_next_player(player))
+            self.take_turn(self.players.next(player))
         else:
             self.end_game()
 
     @abstractmethod
     def output_end_turn(self: 'GameMain', player: Player) -> None:
         pass
-
-    def get_next_player(self: 'GameMain', current_player: Player) -> Player:
-        player_index = self.all_players.index(current_player)
-        if player_index == len(self.all_players) - 1:
-            return self.all_players[0]
-        else:
-            return self.all_players[player_index + 1]
 
     def start_move(self: 'GameMain', player: Player) -> None:
         move = self.input_move(player)
@@ -149,9 +141,8 @@ class GameMain(metaclass=ABCMeta):
         pass
 
     def end_game(self: 'GameMain') -> None:
-        game_results = GameResults(self.all_players)
-        self.output_end_game(game_results)
+        self.output_end_game()
 
     @abstractmethod
-    def output_end_game(self: 'GameMain', game_results: GameResults) -> None:
+    def output_end_game(self: 'GameMain') -> None:
         pass
