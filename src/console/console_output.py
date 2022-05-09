@@ -6,6 +6,14 @@ from player import Player
 from tree import Nutrients, TreeCard
 
 
+def print_welcome_message() -> None:
+    print(
+        '{}\n'.format(75 * '*') +
+        '{}\n'.format('Welcome to Treespan'.center(69).center(75, '*')) +
+        '{}\n'.format(75 * '*')
+    )
+
+
 def print_start_turn(player: Player, turns_remaining: int) -> None:
     sleep(1)
     print('\n{} {}'.format(
@@ -117,6 +125,7 @@ def print_ellipsis(delay: float = 0.5, end: str = '\n') -> None:
 
 
 __all__ = [
+    'print_welcome_message',
     'print_start_turn',
     'print_end_turn',
     'print_retry_move',

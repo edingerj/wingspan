@@ -7,7 +7,7 @@ class PlayerName(str):
 
     @staticmethod
     def of(player_name: str) -> 'PlayerName':
-        return PlayerName(player_name.strip())
+        return PlayerName(player_name)
 
     def valid(self: 'PlayerName') -> bool:
         return self.min_length_validator() & \

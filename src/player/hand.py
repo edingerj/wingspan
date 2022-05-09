@@ -29,7 +29,7 @@ class Hand(List[TreeCard]):
     # where choice can be a tree common name, or a 1 index
     def index_of(self: 'Hand', choice: str, include_random: bool = False) -> Optional[int]:
         tree_card: Optional[TreeCard] = \
-            next(filter(lambda card: card.common_name.lower() == choice.strip().lower(), self), None)
+            next(filter(lambda card: card.common_name.lower() == choice.lower(), self), None)
         if tree_card is not None:
             return self.index(tree_card)
         try:

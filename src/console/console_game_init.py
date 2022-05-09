@@ -2,7 +2,7 @@ from typing import List
 
 from bonus.bonus_classes import BonusClasses
 from console.console_game_main import ConsoleGameMain
-from console.console_output import print_ellipsis
+from console.console_output import print_welcome_message, print_ellipsis
 from console.sleep import sleep
 from game import game_instance
 from player import Player, PlayerName
@@ -18,7 +18,7 @@ def main() -> None:
 
 
 def initialize_game() -> ConsoleGameMain:
-    print('Welcome to Wingspan (tree edition)!', end='\n\n')
+    print_welcome_message()
     num_players = get_num_players()
     total_turns = get_total_turns()
     all_players = get_players(num_players)
@@ -35,8 +35,8 @@ def get_num_players() -> int:
 
 def input_num_players() -> str:
     return input(
-        'How many players are there? (2, 3, or 4):\n' +
-        '  → ')
+        'How many players do you have? (2, 3, or 4):\n' +
+        '  → ').strip()
 
 
 def get_total_turns() -> int:
@@ -51,7 +51,7 @@ def get_total_turns() -> int:
 def input_total_turns() -> str:
     return input(
         'How many turns would you like to play? (1 to 99):\n' +
-        '  → ')
+        '  → ').strip()
 
 
 # player is given a bonus class randomly
@@ -81,7 +81,7 @@ def get_player_name(index: int) -> PlayerName:
 
 
 def input_player_name() -> PlayerName:
-    return PlayerName.of(input('  → '))
+    return PlayerName.of(input('  → ').strip())
 
 
 def print_game_setup(all_players: List[Player]) -> None:

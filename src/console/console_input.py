@@ -13,6 +13,7 @@ def get_move(player: Player) -> Move:
 
 
 # Todo: specify how many of each action you will perform
+#  based on which habitat of trees you are selecting from
 def input_move(player: Player) -> str:
     return input(
         '{}, select from the following options:\n'.format(player.name) +
@@ -21,18 +22,18 @@ def input_move(player: Player) -> str:
         '  3. Draw nutrients\n' +
         '  4. Draw tree cards\n' +
         '  5. Skip your turn\n'
-        '  → ')
+        '  → ').strip()
 
 
 def input_retry_plant_tree() -> int:
     choice = input(
         '  1. Plant another tree card\n' +
         '  2. Go back to the main menu\n' +
-        '  → ')
+        '  → ').strip()
     while choice not in ('1', '2'):
         choice = input(
             'Invalid input: {}. Enter (1) or (2):\n'.format(choice) +
-            '  → ')
+            '  → ').strip()
     return int(choice)
 
 
@@ -48,16 +49,14 @@ def input_plant_tree_card(hand: Hand) -> str:
     return input(
         'You may plant one of the following tree cards:\n' +
         '{}\n'.format(hand) +
-        '  → ')
+        '  → ').strip()
 
 
 def input_draw_tree_card_index(displayed_tree_cards: Hand) -> int:
     choice = input_draw_tree_card(displayed_tree_cards)
     choice_index = displayed_tree_cards.index_of(choice, include_random=True)
     while choice_index not in range(len(displayed_tree_cards) + 2):
-        choice = input(
-            'Invalid tree selection: {}. Please try again:\n'.format(choice) +
-            '  → ')
+        choice = retry_input_draw_tree_card(choice)
         choice_index = displayed_tree_cards.index_of(choice, include_random=True)
     return choice_index
 
@@ -67,7 +66,13 @@ def input_draw_tree_card(displayed_tree_cards: Hand) -> str:
         'You may draw one of the following tree cards:\n' +
         '{}\n'.format(displayed_tree_cards) +
         '  {}. random card from the deck\n'.format(len(displayed_tree_cards) + 1) +
-        '  → ')
+        '  → ').strip()
+
+
+def retry_input_draw_tree_card(previous_choice: str) -> str:
+    return input(
+        'Invalid tree selection: {}. Please try again:\n'.format(previous_choice) +
+        '  → ').strip()
 
 
 __all__ = [
