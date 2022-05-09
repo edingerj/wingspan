@@ -33,10 +33,12 @@ class BonusCards(List[BonusCard]):
         except ValueError:
             return None
 
-    def __str__(self: 'BonusCards') -> str:
+    def table_format(self: 'BonusCards') -> str:
         return '\n'.join([
-            '  {}. {}'.format(index + 1, bonus_class)
-            for index, bonus_class in enumerate(self)
+            '  {} {}'.format(
+                '{}.'.format(index + 1).ljust(3),
+                bonus_class.table_format(),
+            ) for index, bonus_class in enumerate(self)
         ])
 
 

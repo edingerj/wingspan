@@ -57,23 +57,23 @@ class Player:
         self.hugs += total_deciduous + 1
         return total_deciduous + 1
 
-    def __str__(self: 'Player') -> str:
-        result = '{}\n'.format(75 * '═')
+    def overview_format(self: 'Player') -> str:
+        result = '╔{}╗\n'.format(78 * '═')
         if self.arboretum.has_trees():
-            result += '{}\'s Arboretum:\n'.format(self.name)
-            result += '{}\n'.format(self.arboretum)
-            result += '{}\n'.format(75 * '─')
+            result += '║ {} ║\n'.format('{}\'s Arboretum:'.format(self.name).ljust(76))
+            result += '{}\n'.format(self.arboretum.player_format())
+            result += '╟{}╢\n'.format(78 * '─')
         if self.hand.has_cards():
-            result += '{}\'s Hand:\n'.format(self.name)
-            result += '{}\n'.format(self.hand)
-            result += '{}\n'.format(75 * '─')
+            result += '║ {} ║\n'.format('{}\'s Hand:'.format(self.name).ljust(76))
+            result += '{}\n'.format(self.hand.player_format())
+            result += '╟{}╢\n'.format(78 * '─')
         if len(self.nutrients) > 0:
-            result += '{}\'s Nutrients:\n'.format(self.name)
-            result += '  {}\n'.format(self.nutrients)
-            result += '{}\n'.format(75 * '─')
-        result += '{}\'s Bonus: {}\n'.format(self.name, self.bonus_class.name)
-        result += '  {}\n'.format(self.bonus_class.description)
-        result += '{}\n'.format(75 * '═')
+            result += '║ {} ║\n'.format('{}\'s Nutrients:'.format(self.name).ljust(76))
+            result += '║   {} ║\n'.format('{}'.format(self.nutrients.emoji_format()).ljust(74 - len(self.nutrients)))
+            result += '╟{}╢\n'.format(78 * '─')
+        result += '║ {} ║\n'.format('{}\'s Bonus: {}'.format(self.name, self.bonus_class.name).ljust(76))
+        result += '║   {} ║\n'.format(self.bonus_class.description.ljust(74))
+        result += '╚{}╝\n'.format(78 * '═')
         return result
 
     def get_total_score(self: 'Player') -> int:
@@ -95,7 +95,7 @@ if __name__ == '__main__':
     player.draw_tree_card_from_deck()
 
     print('Player: {}'.format(player.name))
-    print(player)
+    print(player.overview_format())
 
     can_plant_tree = player.can_plant_tree(player.hand[0])
     print('Can plant {}? {}'.format(player.hand[0].common_name, can_plant_tree))

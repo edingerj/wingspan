@@ -25,7 +25,7 @@ class Players(List[Player]):
         max_player_scores = max(self.get_player_scores())
         return self.get_players_by_score(max_player_scores)
 
-    def __str__(self: 'Players') -> str:
+    def score_board_format(self: 'Players') -> str:
         result = ''
         place = 1
         for score in self.get_ranked_player_scores():

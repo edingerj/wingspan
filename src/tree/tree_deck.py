@@ -28,11 +28,11 @@ class TreeDeck(List[TreeCard]):
     def draw_card(self: 'TreeDeck') -> TreeCard:
         return self.pop()
 
-    def __str__(self: 'TreeDeck') -> str:
+    def table_format(self: 'TreeDeck') -> str:
         return self.get_header_rows() + '\n'.join([
             '{} {}'.format(
                 '{}.'.format(index + 1).ljust(3),
-                tree_card
+                tree_card.hand_format(),
             ) for index, tree_card in enumerate(self)
         ])
 
@@ -47,7 +47,7 @@ if __name__ == '__main__':
     tree_name_lengths: Dict[int, TreeCard] = {len(tree.common_name): tree for tree in tree_deck}
     longest_name_length: int = max(tree_name_lengths.keys())
 
-    print(tree_deck)
+    print(tree_deck.table_format())
 
     print('\nLongest Tree Name: {}, {} characters'.format(
         tree_name_lengths[longest_name_length].common_name, longest_name_length))

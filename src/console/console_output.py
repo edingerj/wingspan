@@ -5,23 +5,23 @@ from tree import Nutrients, TreeCard
 
 def print_welcome_message() -> None:
     print(
-        '┌{}┐\n'.format(73 * '─') +
-        '│{}│\n'.format('Welcome to Treespan'.center(73)) +
-        '└{}┘\n'.format(73 * '─')
+        '┌{}┐\n'.format(78 * '─') +
+        '│{}│\n'.format('Welcome to Treespan'.center(78)) +
+        '└{}┘\n'.format(78 * '─')
     )
 
 
 def print_start_turn(player: Player, turns_remaining: int) -> None:
     sleep(1)
     print('\n{} {}'.format(
-        'It\'s {}\'s turn!'.format(player.name).ljust(54),
+        'It\'s {}\'s turn!'.format(player.name).ljust(59),
         'Turns Remaining: {}'.format(turns_remaining).rjust(20),
     ))
-    print(player)
+    print(player.overview_format())
 
 
 def print_end_turn(player: Player) -> None:
-    print(player)
+    print(player.overview_format())
     input(
         'Enter any key to end your turn:\n' +
         '  → ')
@@ -100,16 +100,16 @@ def print_results(players: Players) -> None:
         print('Its a tie!')
 
     print('\nScore Board:')
-    print(players)
+    print(players.score_board_format())
 
 
 def print_line() -> None:
-    print(75 * '─')
+    print(80 * '─')
     sleep(0.5)
 
 
 def input_line() -> None:
-    input(75 * '─')
+    input(80 * '─')
     sleep(0.5)
 
 

@@ -105,7 +105,7 @@ def get_player_bonus_card(bonus_cards: BonusCards, player_name: PlayerName) -> B
 def input_player_bonus_card(bonus_cards: BonusCards, player_name: PlayerName) -> str:
     return input(
         '{}, you may draw one of the following bonus cards:\n'.format(player_name) +
-        '{}\n'.format(bonus_cards) +
+        '{}\n'.format(bonus_cards.table_format()) +
         '  → ').strip()
 
 
@@ -122,7 +122,7 @@ def print_game_setup(players: Players) -> None:
 
     for player in players:
         sleep(0.5)
-        print(player)
+        print(player.overview_format())
 
     input(
         'Are you ready to start?\n'

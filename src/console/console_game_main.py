@@ -13,7 +13,6 @@ class ConsoleGameMain(GameMain, ABC):
         super(ConsoleGameMain, self).__init__(players, total_turns)
 
     def output_start_turn(self: 'ConsoleGameMain', player: Player) -> None:
-        print(self.players)
         print_start_turn(player, self.turns_remaining)
 
     def output_end_turn(self: 'ConsoleGameMain', player: Player) -> None:

@@ -41,5 +41,5 @@ class BonusCard(metaclass=ABCMeta):
     def count_instance_bonus_points(self: 'BonusCard', bonuses: List[BonusToken], all_trees: List[TreeCard]) -> int:
         pass
 
-    def __str__(self: 'BonusCard') -> str:
+    def table_format(self: 'BonusCard') -> str:
         return '{}: {}'.format(self.name, self.description)

@@ -29,14 +29,16 @@ class Arboretum(Dict[Habitat, List[TreeCard]]):
     def get_populated_habitats(self: 'Arboretum') -> List[Habitat]:
         return list(filter(lambda habitat: len(self[habitat]) > 0, self.keys()))
 
-    def __str__(self: 'Arboretum') -> str:
-        return '\n'.join(self.get_habitat_string(habitat) for habitat in self.get_populated_habitats())
+    def player_format(self: 'Arboretum') -> str:
+        return '\n'.join(self.player_format_habitat(habitat) for habitat in self.get_populated_habitats())
 
-    def get_habitat_string(self: 'Arboretum', habitat: Habitat) -> str:
-        return '  {} Habitat:\n'.format(habitat.value) + \
+    def player_format_habitat(self: 'Arboretum', habitat: Habitat) -> str:
+        return '║   {} ║\n'.format('{} Habitat:'.format(habitat.value).ljust(74)) + \
                '\n'.join(
-                   '  {}. {}'.format(index + 1, tree_card.str_short())
-                   for index, tree_card in enumerate(self[habitat])
+                   '║   {} {} ║'.format(
+                       '{}.'.format(index + 1).ljust(3),
+                       tree_card.arboretum_format().ljust(70),
+                   ) for index, tree_card in enumerate(self[habitat])
                )
 
 

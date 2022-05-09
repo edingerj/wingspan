@@ -42,7 +42,7 @@ class Nutrients(List[Nutrient]):
         super(Nutrients, self).extend(__iterable)
         self.sort()
 
-    def __str__(self: 'Nutrients') -> str:
+    def emoji_format(self: 'Nutrients') -> str:
         return ' '.join([nutrient.emoji() for nutrient in self])
 
 

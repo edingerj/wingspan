@@ -39,10 +39,20 @@ class Hand(List[TreeCard]):
         except ValueError:
             return None
 
-    def __str__(self: 'Hand') -> str:
+    def player_format(self: 'Hand') -> str:
         return '\n'.join([
-            '  {}. {}'.format(index + 1, tree_card)
-            for index, tree_card in enumerate(self)
+            '║   {} {} ║'.format(
+                '{}.'.format(index + 1).ljust(3),
+                '{}'.format(tree_card.table_format()).ljust(70 - len(tree_card.nutrients))
+            ) for index, tree_card in enumerate(self)
+        ])
+
+    def table_format(self: 'Hand') -> str:
+        return '\n'.join([
+            '  {} {}'.format(
+                '{}.'.format(index + 1).ljust(3),
+                tree_card.table_format()
+            ) for index, tree_card in enumerate(self)
         ])
 
 

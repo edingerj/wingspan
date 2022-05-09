@@ -48,7 +48,7 @@ def select_plant_tree_card(hand: Hand) -> int:
 def input_plant_tree_card(hand: Hand) -> str:
     return input(
         'You may plant one of the following tree cards:\n' +
-        '{}\n'.format(hand) +
+        '{}\n'.format(hand.table_format()) +
         '  → ').strip()
 
 
@@ -64,7 +64,7 @@ def input_draw_tree_card_index(displayed_tree_cards: Hand) -> int:
 def input_draw_tree_card(displayed_tree_cards: Hand) -> str:
     return input(
         'You may draw one of the following tree cards:\n' +
-        '{}\n'.format(displayed_tree_cards) +
+        '{}\n'.format(displayed_tree_cards.table_format()) +
         '  {}. random card from the deck\n'.format(len(displayed_tree_cards) + 1) +
         '  → ').strip()
 
