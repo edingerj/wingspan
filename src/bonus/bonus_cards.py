@@ -1,14 +1,12 @@
-from random import shuffle
-from typing import Iterable, List
+from typing import Iterable, List, Optional
 
-from bonus.instances import *
 from bonus.bonus_card import BonusCard
+from bonus.instances import *
 
 
 class BonusCards(List[BonusCard]):
-    def __init__(self: 'BonusCards', bonus_classes: Iterable[BonusCard] = ()) -> None:
-        super(BonusCards, self).__init__(bonus_classes)
-        shuffle(self)
+    def __init__(self: 'BonusCards', bonus_cards: Iterable[BonusCard] = ()) -> None:
+        super(BonusCards, self).__init__(bonus_cards)
 
     @staticmethod
     def all() -> 'BonusCards':
@@ -23,6 +21,18 @@ class BonusCards(List[BonusCard]):
     def established() -> 'BonusCards':
         return BonusCards(filter(lambda bonus_class: bonus_class.experimental is False, BonusCards.all()))
 
+    # where choice can be a tree common name, or a 1 index
+    def index_of(self: 'BonusCards', choice: str) -> Optional[int]:
+        bonus_card: Optional[BonusCard] = \
+            next(filter(lambda card: card.name.lower() == choice.lower(), self), None)
+        if bonus_card is not None:
+            return self.index(bonus_card)
+        try:
+            index = int(choice) - 1
+            return index if (index < len(self)) else None
+        except ValueError:
+            return None
+
     def __str__(self: 'BonusCards') -> str:
         return '\n'.join([
             '  {}. {}'.format(index + 1, bonus_class)
@@ -31,5 +41,4 @@ class BonusCards(List[BonusCard]):
 
 
 if __name__ == '__main__':
-    _bonus_classes = BonusCards.all()
-    print(_bonus_classes)
+    print(BonusCards.all())

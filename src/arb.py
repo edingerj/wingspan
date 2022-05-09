@@ -5,12 +5,14 @@ Players have 4 options every turn:
 3) Gain nutrients: sun, water, fire, disturbance
 4) Draw tree cards
 """
+from sys import argv
+from typing import List
 
 import console
 
 
-def main() -> None:
-    console.main()
+def main(arguments: List[str]) -> None:
+    console.main(arguments)
 
 
 """
@@ -20,4 +22,4 @@ Todo: implement cli parameters:
   --no-sleep : disables console.sleep_enabled
 """
 if __name__ == '__main__':
-    main()
+    main(argv[1:])

@@ -1,8 +1,8 @@
 import time
 
-sleep_enabled: bool = True
+from game import runtime_flags
 
 
 def sleep(seconds: float) -> None:
-    if sleep_enabled:
+    if not runtime_flags.get().no_sleep:
         time.sleep(seconds)

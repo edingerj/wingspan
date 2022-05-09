@@ -18,6 +18,8 @@ class TreeDeck(List[TreeCard]):
 
     @staticmethod
     def from_csv() -> 'TreeDeck':
+        # Todo: Title Case tree names
+        #  both common_name and scientific_name
         card_data: Final[List[TreeCardData]] = list(map(TreeCardData.of, read_csv('data/trees.csv').values))
         tree_cards: Final[List[TreeCard]] = list(map(TreeCard.from_card_data, card_data))
         return TreeDeck(tree_cards)

@@ -1,17 +1,19 @@
 from typing import List
 
-from bonus import BonusCards
+from bonus import BonusCard, BonusCards
 from console.console_game_main import ConsoleGameMain
 from console.console_output import print_welcome_message, print_ellipsis
+from console.console_runtime_flags import ConsoleRuntimeFlags
 from console.sleep import sleep
-from game import game_instance
+from game import game_instance, runtime_flags
 from player import Player, PlayerName
 
 
 # Todo: add console colors, potentially?
 #  See: https://gist.github.com/dnmellen/5584007
 
-def main() -> None:
+def main(arguments: List[str]) -> None:
+    runtime_flags.set(ConsoleRuntimeFlags.from_arguments(arguments))
     game_instance.set(initialize_game())
     print_game_setup(game_instance.get().all_players)
     game_instance.get().start_game()
@@ -21,7 +23,8 @@ def initialize_game() -> ConsoleGameMain:
     print_welcome_message()
     num_players = get_num_players()
     total_turns = get_total_turns()
-    all_players = get_players(num_players)
+    bonus_cards = get_bonus_cards()
+    all_players = get_players(num_players, bonus_cards)
     return ConsoleGameMain(all_players, total_turns)
 
 
@@ -54,13 +57,17 @@ def input_total_turns() -> str:
         '  → ').strip()
 
 
-# player is given a bonus class randomly
-# Todo: implement choice of bonus class
-def get_players(num_players: int) -> List[Player]:
-    player_names = [get_player_name(index) for index in range(num_players)]
-    bonus_classes = BonusCards.established()
+def get_bonus_cards() -> BonusCards:
+    return BonusCards.all() if runtime_flags.get().experimental else BonusCards.established()
 
-    return [Player(player_names[index], bonus_classes[index]) for index in range(num_players)]
+
+def get_players(num_players: int, bonus_cards: BonusCards) -> List[Player]:
+    player_names = [get_player_name(index) for index in range(num_players)]
+    print()
+    player_bonus_cards = [get_player_bonus_card(bonus_cards, player_names[index]) for index in range(num_players)]
+    print()
+
+    return [Player(player_names[index], player_bonus_cards[index]) for index in range(num_players)]
 
 
 def get_player_name(index: int) -> PlayerName:
@@ -84,9 +91,31 @@ def input_player_name() -> PlayerName:
     return PlayerName.of(input('  → ').strip())
 
 
+def get_player_bonus_card(bonus_cards: BonusCards, player_name: PlayerName) -> BonusCard:
+    choice = input_player_bonus_card(bonus_cards, player_name)
+    bonus_card_index = bonus_cards.index_of(choice)
+    while bonus_card_index is None:
+        choice = retry_input_player_bonus_card(choice)
+        bonus_card_index = bonus_cards.index_of(choice)
+    return bonus_cards.pop(bonus_card_index)
+
+
+def input_player_bonus_card(bonus_cards: BonusCards, player_name: PlayerName) -> str:
+    return input(
+        '{}, you may draw one of the following bonus cards:\n'.format(player_name) +
+        '{}\n'.format(bonus_cards) +
+        '  → ').strip()
+
+
+def retry_input_player_bonus_card(previous_choice: str) -> str:
+    return input(
+        'Invalid bonus selection: {}. Please try again:\n'.format(previous_choice) +
+        '  → ').strip()
+
+
 def print_game_setup(all_players: List[Player]) -> None:
     sleep(0.5)
-    print('\nSetting up the game board', end='')
+    print('Setting up the game board', end='')
     print_ellipsis(end='\n\n')
 
     for player in all_players:
