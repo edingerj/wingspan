@@ -1,6 +1,6 @@
 from typing import Final, List, Optional
 
-from bonus import BonusCard
+from bonus import BonusToken
 from player import Player
 
 # itertools.locate returns all indices of value in list
@@ -11,11 +11,11 @@ class BonusApplicator:
         self.all_players: Final[List[Player]] = all_players
 
     def apply_bonuses(self: 'BonusApplicator') -> None:
-        self.apply_bonus(BonusCard.TALLEST_ARBORETUM, self.get_tallest_arboretum_player())
-        self.apply_bonus(BonusCard.LARGEST_ARBORETUM, self.get_largest_arboretum_player())
-        self.apply_bonus(BonusCard.MOST_TREES_HUGGED, self.get_most_trees_hugged_player())
+        self.apply_bonus(BonusToken.TALLEST_ARBORETUM, self.get_tallest_arboretum_player())
+        self.apply_bonus(BonusToken.LARGEST_ARBORETUM, self.get_largest_arboretum_player())
+        self.apply_bonus(BonusToken.MOST_TREES_HUGGED, self.get_most_trees_hugged_player())
 
-    def apply_bonus(self: 'BonusApplicator', bonus: BonusCard, bonus_player: Optional[Player]) -> None:
+    def apply_bonus(self: 'BonusApplicator', bonus: BonusToken, bonus_player: Optional[Player]) -> None:
         if bonus_player is not None:
             for player in self.all_players:
                 if bonus in player.bonuses:

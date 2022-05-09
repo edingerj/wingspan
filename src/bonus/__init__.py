@@ -1,10 +1,9 @@
 from .bonus_card import BonusCard
-from .bonus_class import BonusClass
-from .bonus_classes import BonusClasses
-
+from .bonus_cards import BonusCards
+from .bonus_token import BonusToken
 
 __all__ = [
     'BonusCard',
-    'BonusClass',
-    'BonusClasses',
+    'BonusCards',
+    'BonusToken',
 ]

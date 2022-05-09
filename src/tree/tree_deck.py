@@ -36,8 +36,8 @@ class TreeDeck(List[TreeCard]):
 
     @staticmethod
     def get_header_rows() -> str:
-        return '    Common Name                | Points | Height | Habitat   | Nutrients\n' + \
-               '-------------------------------|--------|--------|-----------|-----------\n'
+        return '    Common Name              │ Points │ Height │ Habitat   │ Nutrients\n' + \
+               '─────────────────────────────┼────────┼────────┼───────────┼───────────\n'
 
 
 if __name__ == '__main__':

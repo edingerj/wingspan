@@ -1,11 +1,11 @@
 from typing import List
 
 from bonus.bonus_card import BonusCard
-from bonus.bonus_class import BonusClass
+from bonus.bonus_token import BonusToken
 from tree import TreeCard
 
 
-class Michigander(BonusClass):
+class Michigander(BonusCard):
     def __init__(self: 'Michigander') -> None:
         super(Michigander, self).__init__(
             name='Michigander',
@@ -14,6 +14,6 @@ class Michigander(BonusClass):
             experimental=False,
         )
 
-    def count_instance_bonus_points(self: 'Michigander', bonuses: List[BonusCard], all_trees: List[TreeCard]) -> int:
+    def count_instance_bonus_points(self: 'Michigander', bonuses: List[BonusToken], all_trees: List[TreeCard]) -> int:
         michiganders = list(filter(lambda tree_card: tree_card.michigander, all_trees))
         return 2 * len(michiganders)

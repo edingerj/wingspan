@@ -1,6 +1,6 @@
 from typing import List
 
-from bonus.bonus_classes import BonusClasses
+from bonus import BonusCards
 from console.console_game_main import ConsoleGameMain
 from console.console_output import print_welcome_message, print_ellipsis
 from console.sleep import sleep
@@ -58,7 +58,7 @@ def input_total_turns() -> str:
 # Todo: implement choice of bonus class
 def get_players(num_players: int) -> List[Player]:
     player_names = [get_player_name(index) for index in range(num_players)]
-    bonus_classes = BonusClasses.established()
+    bonus_classes = BonusCards.established()
 
     return [Player(player_names[index], bonus_classes[index]) for index in range(num_players)]
 

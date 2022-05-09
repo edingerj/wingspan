@@ -1,11 +1,11 @@
 from typing import List
 
 from bonus.bonus_card import BonusCard
-from bonus.bonus_class import BonusClass
+from bonus.bonus_token import BonusToken
 from tree import TreeCard
 
 
-class Generalist(BonusClass):
+class Generalist(BonusCard):
     def __init__(self: 'Generalist') -> None:
         super(Generalist, self).__init__(
             name='Generalist',
@@ -14,8 +14,8 @@ class Generalist(BonusClass):
             experimental=True,
         )
 
-    def count_instance_bonus_points(self: 'Generalist', bonuses: List[BonusCard], all_trees: List[TreeCard]) -> int:
-        if BonusCard.LARGEST_ARBORETUM in bonuses:
+    def count_instance_bonus_points(self: 'Generalist', bonuses: List[BonusToken], all_trees: List[TreeCard]) -> int:
+        if BonusToken.LARGEST_ARBORETUM in bonuses:
             return 10
         else:
             return 0

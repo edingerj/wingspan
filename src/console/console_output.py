@@ -8,9 +8,9 @@ from tree import Nutrients, TreeCard
 
 def print_welcome_message() -> None:
     print(
-        '{}\n'.format(75 * '*') +
-        '{}\n'.format('Welcome to Treespan'.center(69).center(75, '*')) +
-        '{}\n'.format(75 * '*')
+        '┌{}┐\n'.format(73 * '─') +
+        '│{}│\n'.format('Welcome to Treespan'.center(73)) +
+        '└{}┘\n'.format(73 * '─')
     )
 
 
@@ -107,12 +107,12 @@ def print_results(all_players: List[Player], results: GameResults) -> None:
 
 
 def print_line() -> None:
-    print(75 * '-')
+    print(75 * '─')
     sleep(0.5)
 
 
 def input_line() -> None:
-    input(75 * '-')
+    input(75 * '─')
     sleep(0.5)
 
 

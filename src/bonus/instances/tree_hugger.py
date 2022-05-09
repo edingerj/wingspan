@@ -1,11 +1,11 @@
 from typing import List
 
 from bonus.bonus_card import BonusCard
-from bonus.bonus_class import BonusClass
+from bonus.bonus_token import BonusToken
 from tree import TreeCard
 
 
-class TreeHugger(BonusClass):
+class TreeHugger(BonusCard):
     def __init__(self: 'TreeHugger') -> None:
         super(TreeHugger, self).__init__(
             name='Tree Hugger',
@@ -14,8 +14,8 @@ class TreeHugger(BonusClass):
             experimental=True,
         )
 
-    def count_instance_bonus_points(self: 'TreeHugger', bonuses: List[BonusCard], all_trees: List[TreeCard]) -> int:
-        if BonusCard.MOST_TREES_HUGGED in bonuses:
+    def count_instance_bonus_points(self: 'TreeHugger', bonuses: List[BonusToken], all_trees: List[TreeCard]) -> int:
+        if BonusToken.MOST_TREES_HUGGED in bonuses:
             return 10
         else:
             return 0

@@ -1,6 +1,6 @@
 from typing import Final, List
 
-from bonus import BonusClass, BonusCard
+from bonus import BonusCard, BonusToken
 from player.arboretum import Arboretum
 from player.hand import Hand
 from player.player_name import PlayerName
@@ -8,13 +8,13 @@ from tree import Habitat, Nutrients, TreeCard
 
 
 class Player:
-    def __init__(self: 'Player', name: PlayerName, bonus_class: BonusClass) -> None:
+    def __init__(self: 'Player', name: PlayerName, bonus_class: BonusCard) -> None:
         self.name: Final[PlayerName] = name
-        self.bonus_class: Final[BonusClass] = bonus_class
+        self.bonus_class: Final[BonusCard] = bonus_class
         self.nutrients: Final[Nutrients] = Nutrients.random_sorted()
         self.hand: Final[Hand] = Hand.from_deck()
         self.arboretum: Final[Arboretum] = Arboretum()
-        self.bonuses: Final[List[BonusCard]] = []
+        self.bonuses: Final[List[BonusToken]] = []
         self.hugs: int = 0
 
     # return: the drawn tree card
@@ -58,22 +58,22 @@ class Player:
         return total_deciduous + 1
 
     def __str__(self: 'Player') -> str:
-        result = '{}<\n'.format(37 * '<>')
+        result = '{}\n'.format(75 * '═')
         if self.arboretum.has_trees():
             result += '{}\'s Arboretum:\n'.format(self.name)
             result += '{}\n'.format(self.arboretum)
-            result += '{}\n'.format(75 * '_')
+            result += '{}\n'.format(75 * '─')
         if self.hand.has_cards():
             result += '{}\'s Hand:\n'.format(self.name)
             result += '{}\n'.format(self.hand)
-            result += '{}\n'.format(75 * '_')
+            result += '{}\n'.format(75 * '─')
         if len(self.nutrients) > 0:
             result += '{}\'s Nutrients:\n'.format(self.name)
             result += '  {}\n'.format(self.nutrients)
-            result += '{}\n'.format(75 * '_')
+            result += '{}\n'.format(75 * '─')
         result += '{}\'s Bonus: {}\n'.format(self.name, self.bonus_class.name)
         result += '  {}\n'.format(self.bonus_class.description)
-        result += '{}<\n'.format(37 * '<>')
+        result += '{}\n'.format(75 * '═')
         return result
 
     def get_total_score(self: 'Player') -> int:
@@ -91,7 +91,7 @@ class Player:
 
 
 if __name__ == '__main__':
-    player = Player('Seb', BonusClass('Michigander', '', None, True))
+    player = Player('Seb', BonusCard('Michigander', '', None, True))
     player.draw_tree_card_from_deck()
 
     print('Player: {}'.format(player.name))
