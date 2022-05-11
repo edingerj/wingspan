@@ -120,7 +120,7 @@ class GameMain(metaclass=ABCMeta):
     def output_hug_trees(self: 'GameMain', player: Player, trees_hugged: int) -> None:
         pass
 
-    # gain 1 additional nutrient card for every Conifer tree in arb
+    # gain 1 additional nutrient card for every Coniferous tree in arb
     def draw_nutrient_cards(self: 'GameMain', player: Player) -> None:
         nutrients = player.draw_nutrient_cards()
         self.output_draw_nutrient_cards(player, nutrients)

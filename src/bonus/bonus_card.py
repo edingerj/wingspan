@@ -1,14 +1,29 @@
 """
 Bonus Class Ideas:
+  Implemented
+  · Ecologist (generalist)
   · Michigander
   · tree hugger
   · tree climber
+
+  Unimplemented
   · pyrosilviculture enthusiast
-  · fake tree lover
-  · utility forester
-  · tree trimmer
-  · generalist
-  · food type
+  · (water quality) analyst - silly name required
+  · fake tree lover - 2 points for each low value tree (
+  · utility forester - commonly occur under power lines
+  · tree trimmer - fast-growing trees (add to csv as FAST, MEDIUM, SLOW)
+  · foodie (omnivore expert in ws) - 2 for each wildcard nutrient
+  · photographer - trees with color names, like "redwood" (add to csv)
+  · cartographer - trees with geography names, like "Eastern redcedar" (add to csv)
+  · tree sniffer - 4 points for each scented tree (add to csv)
+  · tree counter - 2 points for each planted tree with a tucking power
+  · visionary - 4 points for 5+, 7 points for 8+ tree cards in hand at end of game
+  ·
+  ·
+
+  Expansion Pack: Fake Trees, using fake_trees.csv
+  · very fake tree lover - rewards for actually fake trees.
+  · historian - trees with people names, like "steve" (add to csv)
 """
 
 from abc import ABCMeta, abstractmethod

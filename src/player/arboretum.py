@@ -44,7 +44,7 @@ class Arboretum(Dict[Habitat, List[TreeCard]]):
 
 if __name__ == '__main__':
     arb = Arboretum()
-    arb.plant_tree(TreeCard(Habitat.CONIFER, 'Abies balsamea', 'balsam fir', 3, 90, [], True))
+    arb.plant_tree(TreeCard(Habitat.CONIFEROUS, 'Abies balsamea', 'balsam fir', 3, 90, [], True))
     arb.plant_tree(TreeCard(Habitat.DECIDUOUS, 'Acer negundo', 'boxelder', 0, 70, [], True))
 
     print('Arboretum:')

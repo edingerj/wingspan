@@ -9,8 +9,8 @@ class TreeCard:
     def __init__(self: 'TreeCard', habitat: Habitat, scientific_name: str, common_name: str,
                  points: int, height: int, nutrients: Nutrients, michigander: bool) -> None:
         self.habitat: Final[Habitat] = habitat
-        self.scientific_name: Final[str] = scientific_name.title()
-        self.common_name: Final[str] = common_name.title()
+        self.scientific_name: Final[str] = scientific_name
+        self.common_name: Final[str] = common_name
         self.points: Final[int] = points
         self.height: Final[int] = height
         self.nutrients: Final[Nutrients] = nutrients
@@ -36,7 +36,7 @@ class TreeCard:
             result += '║ {} ║\n'.format('{} is native to Michigan.'.format(self.common_name).ljust(76))
         result += '╟{}┬{}┬{}╢\n'.format(60 * '─', 8 * '─', 8 * '─')
         result += '║ {} │ {} │ {} ║\n'.format(
-            self.habitat.value.ljust(58),
+            self.habitat.to_string().ljust(58),
             '{} {}'.format(self.points, 'pts' if self.points != 1 else 'pt').ljust(6),
             '{} ft'.format(self.height).ljust(6),
         )
@@ -48,7 +48,7 @@ class TreeCard:
             self.common_name.ljust(24),
             '{} {}'.format(self.points, 'pts' if self.points != 1 else 'pt').ljust(6),
             '{} ft'.format(self.height).ljust(6),
-            '{}'.format(self.habitat.value).ljust(9),
+            '{}'.format(self.habitat.to_string()).ljust(10),
             self.nutrients.emoji_format(),
         )
 
@@ -60,15 +60,15 @@ class TreeCard:
         )
 
     # def info(self: 'TreeCard') -> str:
-    #     return '{} is a {}.'.format(self.scientific_name, self.habitat.value)
+    #     return '{} is a {}.'.format(self.scientific_name, self.habitat.to_string())
     #
     # def plant_facts(self): # returns a list of everything to be added to database
     #     return [self.family, self.genus_species, self.common_name, self.physiognomy, self.conservatism, self.wetness]
 
 
 if __name__ == '__main__':
-    tree_data1 = TreeCardData('Conifer', 'Abies balsamea', 'balsam fir', 3, 90, 1, 0, 0, 0, 1)
-    tree_data2 = TreeCardData('Conifer', 'Sequoia sempervirens', 'redwood', 10, 380, 1, 1, 1, 1, 0)
+    tree_data1 = TreeCardData('CONIFEROUS', 'Abies balsamea', 'balsam fir', 3, 90, 1, 0, 0, 0, 1)
+    tree_data2 = TreeCardData('CONIFEROUS', 'Sequoia sempervirens', 'redwood', 10, 380, 1, 1, 1, 1, 0)
     tree_card1 = TreeCard.from_card_data(tree_data1)
     tree_card2 = TreeCard.from_card_data(tree_data2)
 

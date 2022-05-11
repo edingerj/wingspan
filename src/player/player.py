@@ -25,10 +25,10 @@ class Player:
     def draw_tree_card_from_display(self: 'Player', tree_card: TreeCard) -> TreeCard:
         return self.hand.draw_from_display(tree_card)
 
-    # gain 1 additional nutrient card for every Conifer in arb
+    # gain 1 additional nutrient card for every Coniferous tree in arb
     # return: the drawn nutrients
     def draw_nutrient_cards(self: 'Player') -> Nutrients:
-        total_coniferous = len(self.arboretum[Habitat.CONIFER])
+        total_coniferous = len(self.arboretum[Habitat.CONIFEROUS])
         nutrients = Nutrients.random(total_coniferous + 1)
         self.nutrients.extend(nutrients)
         return nutrients

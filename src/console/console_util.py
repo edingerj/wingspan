@@ -9,6 +9,7 @@ LINE_CLEAR = '\x1b[2K'
 def clear_lines(lines: int = 1) -> None:
     for _ in range(lines):
         print(LINE_UP, end=LINE_CLEAR)
+    stdout.flush()
 
 
 def print_line() -> None:

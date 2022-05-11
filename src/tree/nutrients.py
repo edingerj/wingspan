@@ -24,7 +24,7 @@ class Nutrients(List[Nutrient]):
     def get_nutrient_pool() -> 'Nutrients':
         return Nutrients([
             *(5 * [Nutrient.SUN]),
-            *(2 * [Nutrient.WATER]),
+            *(3 * [Nutrient.WATER]),
             *(1 * [Nutrient.FIRE]),
             *(1 * [Nutrient.DISTURBANCE]),
         ])
