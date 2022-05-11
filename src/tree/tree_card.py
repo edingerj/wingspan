@@ -1,5 +1,6 @@
 from typing import Final
 
+from ansi import AnsiFormat
 from tree.habitat import Habitat
 from tree.nutrients import Nutrients
 from tree.tree_card_data import TreeCardData
@@ -28,7 +29,10 @@ class TreeCard:
     def card_format(self: 'TreeCard') -> str:
         result = '╔{}╗\n'.format(78 * '═')
         result += '║ {} {} ║\n'.format(
-            '{} ({})'.format(self.common_name, self.scientific_name).ljust(60),
+            '{} {}'.format(
+                self.common_name,
+                AnsiFormat.italic('({})'.format(self.scientific_name)),
+            ).ljust(60 + AnsiFormat.ATTR_LEN_OFFSET),
             self.nutrients.emoji_format().rjust(15 - len(self.nutrients)),
         )
         if self.michigander:

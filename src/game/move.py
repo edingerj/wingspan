@@ -3,11 +3,11 @@ from typing import Optional
 
 
 class Move(Enum):
-    PLANT_TREE = 'plant tree'
-    HUG_TREES = 'hug trees'
-    DRAW_NUTRIENTS = 'draw nutrients'
-    DRAW_TREES = 'draw trees'
-    CONTINUE = 'skip move'
+    PLANT_TREE = 'PLANT_TREE'
+    HUG_TREES = 'HUG_TREES'
+    DRAW_NUTRIENTS = 'DRAW_NUTRIENTS'
+    DRAW_TREES = 'DRAW_TREES'
+    CONTINUE = 'CONTINUE'
 
     @staticmethod
     def from_string(move_string: str) -> Optional['Move']:

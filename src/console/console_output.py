@@ -1,3 +1,4 @@
+from ansi import AnsiFormat
 from console.console_util import *
 from console.sleep import sleep
 from game import Info
@@ -6,11 +7,11 @@ from tree import Nutrients, TreeCard
 
 
 def print_welcome_message() -> None:
-    print(
+    print(AnsiFormat.green(
         '┌{}┐\n'.format(78 * '─') +
         '│{}│\n'.format('Welcome to Treespan'.center(78)) +
         '└{}┘\n'.format(78 * '─')
-    )
+    ))
 
 
 def print_start_turn(player: Player, turns_remaining: int) -> None:
