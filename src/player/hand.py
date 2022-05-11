@@ -47,6 +47,9 @@ class Hand(List[TreeCard]):
             ) for index, tree_card in enumerate(self)
         ])
 
+    def card_format(self: 'Hand') -> str:
+        return ''.join([tree_card.card_format() for tree_card in self])
+
     def table_format(self: 'Hand') -> str:
         return '\n'.join([
             '  {} {}'.format(

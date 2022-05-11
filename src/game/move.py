@@ -7,7 +7,7 @@ class Move(Enum):
     HUG_TREES = 'hug trees'
     DRAW_NUTRIENTS = 'draw nutrients'
     DRAW_TREES = 'draw trees'
-    SKIP_TURN = 'skip turn'
+    CONTINUE = 'skip move'
 
     @staticmethod
     def from_string(move_string: str) -> Optional['Move']:
@@ -20,7 +20,7 @@ class Move(Enum):
         elif move_string == '4':
             return Move.DRAW_TREES
         elif move_string == '5':
-            return Move.SKIP_TURN
+            return Move.CONTINUE
         else:
             return None
 

@@ -9,8 +9,8 @@ class TreeCard:
     def __init__(self: 'TreeCard', habitat: Habitat, scientific_name: str, common_name: str,
                  points: int, height: int, nutrients: Nutrients, michigander: bool) -> None:
         self.habitat: Final[Habitat] = habitat
-        self.scientific_name: Final[str] = scientific_name
-        self.common_name: Final[str] = common_name
+        self.scientific_name: Final[str] = scientific_name.title()
+        self.common_name: Final[str] = common_name.title()
         self.points: Final[int] = points
         self.height: Final[int] = height
         self.nutrients: Final[Nutrients] = nutrients
@@ -25,10 +25,28 @@ class TreeCard:
         return TreeCard(habitat, card_data.scientific_name, card_data.common_name,
                         card_data.points, card_data.height, nutrients, michigander)
 
+    def card_format(self: 'TreeCard') -> str:
+        result = '╔{}╗\n'.format(78 * '═')
+        result += '║ {} {} ║\n'.format(
+            '{} ({})'.format(self.common_name, self.scientific_name).ljust(60),
+            self.nutrients.emoji_format().rjust(15 - len(self.nutrients)),
+        )
+        if self.michigander:
+            result += '╟{}╢\n'.format(78 * '─')
+            result += '║ {} ║\n'.format('{} is native to Michigan.'.format(self.common_name).ljust(76))
+        result += '╟{}┬{}┬{}╢\n'.format(60 * '─', 8 * '─', 8 * '─')
+        result += '║ {} │ {} │ {} ║\n'.format(
+            self.habitat.value.ljust(58),
+            '{} {}'.format(self.points, 'pts' if self.points != 1 else 'pt').ljust(6),
+            '{} ft'.format(self.height).ljust(6),
+        )
+        result += '╚{}╧{}╧{}╝\n'.format(60 * '═', 8 * '═', 8 * '═')
+        return result
+
     def table_format(self: 'TreeCard') -> str:
         return '{} │ {} │ {} │ {} │ {}'.format(
             self.common_name.ljust(24),
-            '{} pts'.format(self.points).ljust(6),
+            '{} {}'.format(self.points, 'pts' if self.points != 1 else 'pt').ljust(6),
             '{} ft'.format(self.height).ljust(6),
             '{}'.format(self.habitat.value).ljust(9),
             self.nutrients.emoji_format(),
@@ -37,7 +55,7 @@ class TreeCard:
     def arboretum_format(self: 'TreeCard') -> str:
         return '{} │ {} │ {}'.format(
             self.common_name.ljust(24),
-            '{} pts'.format(self.points).ljust(6),
+            '{} {}'.format(self.points, 'pts' if self.points != 1 else 'pt').ljust(6),
             '{} ft'.format(self.height),
         )
 
@@ -49,7 +67,13 @@ class TreeCard:
 
 
 if __name__ == '__main__':
-    tree_data = TreeCardData('Conifer', 'Abies balsamea', 'balsam fir', 3, 90, 1, 0, 0, 0, 1)
-    tree_card = TreeCard.from_card_data(tree_data)
-    print(tree_card.table_format())
-    print(tree_card.arboretum_format())
+    tree_data1 = TreeCardData('Conifer', 'Abies balsamea', 'balsam fir', 3, 90, 1, 0, 0, 0, 1)
+    tree_data2 = TreeCardData('Conifer', 'Sequoia sempervirens', 'redwood', 10, 380, 1, 1, 1, 1, 0)
+    tree_card1 = TreeCard.from_card_data(tree_data1)
+    tree_card2 = TreeCard.from_card_data(tree_data2)
+
+    print(tree_card1.card_format())
+    print(tree_card2.card_format())
+
+    print(tree_card1.table_format())
+    print(tree_card1.arboretum_format())

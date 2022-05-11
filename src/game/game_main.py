@@ -2,7 +2,9 @@ from abc import ABCMeta, abstractmethod
 from typing import Final, Optional
 
 from game.bonus_applictor import BonusApplicator
+from game.info import Info
 from game.move import Move
+from game.turn_phase import TurnPhase
 from player import Hand, Player, Players
 from tree import Habitat, Nutrients, TreeCard
 
@@ -17,6 +19,7 @@ class GameMain(metaclass=ABCMeta):
     def start_game(self: 'GameMain') -> None:
         self.take_turn(self.players[0])
 
+    # Todo: add pre & post move help blocks
     def take_turn(self: 'GameMain', player: Player) -> None:
         self.start_turn(player)
         self.start_move(player)
@@ -24,6 +27,7 @@ class GameMain(metaclass=ABCMeta):
 
     def start_turn(self: 'GameMain', player: Player) -> None:
         self.output_start_turn(player)
+        self.start_information(player, TurnPhase.STARTING)
 
     @abstractmethod
     def output_start_turn(self: 'GameMain', player: Player) -> None:
@@ -33,7 +37,7 @@ class GameMain(metaclass=ABCMeta):
         BonusApplicator(self.players).apply_bonuses()
         if player == self.players[-1]:
             self.turns_remaining -= 1
-        self.output_end_turn(player)
+        self.start_information(player, TurnPhase.ENDING)
         if self.turns_remaining > 0:
             self.take_turn(self.players.next(player))
         else:
@@ -41,6 +45,20 @@ class GameMain(metaclass=ABCMeta):
 
     @abstractmethod
     def output_end_turn(self: 'GameMain', player: Player) -> None:
+        pass
+
+    def start_information(self: 'GameMain', player: Player, turn_phase: TurnPhase) -> None:
+        info = self.input_information(player, turn_phase)
+        while info is not Info.CONTINUE:
+            self.output_information(player, info)
+            info = self.input_information(player, turn_phase)
+
+    @abstractmethod
+    def input_information(self: 'GameMain', player: Player, turn_phase: TurnPhase) -> Info:
+        pass
+
+    @abstractmethod
+    def output_information(self: 'GameMain', player: Player, info: Info) -> None:
         pass
 
     def start_move(self: 'GameMain', player: Player) -> None:

@@ -1,5 +1,7 @@
+from console.console_util import *
 from console.sleep import sleep
-from player import Player, Players
+from game import Info
+from player import Hand, Player, Players
 from tree import Nutrients, TreeCard
 
 
@@ -31,6 +33,18 @@ def print_end_turn(player: Player) -> None:
 def print_retry_move() -> None:
     print('Let\'s try this again', end='')
     print_ellipsis()
+
+
+def print_information(player: Player, displayed_tree_cards: Hand, info: Info) -> None:
+    if info == Info.DISPLAY_HAND:
+        print('\n{}\'s Hand:'.format(player.name))
+        print(player.hand.card_format())
+    elif info == Info.DISPLAY_TOP_DECK:
+        print('\nTop of the Deck:')
+        print(displayed_tree_cards.card_format())
+    elif info == Info.DISPLAY_BONUSES:
+        # Todo: implement bonus display
+        print('\nBonus Display Not Implemented\n')
 
 
 def print_plant_tree(player: Player, tree_card: TreeCard) -> None:
@@ -103,33 +117,15 @@ def print_results(players: Players) -> None:
     print(players.score_board_format())
 
 
-def print_line() -> None:
-    print(80 * '─')
-    sleep(0.5)
-
-
-def input_line() -> None:
-    input(80 * '─')
-    sleep(0.5)
-
-
-def print_ellipsis(delay: float = 0.5, end: str = '\n') -> None:
-    for _ in range(3):
-        print('.', end='')
-        sleep(delay)
-    if end != '':
-        print('', end=end)
-
-
 __all__ = [
     'print_welcome_message',
     'print_start_turn',
     'print_end_turn',
     'print_retry_move',
+    'print_information',
     'print_plant_tree',
     'print_hug_trees',
     'print_draw_nutrient_cards',
     'print_draw_tree_card',
     'print_results',
-    'print_ellipsis',
 ]

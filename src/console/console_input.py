@@ -1,5 +1,29 @@
-from game import Move
+from console.console_util import clear_lines
+from game import Info, Move, TurnPhase
 from player import Hand, Player
+
+
+def get_information(player: Player, turn_phase: TurnPhase) -> Info:
+    info_string = input_information(player, turn_phase)
+    info = Info.from_string(info_string)
+    while info is None:
+        print('Invalid Display Option: {}. Please try again.'.format(info_string))
+        info_string = input_information(player, turn_phase)
+        clear_lines(1)
+        info = Info.from_string(info_string)
+    return info
+
+
+def input_information(player: Player, turn_phase: TurnPhase) -> str:
+    info_string = input(
+        '{}, select from the following options:\n'.format(player.name) +
+        '  1. Display your hand\n' +
+        '  2. Display the top of the deck\n' +
+        '  3. Display your bonuses\n' +
+        '  4. {}\n'.format(turn_phase.get_continue_information_text()) +
+        '  → ').strip()
+    clear_lines(6)
+    return info_string
 
 
 def get_move(player: Player) -> Move:
@@ -8,6 +32,7 @@ def get_move(player: Player) -> Move:
     while move is None:
         print('Invalid Move: {}. Please try again.'.format(move_string))
         move_string = input_move(player)
+        clear_lines(1)
         move = Move.from_string(move_string)
     return move
 
@@ -15,14 +40,16 @@ def get_move(player: Player) -> Move:
 # Todo: specify how many of each action you will perform
 #  based on which habitat of trees you are selecting from
 def input_move(player: Player) -> str:
-    return input(
+    move_string = input(
         '{}, select from the following options:\n'.format(player.name) +
         '  1. Plant a tree\n' +
         '  2. Hug some trees\n' +
         '  3. Draw nutrients\n' +
         '  4. Draw tree cards\n' +
-        '  5. Skip your turn\n'
+        '  5. Skip your move\n'
         '  → ').strip()
+    clear_lines(7)
+    return move_string
 
 
 def input_retry_plant_tree() -> int:
@@ -76,6 +103,7 @@ def retry_input_draw_tree_card(previous_choice: str) -> str:
 
 
 __all__ = [
+    'get_information',
     'get_move',
     'input_retry_plant_tree',
     'select_plant_tree_card',

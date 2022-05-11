@@ -1,10 +1,7 @@
-from typing import Final, Optional
+from typing import Final, Optional, List
 
 from bonus import BonusToken
 from player import Player, Players
-
-
-# itertools.locate returns all indices of value in list
 
 
 class BonusApplicator:
@@ -12,46 +9,43 @@ class BonusApplicator:
         self.players: Final[Players] = players
 
     def apply_bonuses(self: 'BonusApplicator') -> None:
-        self.apply_bonus(BonusToken.TALLEST_ARBORETUM, self.get_tallest_arboretum_player())
-        self.apply_bonus(BonusToken.LARGEST_ARBORETUM, self.get_largest_arboretum_player())
-        self.apply_bonus(BonusToken.MOST_TREES_HUGGED, self.get_most_trees_hugged_player())
+        self.apply_bonus(BonusToken.TALLEST_ARBORETUM, self.get_player_arboretum_heights())
+        self.apply_bonus(BonusToken.LARGEST_ARBORETUM, self.get_player_arboretum_sizes())
+        self.apply_bonus(BonusToken.MOST_TREES_HUGGED, self.get_player_trees_hugged())
 
-    def apply_bonus(self: 'BonusApplicator', bonus: BonusToken, bonus_player: Optional[Player]) -> None:
+    def apply_bonus(self: 'BonusApplicator', bonus: BonusToken, bonus_values: List[int]) -> None:
+        bonus_player = self.get_next_bonus_player(bonus, bonus_values)
         if bonus_player is not None:
             for player in self.players:
                 if bonus in player.bonuses:
                     player.bonuses.remove(bonus)
             bonus_player.bonuses.append(bonus)
 
-    # Todo: check for duplicate max values
-    #  and in the case of bonus_value tie,
-    #  return the same player as currently
-    #  holds the bonus.
-    def get_tallest_arboretum_player(self: 'BonusApplicator') -> Optional[Player]:
-        combined_tree_heights = [player.arboretum.get_total_height() for player in self.players]
-        if max(combined_tree_heights) == 0:
+    # region get next bonus player
+    def get_next_bonus_player(self: 'BonusApplicator', bonus: BonusToken, bonus_values: List[int]) -> Optional[Player]:
+        applicable_players = self.get_applicable_bonus_players(bonus_values)
+        current_player = self.get_current_bonus_player(bonus)
+        if max(bonus_values) == 0:
             return None
+        elif current_player in applicable_players:
+            return current_player
         else:
-            return self.players[combined_tree_heights.index(max(combined_tree_heights))]
+            return applicable_players[0]
 
-    # Todo: check for duplicate max values
-    #  and in the case of bonus_value tie,
-    #  return the same player as currently
-    #  holds the bonus.
-    def get_largest_arboretum_player(self: 'BonusApplicator') -> Optional[Player]:
-        arboretum_sizes = [len(player.arboretum.get_all_trees()) for player in self.players]
-        if max(arboretum_sizes) == 0:
-            return None
-        else:
-            return self.players[arboretum_sizes.index(max(arboretum_sizes))]
+    def get_applicable_bonus_players(self: 'BonusApplicator', bonus_values: List[int]) -> List[Player]:
+        return [self.players[index] for index in range(len(bonus_values)) if bonus_values[index] == max(bonus_values)]
 
-    # Todo: check for duplicate max values
-    #  and in the case of bonus_value tie,
-    #  return the same player as currently
-    #  holds the bonus.
-    def get_most_trees_hugged_player(self: 'BonusApplicator') -> Optional[Player]:
-        trees_hugged = [player.hugs for player in self.players]
-        if max(trees_hugged) == 0:
-            return None
-        else:
-            return self.players[trees_hugged.index(max(trees_hugged))]
+    def get_current_bonus_player(self: 'BonusApplicator', bonus: BonusToken) -> Optional[Player]:
+        return next(filter(lambda player: bonus in player.bonuses, self.players), None)
+    # endregion get next bonus player
+
+    # region get player bonus values
+    def get_player_arboretum_heights(self: 'BonusApplicator') -> List[int]:
+        return [player.arboretum.get_total_height() for player in self.players]
+
+    def get_player_arboretum_sizes(self: 'BonusApplicator') -> List[int]:
+        return [len(player.arboretum.get_all_trees()) for player in self.players]
+
+    def get_player_trees_hugged(self: 'BonusApplicator') -> List[int]:
+        return [player.hugs for player in self.players]
+    # endregion get player bonus values

@@ -34,7 +34,7 @@ class Players(List[Player]):
                 result += '  {}. {} │ {}\n'.format(
                     place,
                     player.name.ljust(PlayerName.max_length),
-                    '{} pts'.format(score),
+                    '{} {}'.format(score, 'pts' if score != 1 else 'pt'),
                 )
             place += len(players)
         return result

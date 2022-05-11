@@ -3,7 +3,7 @@ from typing import Optional
 
 from console.console_input import *
 from console.console_output import *
-from game import GameMain, Move
+from game import GameMain, Info, Move, TurnPhase
 from player import Player, Players
 from tree import Nutrients, TreeCard
 
@@ -17,6 +17,12 @@ class ConsoleGameMain(GameMain, ABC):
 
     def output_end_turn(self: 'ConsoleGameMain', player: Player) -> None:
         print_end_turn(player)
+
+    def input_information(self: 'ConsoleGameMain', player: Player, turn_phase: TurnPhase) -> Info:
+        return get_information(player, turn_phase)
+
+    def output_information(self: 'ConsoleGameMain', player: Player, info: Info) -> None:
+        print_information(player, self.displayed_tree_cards, info)
 
     def input_move(self: 'ConsoleGameMain', player: Player) -> Move:
         return get_move(player)

@@ -4,5 +4,5 @@ from game import runtime_flags
 
 
 def sleep(seconds: float) -> None:
-    if not runtime_flags.get().no_sleep:
+    if not getattr(runtime_flags.get(), 'no_sleep', False):
         time.sleep(seconds)
