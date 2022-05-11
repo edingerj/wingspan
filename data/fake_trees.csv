@@ -1,3 +1,12 @@
 Habitat,ScientificName,CommonName,Points,Height,sun,water,fire,disturbance,michigander
-CONIFEROUS,Pinus cellularis,Cell Phone Tower,6,400,0,0,2,1,0
+CONIFEROUS,Cardinalus bradlii,fake biologist's pine,0,6,1,1,0,0,1
+CONIFEROUS,Pinus cellularis,cell phone tower,6,400,0,0,2,1,0
 CONIFEROUS,Shrubberonia stevonica,Steve's shrubbery,2,2,0,0,0,0,1
+DECIDUOUS,Jacquie jacckkii,Jackie's poplar,7,21,1,1,1,0,1
+DECIDUOUS,Lavrano pagananano,Lavran's ...,6,6,0,1,0,1,1
+DECIDUOUS,Klewniloc maizii,Maizie the dog,9,4,1,1,0,0,1
+ORNAMENTAL,Donteatum thisfruitzii,bittersweet nightshade,8,3,1,0,0,1,1
+ORNAMENTAL,Regnide jaskie,Jasper the dog,5,2,1,1,0,0,0
+ORNAMENTAL,Nairapsak jasperi,Jasper the cat,5,2,1,1,0,0,1
+
+
