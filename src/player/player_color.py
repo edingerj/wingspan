@@ -22,5 +22,5 @@ class PlayerColor(Enum):
         elif self is PlayerColor.MAGENTA:
             return AnsiColor.MAGENTA
 
-    def table_format(self: 'PlayerColor') -> str:
+    def color_format(self: 'PlayerColor') -> str:
         return self.ansi().foreground(self.value.lower())

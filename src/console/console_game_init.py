@@ -4,7 +4,7 @@ from bonus import BonusCard, BonusCards
 from console.console_game_main import ConsoleGameMain
 from console.console_output import print_welcome_message
 from console.console_runtime_flags import ConsoleRuntimeFlags
-from console.console_util import print_ellipsis
+from console.console_util import print_ellipsis, clear_lines
 from console.sleep import sleep
 from game import game_instance, runtime_flags
 from player import Player, PlayerColors, PlayerColor, PlayerName, Players
@@ -28,9 +28,12 @@ def initialize_game() -> ConsoleGameMain:
 
 def get_num_players() -> int:
     num_players = input_num_players()
+    clear_lines(2)
     while num_players not in ('2', '3', '4'):
         print('{} is not a valid number of players.'.format(num_players))
         num_players = input_num_players()
+        clear_lines(3)
+    print('Players: {}'.format(num_players))
     return int(num_players)
 
 
@@ -42,10 +45,12 @@ def input_num_players() -> str:
 
 def get_total_turns() -> int:
     total_turns = input_total_turns()
+    clear_lines(2)
     while total_turns not in [str(num) for num in range(1, 100)]:
         print('{} is not a valid number of turns.'.format(total_turns))
         total_turns = input_total_turns()
-    print()
+        clear_lines(3)
+    print('Turns: {}\n'.format(total_turns))
     return int(total_turns)
 
 
@@ -76,6 +81,7 @@ def get_players(num_players: int, bonus_cards: BonusCards) -> Players:
 def get_player_name(index: int) -> PlayerName:
     print('Player {}, enter your name:'.format(index + 1))
     player_name = input_player_name()
+    clear_lines(2)
     while not player_name.valid():
         if not player_name.min_length_validator():
             print('Please enter a name:')
@@ -86,6 +92,8 @@ def get_player_name(index: int) -> PlayerName:
             print('The name: {} has already been taken.\nPlease enter a different name:'
                   .format(player_name))
         player_name = input_player_name()
+        clear_lines(3)
+    print('Player {}\'s name: {}'.format(index + 1, player_name))
     player_name.save()
     return player_name
 
@@ -100,7 +108,11 @@ def get_player_color(colors: PlayerColors, player_name: PlayerName) -> PlayerCol
     while color_index is None:
         choice = retry_input_player_color(choice)
         color_index = colors.index_of(choice)
-    return colors.pop(color_index)
+        clear_lines(2)
+    clear_lines(len(colors) + 2)
+    color = colors.pop(color_index)
+    print('{} has chosen the color: {}'.format(player_name, color.color_format()))
+    return color
 
 
 def input_player_color(colors: PlayerColors, player_name: PlayerName) -> str:
@@ -122,7 +134,11 @@ def get_player_bonus_card(bonus_cards: BonusCards, player_name: PlayerName) -> B
     while bonus_card_index is None:
         choice = retry_input_player_bonus_card(choice)
         bonus_card_index = bonus_cards.index_of(choice)
-    return bonus_cards.pop(bonus_card_index)
+        clear_lines(2)
+    clear_lines(len(bonus_cards) + 2)
+    bonus_card = bonus_cards.pop(bonus_card_index)
+    print('{} has drawn the bonus card: {}'.format(player_name, bonus_card.name))
+    return bonus_card
 
 
 def input_player_bonus_card(bonus_cards: BonusCards, player_name: PlayerName) -> str:

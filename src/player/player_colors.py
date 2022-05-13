@@ -26,7 +26,7 @@ class PlayerColors(List[PlayerColor]):
     def table_format(self: 'PlayerColors') -> str:
         return '\n'.join(['  {} {}'.format(
             '{}.'.format(index + 1).ljust(3),
-            '{}'.format(player_color.table_format()),
+            '{}'.format(player_color.color_format()),
         ) for index, player_color in enumerate(self)])
 
 

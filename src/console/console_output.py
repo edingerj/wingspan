@@ -34,6 +34,7 @@ def print_end_turn(player: Player) -> None:
 def print_retry_move() -> None:
     print('Let\'s try this again', end='')
     print_ellipsis()
+    clear_lines(1)
 
 
 def print_information(player: Player, displayed_tree_cards: Hand, info: Info) -> None:
@@ -51,10 +52,11 @@ def print_information(player: Player, displayed_tree_cards: Hand, info: Info) ->
 def print_plant_tree(player: Player, tree_card: TreeCard) -> None:
     print('Checking if you have enough nutrients to plant a {}'.format(tree_card.common_name), end='')
     print_ellipsis()
+    clear_lines(1)
     if player.can_plant_tree(tree_card):
         print('*** planting a {} ***'.format(tree_card.common_name))
         sleep(1)
-        print('  Your combined tree height is: {}'.format(player.arboretum.get_total_height() + tree_card.height))
+        print('  Your combined tree height is: {} ft'.format(player.arboretum.get_total_height() + tree_card.height))
         sleep(0.5)
     else:
         print('Sorry, you don\'t have enough nutrients to plant a {}.'.format(tree_card.common_name))
@@ -69,17 +71,22 @@ def print_hug_trees(player: Player, trees_hugged: int) -> None:
 
 def print_draw_nutrient_cards(player: Player, nutrients: Nutrients) -> None:
     sleep(0.5)
-    print('*** rolling di{}e ***'.format('c' if (len(nutrients) != 1) else ''))
+    print('*** rolling for nutrient{} ***'.format('s' if (len(nutrients) != 1) else ''))
     for nutrient in nutrients:
         sleep(0.25)
         print('  You rolled a {}! Adding it to your pile of nutrients.'.format(nutrient.emoji()))
 
 
+def print_draw_tree_cards(number: int) -> None:
+    print('*** drawing tree card{} ***'.format('s' if (number != 1) else ''))
+
+
 def print_draw_tree_card(tree_card: TreeCard, was_random=False) -> None:
     if was_random:
-        print('Drawing a random card from the deck', end='')
-        print_ellipsis(delay=0.25)
-    print('You drew a {}!'.format(tree_card.common_name))
+        print('  Drawing a random card from the deck', end='')
+        print_ellipsis()
+        clear_lines(1)
+    print('  You drew a {}!'.format(tree_card.common_name))
 
 
 def print_results(players: Players) -> None:
@@ -127,6 +134,7 @@ __all__ = [
     'print_plant_tree',
     'print_hug_trees',
     'print_draw_nutrient_cards',
+    'print_draw_tree_cards',
     'print_draw_tree_card',
     'print_results',
 ]

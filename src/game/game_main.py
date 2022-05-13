@@ -133,12 +133,17 @@ class GameMain(metaclass=ABCMeta):
     # Todo: handle cases of empty deck & no cards to draw
     def draw_tree_cards(self: 'GameMain', player: Player) -> None:
         total_urban = len(player.arboretum[Habitat.URBAN])
+        self.output_draw_tree_cards(player, total_urban + 1)
         for _ in range(total_urban + 1):
             choice_index = self.input_draw_tree_card_index(player)
             if choice_index in range(len(self.displayed_tree_cards)):
                 self.draw_displayed_tree_card(player, choice_index)
             elif choice_index == len(self.displayed_tree_cards):
                 self.draw_random_tree_card(player)
+
+    @abstractmethod
+    def output_draw_tree_cards(self: 'GameMain', player: Player, number: int) -> None:
+        pass
 
     @abstractmethod
     def input_draw_tree_card_index(self: 'GameMain', player: Player) -> int:

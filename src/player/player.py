@@ -66,23 +66,23 @@ class Player:
         if self.arboretum.has_trees():
             regions.append('{}\n{}'.format(
                 self.color.ansi().foreground('{}\'s Arboretum:'.format(self.name)),
-                '{}'.format(self.arboretum.table_format(card_color)),
+                self.arboretum.table_format(card_color),
             ))
         if self.hand.has_cards():
             regions.append('{}\n{}'.format(
                 self.color.ansi().foreground('{}\'s Hand:'.format(self.name)),
-                '{}'.format(self.hand.table_format(card_color)),
+                self.hand.table_format(card_color),
             ))
         if len(self.nutrients) > 0:
-            regions.append('{}\n{}'.format(
+            regions.append('{}\n  {}'.format(
                 self.color.ansi().foreground('{}\'s Nutrients:'.format(self.name)),
-                '  {}'.format(self.nutrients.emoji_format()),
+                self.nutrients.emoji_format(),
             ))
         if self.bonus_class is not None:
-            regions.append('{}{}\n{}'.format(
+            regions.append('{} {}\n  {}'.format(
                 self.color.ansi().foreground('{}\'s Bonus:'.format(self.name)),
-                ' {}'.format(self.bonus_class.name),
-                '  {}'.format(self.bonus_class.description),
+                self.bonus_class.name,
+                self.bonus_class.description,
             ))
         return BorderBox.of(regions, card_color).draw()
 
