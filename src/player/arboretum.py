@@ -3,6 +3,7 @@ from operator import add
 from typing import Dict, List
 
 from tree import Habitat, TreeCard
+from util.ansi import AnsiColor
 
 
 class Arboretum(Dict[Habitat, List[TreeCard]]):
@@ -29,14 +30,14 @@ class Arboretum(Dict[Habitat, List[TreeCard]]):
     def get_populated_habitats(self: 'Arboretum') -> List[Habitat]:
         return list(filter(lambda habitat: len(self[habitat]) > 0, self.keys()))
 
-    def player_format(self: 'Arboretum') -> str:
-        return '\n'.join(self.player_format_habitat(habitat) for habitat in self.get_populated_habitats())
+    def table_format(self: 'Arboretum', color=AnsiColor.DEFAULT) -> str:
+        return '\n'.join(self.table_format_habitat(habitat, color) for habitat in self.get_populated_habitats())
 
-    def player_format_habitat(self: 'Arboretum', habitat: Habitat) -> str:
+    def table_format_habitat(self: 'Arboretum', habitat: Habitat, color=AnsiColor.DEFAULT) -> str:
         return '  {} Habitat:\n'.format(habitat.to_string()) + \
                '\n'.join('  {} {}'.format(
                    '{}.'.format(index + 1).ljust(3),
-                   tree_card.arboretum_format(),
+                   tree_card.arboretum_format(color),
                ) for index, tree_card in enumerate(self[habitat]))
 
 
@@ -46,6 +47,6 @@ if __name__ == '__main__':
     arb.plant_tree(TreeCard(Habitat.DECIDUOUS, 'Acer negundo', 'boxelder', 0, 70, [], True))
 
     print('Arboretum:')
-    print(arb.player_format())
+    print(arb.table_format())
     print('Total Points: {}'.format(arb.get_total_points()))
     print('Total Height: {}'.format(arb.get_total_height()))

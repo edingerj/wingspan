@@ -7,7 +7,7 @@ from console.console_runtime_flags import ConsoleRuntimeFlags
 from console.console_util import print_ellipsis
 from console.sleep import sleep
 from game import game_instance, runtime_flags
-from player import Player, PlayerName, Players
+from player import Player, PlayerColors, PlayerColor, PlayerName, Players
 
 
 def main(arguments: List[str]) -> None:
@@ -62,12 +62,15 @@ def get_bonus_cards() -> BonusCards:
 def get_players(num_players: int, bonus_cards: BonusCards) -> Players:
     player_names = [get_player_name(index) for index in range(num_players)]
     print()
+    colors = PlayerColors.all()
+    player_colors = [get_player_color(colors, player_names[index]) for index in range(num_players)]
+    print()
     player_bonus_cards = [get_player_bonus_card(bonus_cards, player_names[index]) for index in range(num_players)]
     print()
 
-    return Players(
-        [Player(player_names[index], player_bonus_cards[index]) for index in range(num_players)]
-    )
+    return Players([
+        Player(player_names[index], player_colors[index], player_bonus_cards[index]) for index in range(num_players)
+    ])
 
 
 def get_player_name(index: int) -> PlayerName:
@@ -89,6 +92,28 @@ def get_player_name(index: int) -> PlayerName:
 
 def input_player_name() -> PlayerName:
     return PlayerName.of(input('  → ').strip())
+
+
+def get_player_color(colors: PlayerColors, player_name: PlayerName) -> PlayerColor:
+    choice = input_player_color(colors, player_name)
+    color_index = colors.index_of(choice)
+    while color_index is None:
+        choice = retry_input_player_color(choice)
+        color_index = colors.index_of(choice)
+    return colors.pop(color_index)
+
+
+def input_player_color(colors: PlayerColors, player_name: PlayerName) -> str:
+    return input(
+        '{}, what color would you like to be:\n'.format(player_name) +
+        '{}\n'.format(colors.table_format()) +
+        '  → ').strip()
+
+
+def retry_input_player_color(previous_choice: str) -> str:
+    return input(
+        'Invalid color: {}. Please try again:\n'.format(previous_choice) +
+        '  → ').strip()
 
 
 def get_player_bonus_card(bonus_cards: BonusCards, player_name: PlayerName) -> BonusCard:

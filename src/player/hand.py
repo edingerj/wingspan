@@ -1,6 +1,7 @@
 from typing import Iterable, List, Optional
 
 from tree import TreeCard, tree_deck
+from util.ansi import AnsiColor
 
 
 class Hand(List[TreeCard]):
@@ -42,10 +43,10 @@ class Hand(List[TreeCard]):
     def card_format(self: 'Hand') -> str:
         return ''.join([tree_card.card_format() for tree_card in self])
 
-    def table_format(self: 'Hand') -> str:
+    def table_format(self: 'Hand', color=AnsiColor.DEFAULT) -> str:
         return '\n'.join(['  {} {}'.format(
             '{}.'.format(index + 1).ljust(3),
-            '{}'.format(tree_card.table_format()),
+            '{}'.format(tree_card.table_format(color)),
         ) for index, tree_card in enumerate(self)])
 
 

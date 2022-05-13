@@ -3,7 +3,8 @@ from typing import Final
 from tree.habitat import Habitat
 from tree.nutrients import Nutrients
 from tree.tree_card_data import TreeCardData
-from util.ansi import AnsiFormat
+from util.ansi import AnsiFormat, AnsiColor
+from util.table import delimiter
 
 
 class TreeCard:
@@ -47,8 +48,9 @@ class TreeCard:
         result += '╚{}╧{}╧{}╝\n'.format(60 * '═', 8 * '═', 8 * '═')
         return result
 
-    def table_format(self: 'TreeCard') -> str:
-        return '{} │ {} │ {} │ {} │ {}'.format(
+    def table_format(self: 'TreeCard', color=AnsiColor.DEFAULT) -> str:
+        return '{1} {0} {2} {0} {3} {0} {4} {0} {5}'.format(
+            delimiter(color),
             self.common_name.ljust(24),
             '{} {}'.format(self.points, 'pts' if self.points != 1 else 'pt').ljust(6),
             '{} ft'.format(self.height).ljust(6),
@@ -56,8 +58,9 @@ class TreeCard:
             self.nutrients.emoji_format(),
         )
 
-    def arboretum_format(self: 'TreeCard') -> str:
-        return '{} │ {} │ {}'.format(
+    def arboretum_format(self: 'TreeCard', color=AnsiColor.DEFAULT) -> str:
+        return '{1} {0} {2} {0} {3}'.format(
+            delimiter(color),
             self.common_name.ljust(24),
             '{} {}'.format(self.points, 'pts' if self.points != 1 else 'pt').ljust(6),
             '{} ft'.format(self.height),
