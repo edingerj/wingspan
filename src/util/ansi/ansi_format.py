@@ -1,6 +1,7 @@
+from re import compile
 from typing import Final
 
-from ansi.escape_characters import *
+from util.ansi.escape_characters import *
 
 
 class AnsiFormat:
@@ -10,6 +11,11 @@ class AnsiFormat:
     """
     ATTR_LEN_OFFSET: Final[int] = 9
     COLOR_LEN_OFFSET: Final[int] = 10
+
+    @staticmethod
+    def unformat(text: str) -> str:
+        ansi_escape = compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])')
+        return ansi_escape.sub('', text)
 
     # region Text Attributes
     @staticmethod
@@ -146,7 +152,7 @@ if __name__ == '__main__':
     print('BRIGHT_WHITE: ' + AnsiFormat.bright_white('01189998819991197253'))
 
     print('\nCombinations:')
-    print(AnsiFormat.underscore(
+    combo = AnsiFormat.underscore(
         AnsiFormat.yellow('0118') +
         AnsiFormat.bright_yellow('999') +
         AnsiFormat.blue(
@@ -155,4 +161,6 @@ if __name__ == '__main__':
                 '9119' +
                 AnsiFormat.invert(
                     '725' +
-                    AnsiFormat.strikethrough('3'))))))
+                    AnsiFormat.strikethrough('3')))))
+    print(combo)
+    print(AnsiFormat.unformat(combo))

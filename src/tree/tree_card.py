@@ -1,9 +1,9 @@
 from typing import Final
 
-from ansi import AnsiFormat
 from tree.habitat import Habitat
 from tree.nutrients import Nutrients
 from tree.tree_card_data import TreeCardData
+from util.ansi import AnsiFormat
 
 
 class TreeCard:

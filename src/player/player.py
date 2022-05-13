@@ -5,6 +5,7 @@ from player.arboretum import Arboretum
 from player.hand import Hand
 from player.player_name import PlayerName
 from tree import Habitat, Nutrients, TreeCard
+from util.border import BorderBox
 
 
 class Player:
@@ -58,23 +59,28 @@ class Player:
         return total_deciduous + 1
 
     def overview_format(self: 'Player') -> str:
-        result = '╔{}╗\n'.format(78 * '═')
+        regions = []
         if self.arboretum.has_trees():
-            result += '║ {} ║\n'.format('{}\'s Arboretum:'.format(self.name).ljust(76))
-            result += '{}\n'.format(self.arboretum.player_format())
-            result += '╟{}╢\n'.format(78 * '─')
+            regions.append(
+                '{}\'s Arboretum:\n'.format(self.name) +
+                '{}'.format(self.arboretum.player_format())
+            )
         if self.hand.has_cards():
-            result += '║ {} ║\n'.format('{}\'s Hand:'.format(self.name).ljust(76))
-            result += '{}\n'.format(self.hand.player_format())
-            result += '╟{}╢\n'.format(78 * '─')
+            regions.append(
+                '{}\'s Hand:\n'.format(self.name) +
+                '{}'.format(self.hand.table_format())
+            )
         if len(self.nutrients) > 0:
-            result += '║ {} ║\n'.format('{}\'s Nutrients:'.format(self.name).ljust(76))
-            result += '║   {} ║\n'.format('{}'.format(self.nutrients.emoji_format()).ljust(74 - len(self.nutrients)))
-            result += '╟{}╢\n'.format(78 * '─')
-        result += '║ {} ║\n'.format('{}\'s Bonus: {}'.format(self.name, self.bonus_class.name).ljust(76))
-        result += '║   {} ║\n'.format(self.bonus_class.description.ljust(74))
-        result += '╚{}╝\n'.format(78 * '═')
-        return result
+            regions.append(
+                '{}\'s Nutrients:\n'.format(self.name) +
+                '  {}'.format(self.nutrients.emoji_format())
+            )
+        if self.bonus_class is not None:
+            regions.append(
+                '{}\'s Bonus: {}\n'.format(self.name, self.bonus_class.name) +
+                '  {}'.format(self.bonus_class.description)
+            )
+        return BorderBox.of(regions).draw()
 
     def get_total_score(self: 'Player') -> int:
         return sum([

@@ -2,15 +2,13 @@ from typing import List
 
 from bonus import BonusCard, BonusCards
 from console.console_game_main import ConsoleGameMain
-from console.console_output import print_welcome_message, print_ellipsis
+from console.console_output import print_welcome_message
 from console.console_runtime_flags import ConsoleRuntimeFlags
+from console.console_util import print_ellipsis
 from console.sleep import sleep
 from game import game_instance, runtime_flags
 from player import Player, PlayerName, Players
 
-
-# Todo: add console colors, potentially?
-#  See: https://gist.github.com/dnmellen/5584007
 
 def main(arguments: List[str]) -> None:
     runtime_flags.set(ConsoleRuntimeFlags.from_arguments(arguments))

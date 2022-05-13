@@ -1,7 +1,5 @@
 from enum import Enum
 
-from unicodedata import east_asian_width
-
 
 class Nutrient(Enum):
     SUN = 'SUN'
@@ -37,12 +35,6 @@ if __name__ == '__main__':
     nutrient = Nutrient.FIRE
     print('{} {}'.format(nutrient.emoji(), nutrient))
 
-    def visible_length(unicode_string: str) -> int:
-        """ Two spaces for "wide" characters, one space for others. """
-        return sum([2 if (east_asian_width(char) == 'W') else 1 for char in unicode_string])
-
     nutrients = [nutrient for nutrient in Nutrient]
     nutrients.sort()
-    nutrient_emojis = ' '.join([nutrient.emoji() for nutrient in Nutrient])
-    print(nutrient_emojis)
-    print('len: {}, visible_length: {}'.format(len(nutrient_emojis), visible_length(nutrient_emojis)))
+    print(' '.join([nutrient.emoji() for nutrient in Nutrient]))

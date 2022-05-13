@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="escape_characters" type="PythonConfigurationType" factoryName="Python" folderName="ansi" nameIsGenerated="true">
+  <configuration default="false" name="border_box" type="PythonConfigurationType" factoryName="Python" folderName="border" nameIsGenerated="true">
     <module name="wingspan" />
     <option name="INTERPRETER_OPTIONS" value="" />
     <option name="PARENT_ENVS" value="true" />
@@ -7,11 +7,11 @@
       <env name="PYTHONUNBUFFERED" value="1" />
     </envs>
     <option name="SDK_HOME" value="" />
-    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src" />
     <option name="IS_MODULE_SDK" value="true" />
     <option name="ADD_CONTENT_ROOTS" value="true" />
     <option name="ADD_SOURCE_ROOTS" value="true" />
-    <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/util/ansi/escape_characters.py" />
+    <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/util/border/border_box.py" />
     <option name="PARAMETERS" value="" />
     <option name="SHOW_COMMAND_LINE" value="false" />
     <option name="EMULATE_TERMINAL" value="false" />
