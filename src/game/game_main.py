@@ -19,7 +19,6 @@ class GameMain(metaclass=ABCMeta):
     def start_game(self: 'GameMain') -> None:
         self.take_turn(self.players[0])
 
-    # Todo: add pre & post move help blocks
     def take_turn(self: 'GameMain', player: Player) -> None:
         self.start_turn(player)
         self.start_move(player)

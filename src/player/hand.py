@@ -41,12 +41,12 @@ class Hand(List[TreeCard]):
             return None
 
     def card_format(self: 'Hand') -> str:
-        return ''.join([tree_card.card_format() for tree_card in self])
+        return '\n'.join([tree_card.card_format() for tree_card in self])
 
-    def table_format(self: 'Hand', color=AnsiColor.DEFAULT) -> str:
+    def table_format(self: 'Hand', delimiter_color=AnsiColor.DEFAULT) -> str:
         return '\n'.join(['  {} {}'.format(
             '{}.'.format(index + 1).ljust(3),
-            '{}'.format(tree_card.table_format(color)),
+            '{}'.format(tree_card.table_format(delimiter_color)),
         ) for index, tree_card in enumerate(self)])
 
 

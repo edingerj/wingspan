@@ -30,15 +30,21 @@ class Arboretum(Dict[Habitat, List[TreeCard]]):
     def get_populated_habitats(self: 'Arboretum') -> List[Habitat]:
         return list(filter(lambda habitat: len(self[habitat]) > 0, self.keys()))
 
-    def table_format(self: 'Arboretum', color=AnsiColor.DEFAULT) -> str:
-        return '\n'.join(self.table_format_habitat(habitat, color) for habitat in self.get_populated_habitats())
+    def table_format(self: 'Arboretum', header_color=AnsiColor.DEFAULT, delimiter_color=AnsiColor.DEFAULT) -> str:
+        return '\n'.join(
+            self.table_format_habitat(habitat, header_color, delimiter_color)
+            for habitat in self.get_populated_habitats()
+        )
 
-    def table_format_habitat(self: 'Arboretum', habitat: Habitat, color=AnsiColor.DEFAULT) -> str:
-        return '  {} Habitat:\n'.format(habitat.to_string()) + \
-               '\n'.join('  {} {}'.format(
-                   '{}.'.format(index + 1).ljust(3),
-                   tree_card.arboretum_format(color),
-               ) for index, tree_card in enumerate(self[habitat]))
+    def table_format_habitat(self: 'Arboretum', habitat: Habitat,
+                             header_color=AnsiColor.DEFAULT, delimiter_color=AnsiColor.DEFAULT) -> str:
+        return '  {}\n{}'.format(
+            header_color.foreground('{} Habitat:'.format(habitat.to_string())),
+            '\n'.join('  {} {}'.format(
+                '{}.'.format(index + 1).ljust(3),
+                tree_card.arboretum_format(delimiter_color),
+            ) for index, tree_card in enumerate(self[habitat]))
+        )
 
 
 if __name__ == '__main__':

@@ -3,5 +3,5 @@ from util.ansi import AnsiColor
 DELIMITER = '│'
 
 
-def delimiter(color=AnsiColor.DEFAULT) -> str:
-    return color.foreground(DELIMITER)
+def delimiter(delimiter_color=AnsiColor.DEFAULT) -> str:
+    return delimiter_color.foreground(DELIMITER)

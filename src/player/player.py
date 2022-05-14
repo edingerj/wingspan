@@ -66,7 +66,7 @@ class Player:
         if self.arboretum.has_trees():
             regions.append('{}\n{}'.format(
                 self.color.ansi().foreground('{}\'s Arboretum:'.format(self.name)),
-                self.arboretum.table_format(card_color),
+                self.arboretum.table_format(self.color.ansi(), card_color),
             ))
         if self.hand.has_cards():
             regions.append('{}\n{}'.format(
