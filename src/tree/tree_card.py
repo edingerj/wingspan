@@ -3,6 +3,9 @@ from typing import Final
 from tree.habitat import Habitat
 from tree.nutrients import Nutrients
 from tree.tree_card_data import TreeCardData
+from util.ansi import AnsiFormat, AnsiColor, visible_offset
+from util.border import BorderBox
+from util.table import delimiter
 
 
 class TreeCard:
@@ -25,26 +28,25 @@ class TreeCard:
         return TreeCard(habitat, card_data.scientific_name, card_data.common_name,
                         card_data.points, card_data.height, nutrients, michigander)
 
-    def card_format(self: 'TreeCard') -> str:
-        result = '╔{}╗\n'.format(78 * '═')
-        result += '║ {} {} ║\n'.format(
-            '{} ({})'.format(self.common_name, self.scientific_name).ljust(60),
-            self.nutrients.emoji_format().rjust(15 - len(self.nutrients)),
-        )
-        if self.michigander:
-            result += '╟{}╢\n'.format(78 * '─')
-            result += '║ {} ║\n'.format('{} is native to Michigan.'.format(self.common_name).ljust(76))
-        result += '╟{}┬{}┬{}╢\n'.format(60 * '─', 8 * '─', 8 * '─')
-        result += '║ {} │ {} │ {} ║\n'.format(
-            self.habitat.to_string().ljust(58),
+    def card_format(self: 'TreeCard', card_color=AnsiColor.BRIGHT_BLACK) -> str:
+        regions = [[
+            '{} {}'.format(
+                self.common_name,
+                AnsiFormat.italic('({})'.format(self.scientific_name)),
+            ),
+            self.nutrients.emoji_format().ljust(15 - visible_offset(self.nutrients.emoji_format())),
+        ], [
+            self.habitat.to_string(),
             '{} {}'.format(self.points, 'pts' if self.points != 1 else 'pt').ljust(6),
             '{} ft'.format(self.height).ljust(6),
-        )
-        result += '╚{}╧{}╧{}╝\n'.format(60 * '═', 8 * '═', 8 * '═')
-        return result
+        ]]
+        if self.michigander:
+            regions.insert(1, '{} is native to Michigan.'.format(self.common_name))
+        return BorderBox.of(regions, card_color).draw()
 
-    def table_format(self: 'TreeCard') -> str:
-        return '{} │ {} │ {} │ {} │ {}'.format(
+    def table_format(self: 'TreeCard', delimiter_color=AnsiColor.DEFAULT) -> str:
+        return '{1} {0} {2} {0} {3} {0} {4} {0} {5}'.format(
+            delimiter(delimiter_color),
             self.common_name.ljust(24),
             '{} {}'.format(self.points, 'pts' if self.points != 1 else 'pt').ljust(6),
             '{} ft'.format(self.height).ljust(6),
@@ -52,8 +54,9 @@ class TreeCard:
             self.nutrients.emoji_format(),
         )
 
-    def arboretum_format(self: 'TreeCard') -> str:
-        return '{} │ {} │ {}'.format(
+    def arboretum_format(self: 'TreeCard', delimiter_color=AnsiColor.DEFAULT) -> str:
+        return '{1} {0} {2} {0} {3}'.format(
+            delimiter(delimiter_color),
             self.common_name.ljust(24),
             '{} {}'.format(self.points, 'pts' if self.points != 1 else 'pt').ljust(6),
             '{} ft'.format(self.height),

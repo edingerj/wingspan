@@ -2,10 +2,10 @@ from enum import Enum
 
 
 class Nutrient(Enum):
-    SUN = 'sun'
-    WATER = 'water'
-    FIRE = 'fire'
-    DISTURBANCE = 'disturbance'
+    SUN = 'SUN'
+    WATER = 'WATER'
+    FIRE = 'FIRE'
+    DISTURBANCE = 'DISTURBANCE'
 
     def __lt__(self: 'Nutrient', other: 'Nutrient') -> bool:
         return self.__get_sort_order() < other.__get_sort_order()
@@ -37,5 +37,4 @@ if __name__ == '__main__':
 
     nutrients = [nutrient for nutrient in Nutrient]
     nutrients.sort()
-    nutrient_emojis = [nutrient.emoji() for nutrient in Nutrient]
-    print(' '.join(nutrient_emojis))
+    print(' '.join([nutrient.emoji() for nutrient in Nutrient]))

@@ -1,12 +1,11 @@
 from sys import stdout
 
 from console.sleep import sleep
-
-LINE_UP = '\033[1A'
-LINE_CLEAR = '\x1b[2K'
+from util.ansi import LINE_CLEAR, LINE_UP
 
 
 def clear_lines(lines: int = 1) -> None:
+    """ Requires terminal emulation in PyCharm """
     for _ in range(lines):
         print(LINE_UP, end=LINE_CLEAR)
     stdout.flush()
@@ -41,6 +40,7 @@ __all__ = [
 
 if __name__ == '__main__':
     for i in range(10):
-        clear_lines()
         print(i)
         sleep(1)
+        clear_lines()
+    print('Done')

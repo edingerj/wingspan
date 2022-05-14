@@ -46,6 +46,9 @@ class ConsoleGameMain(GameMain, ABC):
     def output_draw_nutrient_cards(self: 'ConsoleGameMain', player: Player, nutrients: Nutrients) -> None:
         print_draw_nutrient_cards(player, nutrients)
 
+    def output_draw_tree_cards(self: 'ConsoleGameMain', player: Player, number: int) -> None:
+        print_draw_tree_cards(number)
+
     def input_draw_tree_card_index(self: 'ConsoleGameMain', player: Player) -> int:
         return input_draw_tree_card_index(self.displayed_tree_cards)
 

@@ -3,13 +3,17 @@ from typing import Final, List
 from bonus import BonusCard, BonusToken
 from player.arboretum import Arboretum
 from player.hand import Hand
+from player.player_color import PlayerColor
 from player.player_name import PlayerName
 from tree import Habitat, Nutrients, TreeCard
+from util.ansi import AnsiColor
+from util.border import BorderBox
 
 
 class Player:
-    def __init__(self: 'Player', name: PlayerName, bonus_class: BonusCard) -> None:
+    def __init__(self: 'Player', name: PlayerName, color: PlayerColor, bonus_class: BonusCard) -> None:
         self.name: Final[PlayerName] = name
+        self.color: Final[PlayerColor] = color
         self.bonus_class: Final[BonusCard] = bonus_class
         self.nutrients: Final[Nutrients] = Nutrients.random_sorted()
         self.hand: Final[Hand] = Hand.from_deck()
@@ -57,24 +61,30 @@ class Player:
         self.hugs += total_deciduous + 1
         return total_deciduous + 1
 
-    def overview_format(self: 'Player') -> str:
-        result = '╔{}╗\n'.format(78 * '═')
+    def overview_format(self: 'Player', card_color=AnsiColor.BRIGHT_BLACK) -> str:
+        regions = []
         if self.arboretum.has_trees():
-            result += '║ {} ║\n'.format('{}\'s Arboretum:'.format(self.name).ljust(76))
-            result += '{}\n'.format(self.arboretum.player_format())
-            result += '╟{}╢\n'.format(78 * '─')
+            regions.append('{}\n{}'.format(
+                self.color.ansi().foreground('{}\'s Arboretum:'.format(self.name)),
+                self.arboretum.table_format(self.color.ansi(), card_color),
+            ))
         if self.hand.has_cards():
-            result += '║ {} ║\n'.format('{}\'s Hand:'.format(self.name).ljust(76))
-            result += '{}\n'.format(self.hand.player_format())
-            result += '╟{}╢\n'.format(78 * '─')
+            regions.append('{}\n{}'.format(
+                self.color.ansi().foreground('{}\'s Hand:'.format(self.name)),
+                self.hand.table_format(card_color),
+            ))
         if len(self.nutrients) > 0:
-            result += '║ {} ║\n'.format('{}\'s Nutrients:'.format(self.name).ljust(76))
-            result += '║   {} ║\n'.format('{}'.format(self.nutrients.emoji_format()).ljust(74 - len(self.nutrients)))
-            result += '╟{}╢\n'.format(78 * '─')
-        result += '║ {} ║\n'.format('{}\'s Bonus: {}'.format(self.name, self.bonus_class.name).ljust(76))
-        result += '║   {} ║\n'.format(self.bonus_class.description.ljust(74))
-        result += '╚{}╝\n'.format(78 * '═')
-        return result
+            regions.append('{}\n  {}'.format(
+                self.color.ansi().foreground('{}\'s Nutrients:'.format(self.name)),
+                self.nutrients.emoji_format(),
+            ))
+        if self.bonus_class is not None:
+            regions.append('{} {}\n  {}'.format(
+                self.color.ansi().foreground('{}\'s Bonus:'.format(self.name)),
+                self.bonus_class.name,
+                self.bonus_class.description,
+            ))
+        return BorderBox.of(regions, card_color).draw()
 
     def get_total_score(self: 'Player') -> int:
         return sum([
@@ -91,7 +101,7 @@ class Player:
 
 
 if __name__ == '__main__':
-    player = Player('Seb', BonusCard('Michigander', '', None, True))
+    player = Player('Seb', PlayerColor.BLUE, BonusCard('Michigander', '', None, True))
     player.draw_tree_card_from_deck()
 
     print('Player: {}'.format(player.name))
