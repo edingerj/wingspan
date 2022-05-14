@@ -26,34 +26,70 @@ class AnsiColor(Enum):
         if self is AnsiColor.DEFAULT:
             return text
         elif self is AnsiColor.BLACK:
-            return AnsiFormat.black(text)
+            return AnsiFormat.fg_black(text)
         elif self is AnsiColor.RED:
-            return AnsiFormat.red(text)
+            return AnsiFormat.fg_red(text)
         elif self is AnsiColor.GREEN:
-            return AnsiFormat.green(text)
+            return AnsiFormat.fg_green(text)
         elif self is AnsiColor.YELLOW:
-            return AnsiFormat.yellow(text)
+            return AnsiFormat.fg_yellow(text)
         elif self is AnsiColor.BLUE:
-            return AnsiFormat.blue(text)
+            return AnsiFormat.fg_blue(text)
         elif self is AnsiColor.MAGENTA:
-            return AnsiFormat.magenta(text)
+            return AnsiFormat.fg_magenta(text)
         elif self is AnsiColor.CYAN:
-            return AnsiFormat.cyan(text)
+            return AnsiFormat.fg_cyan(text)
         elif self is AnsiColor.WHITE:
-            return AnsiFormat.white(text)
+            return AnsiFormat.fg_white(text)
         elif self is AnsiColor.BRIGHT_BLACK:
-            return AnsiFormat.bright_black(text)
+            return AnsiFormat.fg_bright_black(text)
         elif self is AnsiColor.BRIGHT_RED:
-            return AnsiFormat.bright_red(text)
+            return AnsiFormat.fg_bright_red(text)
         elif self is AnsiColor.BRIGHT_GREEN:
-            return AnsiFormat.bright_green(text)
+            return AnsiFormat.fg_bright_green(text)
         elif self is AnsiColor.BRIGHT_YELLOW:
-            return AnsiFormat.bright_yellow(text)
+            return AnsiFormat.fg_bright_yellow(text)
         elif self is AnsiColor.BRIGHT_BLUE:
-            return AnsiFormat.bright_blue(text)
+            return AnsiFormat.fg_bright_blue(text)
         elif self is AnsiColor.BRIGHT_MAGENTA:
-            return AnsiFormat.bright_magenta(text)
+            return AnsiFormat.fg_bright_magenta(text)
         elif self is AnsiColor.BRIGHT_CYAN:
-            return AnsiFormat.bright_cyan(text)
+            return AnsiFormat.fg_bright_cyan(text)
         elif self is AnsiColor.BRIGHT_WHITE:
-            return AnsiFormat.bright_white(text)
+            return AnsiFormat.fg_bright_white(text)
+
+    def background(self: 'AnsiColor', text: str) -> str:
+        if self is AnsiColor.DEFAULT:
+            return text
+        elif self is AnsiColor.BLACK:
+            return AnsiFormat.bg_black(text)
+        elif self is AnsiColor.RED:
+            return AnsiFormat.bg_red(text)
+        elif self is AnsiColor.GREEN:
+            return AnsiFormat.bg_green(text)
+        elif self is AnsiColor.YELLOW:
+            return AnsiFormat.bg_yellow(text)
+        elif self is AnsiColor.BLUE:
+            return AnsiFormat.bg_blue(text)
+        elif self is AnsiColor.MAGENTA:
+            return AnsiFormat.bg_magenta(text)
+        elif self is AnsiColor.CYAN:
+            return AnsiFormat.bg_cyan(text)
+        elif self is AnsiColor.WHITE:
+            return AnsiFormat.bg_white(text)
+        elif self is AnsiColor.BRIGHT_BLACK:
+            return AnsiFormat.bg_bright_black(text)
+        elif self is AnsiColor.BRIGHT_RED:
+            return AnsiFormat.bg_bright_red(text)
+        elif self is AnsiColor.BRIGHT_GREEN:
+            return AnsiFormat.bg_bright_green(text)
+        elif self is AnsiColor.BRIGHT_YELLOW:
+            return AnsiFormat.bg_bright_yellow(text)
+        elif self is AnsiColor.BRIGHT_BLUE:
+            return AnsiFormat.bg_bright_blue(text)
+        elif self is AnsiColor.BRIGHT_MAGENTA:
+            return AnsiFormat.bg_bright_magenta(text)
+        elif self is AnsiColor.BRIGHT_CYAN:
+            return AnsiFormat.bg_bright_cyan(text)
+        elif self is AnsiColor.BRIGHT_WHITE:
+            return AnsiFormat.bg_bright_white(text)

@@ -7,7 +7,7 @@ from util.ansi import AnsiFormat
 
 
 def print_welcome_message() -> None:
-    print(AnsiFormat.green(
+    print(AnsiFormat.fg_green(
         '┌{}┐\n'.format(78 * '─') +
         '│{}│\n'.format('Welcome to Treespan'.center(78)) +
         '└{}┘\n'.format(78 * '─')

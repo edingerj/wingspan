@@ -53,109 +53,197 @@ class AnsiFormat:
 
     # region Foreground Colors
     @staticmethod
-    def black(text: str) -> str:
-        return '{}{}{}'.format(BLACK, text, FOREGROUND_OFF)
+    def fg_black(text: str) -> str:
+        return '{}{}{}'.format(FG_BLACK, text, FG_OFF)
 
     @staticmethod
-    def red(text: str) -> str:
-        return '{}{}{}'.format(RED, text, FOREGROUND_OFF)
+    def fg_red(text: str) -> str:
+        return '{}{}{}'.format(FG_RED, text, FG_OFF)
 
     @staticmethod
-    def green(text: str) -> str:
-        return '{}{}{}'.format(GREEN, text, FOREGROUND_OFF)
+    def fg_green(text: str) -> str:
+        return '{}{}{}'.format(FG_GREEN, text, FG_OFF)
 
     @staticmethod
-    def yellow(text: str) -> str:
-        return '{}{}{}'.format(YELLOW, text, FOREGROUND_OFF)
+    def fg_yellow(text: str) -> str:
+        return '{}{}{}'.format(FG_YELLOW, text, FG_OFF)
 
     @staticmethod
-    def blue(text: str) -> str:
-        return '{}{}{}'.format(BLUE, text, FOREGROUND_OFF)
+    def fg_blue(text: str) -> str:
+        return '{}{}{}'.format(FG_BLUE, text, FG_OFF)
 
     @staticmethod
-    def magenta(text: str) -> str:
-        return '{}{}{}'.format(MAGENTA, text, FOREGROUND_OFF)
+    def fg_magenta(text: str) -> str:
+        return '{}{}{}'.format(FG_MAGENTA, text, FG_OFF)
 
     @staticmethod
-    def cyan(text: str) -> str:
-        return '{}{}{}'.format(CYAN, text, FOREGROUND_OFF)
+    def fg_cyan(text: str) -> str:
+        return '{}{}{}'.format(FG_CYAN, text, FG_OFF)
 
     @staticmethod
-    def white(text: str) -> str:
-        return '{}{}{}'.format(WHITE, text, FOREGROUND_OFF)
+    def fg_white(text: str) -> str:
+        return '{}{}{}'.format(FG_WHITE, text, FG_OFF)
     # endregion Foreground Colors
+
+    # region Background Colors
+    @staticmethod
+    def bg_black(text: str) -> str:
+        return '{}{}{}'.format(BG_BLACK, text, BG_OFF)
+
+    @staticmethod
+    def bg_red(text: str) -> str:
+        return '{}{}{}'.format(BG_RED, text, BG_OFF)
+
+    @staticmethod
+    def bg_green(text: str) -> str:
+        return '{}{}{}'.format(BG_GREEN, text, BG_OFF)
+
+    @staticmethod
+    def bg_yellow(text: str) -> str:
+        return '{}{}{}'.format(BG_YELLOW, text, BG_OFF)
+
+    @staticmethod
+    def bg_blue(text: str) -> str:
+        return '{}{}{}'.format(BG_BLUE, text, BG_OFF)
+
+    @staticmethod
+    def bg_magenta(text: str) -> str:
+        return '{}{}{}'.format(BG_MAGENTA, text, BG_OFF)
+
+    @staticmethod
+    def bg_cyan(text: str) -> str:
+        return '{}{}{}'.format(BG_CYAN, text, BG_OFF)
+
+    @staticmethod
+    def bg_white(text: str) -> str:
+        return '{}{}{}'.format(BG_WHITE, text, BG_OFF)
+    # endregion Background Colors
 
     # region Bright Foreground Colors
     @staticmethod
-    def bright_black(text: str) -> str:
-        return '{}{}{}'.format(BRIGHT_BLACK, text, FOREGROUND_OFF)
+    def fg_bright_black(text: str) -> str:
+        return '{}{}{}'.format(FG_BRIGHT_BLACK, text, FG_OFF)
 
     @staticmethod
-    def bright_red(text: str) -> str:
-        return '{}{}{}'.format(BRIGHT_RED, text, FOREGROUND_OFF)
+    def fg_bright_red(text: str) -> str:
+        return '{}{}{}'.format(FG_BRIGHT_RED, text, FG_OFF)
 
     @staticmethod
-    def bright_green(text: str) -> str:
-        return '{}{}{}'.format(BRIGHT_GREEN, text, FOREGROUND_OFF)
+    def fg_bright_green(text: str) -> str:
+        return '{}{}{}'.format(FG_BRIGHT_GREEN, text, FG_OFF)
 
     @staticmethod
-    def bright_yellow(text: str) -> str:
-        return '{}{}{}'.format(BRIGHT_YELLOW, text, FOREGROUND_OFF)
+    def fg_bright_yellow(text: str) -> str:
+        return '{}{}{}'.format(FG_BRIGHT_YELLOW, text, FG_OFF)
 
     @staticmethod
-    def bright_blue(text: str) -> str:
-        return '{}{}{}'.format(BRIGHT_BLUE, text, FOREGROUND_OFF)
+    def fg_bright_blue(text: str) -> str:
+        return '{}{}{}'.format(FG_BRIGHT_BLUE, text, FG_OFF)
 
     @staticmethod
-    def bright_magenta(text: str) -> str:
-        return '{}{}{}'.format(BRIGHT_MAGENTA, text, FOREGROUND_OFF)
+    def fg_bright_magenta(text: str) -> str:
+        return '{}{}{}'.format(FG_BRIGHT_MAGENTA, text, FG_OFF)
 
     @staticmethod
-    def bright_cyan(text: str) -> str:
-        return '{}{}{}'.format(BRIGHT_CYAN, text, FOREGROUND_OFF)
+    def fg_bright_cyan(text: str) -> str:
+        return '{}{}{}'.format(FG_BRIGHT_CYAN, text, FG_OFF)
 
     @staticmethod
-    def bright_white(text: str) -> str:
-        return '{}{}{}'.format(BRIGHT_WHITE, text, FOREGROUND_OFF)
+    def fg_bright_white(text: str) -> str:
+        return '{}{}{}'.format(FG_BRIGHT_WHITE, text, FG_OFF)
     # endregion Bright Foreground Colors
+
+    # region Bright Background Colors
+    @staticmethod
+    def bg_bright_black(text: str) -> str:
+        return '{}{}{}'.format(BG_BRIGHT_BLACK, text, BG_OFF)
+
+    @staticmethod
+    def bg_bright_red(text: str) -> str:
+        return '{}{}{}'.format(BG_BRIGHT_RED, text, BG_OFF)
+
+    @staticmethod
+    def bg_bright_green(text: str) -> str:
+        return '{}{}{}'.format(BG_BRIGHT_GREEN, text, BG_OFF)
+
+    @staticmethod
+    def bg_bright_yellow(text: str) -> str:
+        return '{}{}{}'.format(BG_BRIGHT_YELLOW, text, BG_OFF)
+
+    @staticmethod
+    def bg_bright_blue(text: str) -> str:
+        return '{}{}{}'.format(BG_BRIGHT_BLUE, text, BG_OFF)
+
+    @staticmethod
+    def bg_bright_magenta(text: str) -> str:
+        return '{}{}{}'.format(BG_BRIGHT_MAGENTA, text, BG_OFF)
+
+    @staticmethod
+    def bg_bright_cyan(text: str) -> str:
+        return '{}{}{}'.format(BG_BRIGHT_CYAN, text, BG_OFF)
+
+    @staticmethod
+    def bg_bright_white(text: str) -> str:
+        return '{}{}{}'.format(BG_BRIGHT_WHITE, text, BG_OFF)
+    # endregion Bright Background Colors
 
 
 if __name__ == '__main__':
     print('\nText Attributes:')
-    print('BOLD: ' + AnsiFormat.bold('01189998819991197253'))
-    print('FAINT: ' + AnsiFormat.faint('01189998819991197253'))
-    print('ITALIC: ' + AnsiFormat.italic('01189998819991197253'))
-    print('UNDERSCORE: ' + AnsiFormat.underscore('01189998819991197253'))
-    print('BLINK: ' + AnsiFormat.blink('01189998819991197253'))
-    print('INVERT: ' + AnsiFormat.invert('01189998819991197253'))
-    print('CONCEAL: ' + AnsiFormat.conceal('01189998819991197253'))
-    print('STRIKETHROUGH: ' + AnsiFormat.strikethrough('01189998819991197253'))
+    print('bold: ' + AnsiFormat.bold('01189998819991197253'))
+    print('faint: ' + AnsiFormat.faint('01189998819991197253'))
+    print('italic: ' + AnsiFormat.italic('01189998819991197253'))
+    print('underscore: ' + AnsiFormat.underscore('01189998819991197253'))
+    print('blink: ' + AnsiFormat.blink('01189998819991197253'))
+    print('invert: ' + AnsiFormat.invert('01189998819991197253'))
+    print('conceal: ' + AnsiFormat.conceal('01189998819991197253'))
+    print('strikethrough: ' + AnsiFormat.strikethrough('01189998819991197253'))
 
     print('\nForeground Colors:')
-    print('BLACK: ' + AnsiFormat.black('01189998819991197253'))
-    print('RED: ' + AnsiFormat.red('01189998819991197253'))
-    print('GREEN: ' + AnsiFormat.green('01189998819991197253'))
-    print('YELLOW: ' + AnsiFormat.yellow('01189998819991197253'))
-    print('BLUE: ' + AnsiFormat.blue('01189998819991197253'))
-    print('MAGENTA: ' + AnsiFormat.magenta('01189998819991197253'))
-    print('CYAN: ' + AnsiFormat.cyan('01189998819991197253'))
-    print('WHITE: ' + AnsiFormat.white('01189998819991197253'))
+    print('fg_black: ' + AnsiFormat.fg_black('01189998819991197253'))
+    print('fg_red: ' + AnsiFormat.fg_red('01189998819991197253'))
+    print('fg_green: ' + AnsiFormat.fg_green('01189998819991197253'))
+    print('fg_yellow: ' + AnsiFormat.fg_yellow('01189998819991197253'))
+    print('fg_blue: ' + AnsiFormat.fg_blue('01189998819991197253'))
+    print('fg_magenta: ' + AnsiFormat.fg_magenta('01189998819991197253'))
+    print('fg_cyan: ' + AnsiFormat.fg_cyan('01189998819991197253'))
+    print('fg_white: ' + AnsiFormat.fg_white('01189998819991197253'))
+
+    print('\nForeground Colors:')
+    print('bg_black: ' + AnsiFormat.bg_black('01189998819991197253'))
+    print('bg_red: ' + AnsiFormat.bg_red('01189998819991197253'))
+    print('bg_green: ' + AnsiFormat.bg_green('01189998819991197253'))
+    print('bg_yellow: ' + AnsiFormat.bg_yellow('01189998819991197253'))
+    print('bg_blue: ' + AnsiFormat.bg_blue('01189998819991197253'))
+    print('bg_magenta: ' + AnsiFormat.bg_magenta('01189998819991197253'))
+    print('bg_cyan: ' + AnsiFormat.bg_cyan('01189998819991197253'))
+    print('bg_white: ' + AnsiFormat.bg_white('01189998819991197253'))
 
     print('\nBright Foreground Colors:')
-    print('BRIGHT_BLACK: ' + AnsiFormat.bright_black('01189998819991197253'))
-    print('BRIGHT_RED: ' + AnsiFormat.bright_red('01189998819991197253'))
-    print('BRIGHT_GREEN: ' + AnsiFormat.bright_green('01189998819991197253'))
-    print('BRIGHT_YELLOW: ' + AnsiFormat.bright_yellow('01189998819991197253'))
-    print('BRIGHT_BLUE: ' + AnsiFormat.bright_blue('01189998819991197253'))
-    print('BRIGHT_MAGENTA: ' + AnsiFormat.bright_magenta('01189998819991197253'))
-    print('BRIGHT_CYAN: ' + AnsiFormat.bright_cyan('01189998819991197253'))
-    print('BRIGHT_WHITE: ' + AnsiFormat.bright_white('01189998819991197253'))
+    print('fg_bright_black: ' + AnsiFormat.fg_bright_black('01189998819991197253'))
+    print('fg_bright_red: ' + AnsiFormat.fg_bright_red('01189998819991197253'))
+    print('fg_bright_green: ' + AnsiFormat.fg_bright_green('01189998819991197253'))
+    print('fg_bright_yellow: ' + AnsiFormat.fg_bright_yellow('01189998819991197253'))
+    print('fg_bright_blue: ' + AnsiFormat.fg_bright_blue('01189998819991197253'))
+    print('fg_bright_magenta: ' + AnsiFormat.fg_bright_magenta('01189998819991197253'))
+    print('fg_bright_cyan: ' + AnsiFormat.fg_bright_cyan('01189998819991197253'))
+    print('fg_bright_white: ' + AnsiFormat.fg_bright_white('01189998819991197253'))
+
+    print('\nBright Background Colors:')
+    print('bg_bright_black: ' + AnsiFormat.bg_bright_black('01189998819991197253'))
+    print('bg_bright_red: ' + AnsiFormat.bg_bright_red('01189998819991197253'))
+    print('bg_bright_green: ' + AnsiFormat.bg_bright_green('01189998819991197253'))
+    print('bg_bright_yellow: ' + AnsiFormat.bg_bright_yellow('01189998819991197253'))
+    print('bg_bright_blue: ' + AnsiFormat.bg_bright_blue('01189998819991197253'))
+    print('bg_bright_magenta: ' + AnsiFormat.bg_bright_magenta('01189998819991197253'))
+    print('bg_bright_cyan: ' + AnsiFormat.bg_bright_cyan('01189998819991197253'))
+    print('bg_bright_white: ' + AnsiFormat.bg_bright_white('01189998819991197253'))
 
     print('\nCombinations:')
     combo = AnsiFormat.underscore(
-        AnsiFormat.yellow('0118') +
-        AnsiFormat.bright_yellow('999') +
-        AnsiFormat.blue(
+        AnsiFormat.fg_yellow('0118') +
+        AnsiFormat.bg_bright_black('999') +
+        AnsiFormat.fg_blue(
             '88199' +
             AnsiFormat.italic(
                 '9119' +

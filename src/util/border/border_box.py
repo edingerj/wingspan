@@ -67,8 +67,8 @@ if __name__ == '__main__':
     integrated_format = [
         ['🌞 Lorem Ipsum 🌞', '🌞'],
         '{}\n{}'.format(
-            AnsiFormat.blue('Lorem'),
-            AnsiFormat.bright_yellow('🌞 Ipsum 🌞'),
+            AnsiFormat.fg_blue('Lorem'),
+            AnsiFormat.fg_bright_yellow('🌞 Ipsum 🌞'),
         ),
         ['Lorem Ipsum', 'Dolor', 'Sit', 'Amet']
     ]
