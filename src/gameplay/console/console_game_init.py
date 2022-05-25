@@ -1,12 +1,12 @@
 from typing import List
 
 from bonus import BonusCard, BonusCards
-from console.console_game_main import ConsoleGameMain
-from console.console_output import print_welcome_message
-from console.console_runtime_flags import ConsoleRuntimeFlags
-from console.console_util import print_ellipsis, clear_lines
-from console.sleep import sleep
-from game import game_instance, runtime_flags
+from gameplay import game_instance, runtime_flags
+from gameplay.console.console_game_main import ConsoleGameMain
+from gameplay.console.io.console_output import print_welcome_message
+from gameplay.console.io.console_util import print_ellipsis, clear_lines
+from gameplay.console.runtime.console_runtime_flags import ConsoleRuntimeFlags
+from gameplay.console.runtime.sleep import sleep
 from player import Player, PlayerColors, PlayerColor, PlayerName, Players
 
 

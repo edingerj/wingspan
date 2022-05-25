@@ -1,7 +1,6 @@
 from typing import Optional, TypeVar
 
-from game.runtime_flags import RuntimeFlags
-
+from gameplay.base.runtime.runtime_flags import RuntimeFlags
 
 T = TypeVar('T', bound=RuntimeFlags)
 

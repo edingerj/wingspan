@@ -8,7 +8,7 @@ Players have 4 options every turn:
 from sys import argv
 from typing import List
 
-import console
+from gameplay import console
 
 
 def main(arguments: List[str]) -> None:

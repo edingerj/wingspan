@@ -73,7 +73,7 @@ def _draw_tree():
 
 def _write_welcome_text():
     font = ('Courier', 20, 'italic')
-    turtle.write('WELCOME TO WINGSPAN (TREE EDITION)!', font=font, align='center')
+    turtle.write('WELCOME TO TREESPAN', font=font, align='center')
 
 
 def welcome_message():

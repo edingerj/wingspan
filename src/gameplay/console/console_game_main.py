@@ -1,9 +1,10 @@
 from abc import ABC
 from typing import Optional
 
-from console.console_input import *
-from console.console_output import *
-from game import GameMain, Info, Move, TurnPhase
+from gameplay.base import GameMain
+from gameplay.base.io import Info, Move, TurnPhase
+from gameplay.console.io.console_input import *
+from gameplay.console.io.console_output import *
 from player import Player, Players
 from tree import Nutrients, TreeCard
 

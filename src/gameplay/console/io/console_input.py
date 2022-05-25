@@ -1,5 +1,5 @@
-from console.console_util import clear_lines
-from game import Info, Move, TurnPhase
+from gameplay.base.io import Info, Move, TurnPhase
+from gameplay.console.io.console_util import clear_lines
 from player import Hand, Player
 
 

@@ -1,6 +1,6 @@
 from sys import stdout
 
-from console.sleep import sleep
+from gameplay.console.runtime.sleep import sleep
 from util.terminal.ansi import LINE_CLEAR, LINE_UP
 
 

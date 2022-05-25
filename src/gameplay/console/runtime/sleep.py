@@ -1,6 +1,6 @@
 import time
 
-from game import runtime_flags
+from gameplay import runtime_flags
 
 
 def sleep(seconds: float) -> None:

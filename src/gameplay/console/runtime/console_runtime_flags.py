@@ -1,7 +1,7 @@
 from abc import ABC
 from typing import List
 
-from game import RuntimeFlags, DisplayFormat
+from gameplay.base.runtime import RuntimeFlags, DisplayFormat
 
 
 class ConsoleRuntimeFlags(RuntimeFlags, ABC):

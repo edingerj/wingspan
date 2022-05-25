@@ -1,6 +1,6 @@
-from console.console_util import *
-from console.sleep import sleep
-from game import Info
+from gameplay.base.io import Info
+from gameplay.console.io.console_util import *
+from gameplay.console.runtime import sleep
 from player import Hand, Player, Players
 from tree import Nutrients, TreeCard
 from util.terminal.ansi import AnsiFormat

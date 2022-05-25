@@ -1,6 +1,6 @@
 from typing import Optional
 
-from game import GameMain
+from gameplay.base.game_main import GameMain
 
 
 class GameMainWrapper:

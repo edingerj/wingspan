@@ -1,10 +1,8 @@
 from abc import ABCMeta, abstractmethod
 from typing import Final, Optional
 
-from game.bonus_applictor import BonusApplicator
-from game.info import Info
-from game.move import Move
-from game.turn_phase import TurnPhase
+from gameplay.base.bonus_applictor import BonusApplicator
+from gameplay.base.io import Info, Move, TurnPhase
 from player import Hand, Player, Players
 from tree import Habitat, Nutrients, TreeCard
 

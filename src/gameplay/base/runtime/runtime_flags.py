@@ -1,6 +1,6 @@
 from abc import ABCMeta
 
-from game.display_format import DisplayFormat
+from gameplay.base.runtime.display_format import DisplayFormat
 
 
 class RuntimeFlags(metaclass=ABCMeta):
