@@ -1,6 +1,6 @@
 from enum import Enum
 
-from util.ansi import AnsiColor
+from util.terminal.ansi import AnsiColor
 
 
 class PlayerColor(Enum):

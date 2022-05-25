@@ -1,4 +1,4 @@
-from util.ansi import AnsiColor
+from util.terminal.ansi import AnsiColor
 
 DELIMITER = '│'
 

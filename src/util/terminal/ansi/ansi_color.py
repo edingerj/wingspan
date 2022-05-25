@@ -1,6 +1,6 @@
 from enum import Enum
 
-from util.ansi.ansi_format import AnsiFormat
+from util.terminal.ansi.ansi_format import AnsiFormat
 
 
 class AnsiColor(Enum):

@@ -1,7 +1,7 @@
 from typing import Iterable, List, Optional
 
 from tree import TreeCard, tree_deck
-from util.ansi import AnsiColor
+from util.terminal.ansi import AnsiColor
 
 
 class Hand(List[TreeCard]):
@@ -52,4 +52,4 @@ class Hand(List[TreeCard]):
 
 if __name__ == '__main__':
     hand = Hand.from_deck()
-    print(hand)
+    print(hand.card_format())

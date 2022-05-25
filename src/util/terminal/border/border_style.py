@@ -1,6 +1,6 @@
 from typing import Final
 
-from util.border.border_characters import *
+from util.terminal.border.border_characters import *
 
 
 class BorderStyle:

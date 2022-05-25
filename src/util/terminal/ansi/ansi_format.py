@@ -1,7 +1,7 @@
 from re import compile
 from typing import Final
 
-from util.ansi.escape_characters import *
+from util.terminal.ansi.escape_characters import *
 
 
 class AnsiFormat:

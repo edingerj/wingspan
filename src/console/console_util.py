@@ -1,7 +1,7 @@
 from sys import stdout
 
 from console.sleep import sleep
-from util.ansi import LINE_CLEAR, LINE_UP
+from util.terminal.ansi import LINE_CLEAR, LINE_UP
 
 
 def clear_lines(lines: int = 1) -> None:

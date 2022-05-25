@@ -3,9 +3,10 @@ from typing import Final
 from tree.habitat import Habitat
 from tree.nutrients import Nutrients
 from tree.tree_card_data import TreeCardData
-from util.ansi import AnsiFormat, AnsiColor, visible_offset
-from util.border import BorderBox
-from util.table import delimiter
+from util.terminal.ansi import AnsiFormat, AnsiColor
+from util.terminal.border import BorderBox
+from util.terminal.cursor import visible_offset
+from util.terminal.table import delimiter
 
 
 class TreeCard:

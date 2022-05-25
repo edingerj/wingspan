@@ -1,6 +1,6 @@
 from unicodedata import east_asian_width
 
-from util.ansi.ansi_format import AnsiFormat
+from util.terminal.ansi.ansi_format import AnsiFormat
 
 
 def visible_character_length(character: str) -> int:

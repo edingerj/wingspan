@@ -1,8 +1,8 @@
 from typing import Final, List, Iterable, Union
 
-from util.ansi import AnsiColor, AnsiFormat
-from util.border.border_style import BorderStyle
-from util.border.border_box_region import BorderBoxRegion
+from util.terminal.ansi import AnsiColor, AnsiFormat
+from util.terminal.border.border_style import BorderStyle
+from util.terminal.border.border_box_region import BorderBoxRegion
 
 
 class BorderBox(List[BorderBoxRegion]):

@@ -3,7 +3,7 @@ from operator import add
 from typing import Dict, List
 
 from tree import Habitat, TreeCard
-from util.ansi import AnsiColor
+from util.terminal.ansi import AnsiColor
 
 
 class Arboretum(Dict[Habitat, List[TreeCard]]):

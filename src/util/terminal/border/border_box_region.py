@@ -1,6 +1,6 @@
 from typing import Iterable, List, Union, Final
 
-from util.ansi import visible_length, visible_offset
+from util.terminal.cursor import visible_length, visible_offset
 
 
 class BorderBoxRegion(List[str]):

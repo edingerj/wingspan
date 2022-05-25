@@ -6,8 +6,8 @@ from player.hand import Hand
 from player.player_color import PlayerColor
 from player.player_name import PlayerName
 from tree import Habitat, Nutrients, TreeCard
-from util.ansi import AnsiColor
-from util.border import BorderBox
+from util.terminal.ansi import AnsiColor
+from util.terminal.border import BorderBox
 
 
 class Player:
