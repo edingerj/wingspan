@@ -5,7 +5,7 @@ from tree.nutrients import Nutrients
 from tree.tree_card_data import TreeCardData
 from util.terminal.ansi import AnsiFormat, AnsiColor
 from util.terminal.border import BorderBox
-from util.terminal.cursor import visible_offset
+from util.terminal.cursor import VisibleText
 from util.terminal.table import delimiter
 
 
@@ -35,7 +35,7 @@ class TreeCard:
                 self.common_name,
                 AnsiFormat.italic('({})'.format(self.scientific_name)),
             ),
-            self.nutrients.emoji_format().ljust(15 - visible_offset(self.nutrients.emoji_format())),
+            self.nutrients.emoji_format().ljust(15 - VisibleText.offset(self.nutrients.emoji_format())),
         ], [
             self.habitat.to_string(),
             '{} {}'.format(self.points, 'pts' if self.points != 1 else 'pt').ljust(6),

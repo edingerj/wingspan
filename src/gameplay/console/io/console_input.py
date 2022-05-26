@@ -1,6 +1,6 @@
 from gameplay.base.io import Info, Move, TurnPhase
-from gameplay.console.io.console_util import clear_lines
 from player import Hand, Player
+from util.terminal.cursor import clear_lines
 
 
 def get_information(player: Player, turn_phase: TurnPhase) -> Info:

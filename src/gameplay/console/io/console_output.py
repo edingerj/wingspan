@@ -4,6 +4,7 @@ from gameplay.console.runtime import sleep
 from player import Hand, Player, Players
 from tree import Nutrients, TreeCard
 from util.terminal.ansi import AnsiFormat
+from util.terminal.cursor import clear_lines
 
 
 def print_welcome_message() -> None:

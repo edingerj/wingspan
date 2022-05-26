@@ -1,6 +1,6 @@
 from typing import Iterable, List, Union, Final
 
-from util.terminal.cursor import visible_length, visible_offset
+from util.terminal.cursor import VisibleText
 
 
 class BorderBoxRegion(List[str]):
@@ -47,12 +47,12 @@ class BorderBoxRegion(List[str]):
 
     def row_width(self: 'BorderBoxRegion', column: int) -> int:
         return max([
-            visible_length(line) for line in self[column].split('\n')
+            VisibleText.length(line) for line in self[column].split('\n')
         ])
 
     def grid_offset(self: 'BorderBoxRegion', row: int, column: int) -> int:
         try:
             line = self[column].split('\n')[row]
-            return visible_offset(line)
+            return VisibleText.offset(line)
         except IndexError:
             return 0

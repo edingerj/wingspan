@@ -1,5 +1,7 @@
 from enum import Enum
 
+from util.terminal.ansi import AnsiFormat
+
 
 class Nutrient(Enum):
     SUN = 'SUN'
@@ -22,13 +24,13 @@ class Nutrient(Enum):
 
     def emoji(self: 'Nutrient') -> str:
         if self == Nutrient.SUN:
-            return '🌞'
+            return AnsiFormat.fg_yellow('🌞')
         elif self == Nutrient.WATER:
-            return '🌊'
+            return AnsiFormat.fg_blue('🌊')
         elif self == Nutrient.FIRE:
-            return '🔥'
+            return AnsiFormat.fg_red('🔥')
         elif self == Nutrient.DISTURBANCE:
-            return '🤘'
+            return AnsiFormat.fg_green('🤘')
 
 
 if __name__ == '__main__':
